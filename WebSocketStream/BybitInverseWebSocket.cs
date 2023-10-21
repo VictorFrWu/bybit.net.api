@@ -17,7 +17,7 @@ namespace bybit.net.api.WebSocketStream
 
         private static string GetStreamUrl(bool useTestNet)
         {
-            return useTestNet ? BybitConstants.INVERSE_MAINNET : BybitConstants.INVERSE_TESTNET;
+            return !useTestNet ? BybitConstants.INVERSE_MAINNET : BybitConstants.INVERSE_TESTNET;
         }
     }
 }

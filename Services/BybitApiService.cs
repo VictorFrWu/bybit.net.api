@@ -2,8 +2,8 @@
 {
     public abstract class BybitApiService : BybitService
     {
-        public BybitApiService(HttpClient httpClient, string? apiKey = null, string? apiSecret = null, bool? useTestnet = null) 
-            : base(httpClient: httpClient, apiKey: apiKey, apiSecret: apiSecret, useTestnet: useTestnet)
+        public BybitApiService(HttpClient httpClient, bool useTestnet = true, string ? apiKey = null, string? apiSecret = null) 
+            : base(httpClient: httpClient, useTestnet: useTestnet, apiKey: apiKey, apiSecret: apiSecret)
         {
         }
     }

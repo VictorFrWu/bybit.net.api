@@ -17,7 +17,7 @@ namespace bybit.net.api.WebSocketStream
 
         private static string GetStreamUrl(bool useTestNet)
         {
-            return useTestNet ? BybitConstants.LINEAR_MAINNET : BybitConstants.LINEAR_TESTNET;
+            return !useTestNet ? BybitConstants.LINEAR_MAINNET : BybitConstants.LINEAR_TESTNET;
         }
     }
 }

@@ -7,11 +7,6 @@ namespace bybit.net.api
         /// </summary>
         public class BybitServerException : BybitHttpException
         {
-            public BybitServerException()
-            : base()
-            {
-            }
-
             public BybitServerException(string message)
             : base(message)
             {

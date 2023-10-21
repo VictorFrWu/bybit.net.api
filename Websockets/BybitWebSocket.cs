@@ -28,6 +28,7 @@ namespace bybit.net.api.Websockets
             this.onMessageReceivedCancellationTokenRegistrations = new List<CancellationTokenRegistration>();
         }
 
+        #region Websocket Public Methods
         // <summary>
         /// Establishes a connection to the WebSocket. If required, sends an authentication and subscription request.
         /// </summary>
@@ -46,7 +47,7 @@ namespace bybit.net.api.Websockets
 
                 _ = Task.Run(() => Ping(this.loopCancellationTokenSource.Token), cancellationToken);
 
-                if (RequiresAuthentication(url.AbsolutePath))
+                if (RequiresAuthentication(url.AbsoluteUri))
                 {
                     if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(apiSecret))
                         throw new BybitClientException("Please set up your api key and api secret for private websocket channel", -1);
@@ -120,6 +121,7 @@ namespace bybit.net.api.Websockets
 
             if (loopCancellationTokenSource != null) this.loopCancellationTokenSource.Dispose();
         }
+        #endregion
 
         #region Private Methods
         /// <summary>
@@ -127,8 +129,8 @@ namespace bybit.net.api.Websockets
         /// </summary>
         /// <param name="path">The API path to be checked.</param>
         /// <returns>True if authentication is required, otherwise False.</returns>
-        private bool RequiresAuthentication(string path) => BybitConstants.PRIVATE_MAINNET.Equals(path) ||
-                    BybitConstants.PRIVATE_TESTNET.Equals(path) ||
+        private bool RequiresAuthentication(string path) => BybitConstants.WEBSOCKET_PRIVATE_MAINNET.Equals(path) ||
+                    BybitConstants.WEBSOCKET_PRIVATE_TESTNET.Equals(path) ||
                     BybitConstants.V3_CONTRACT_PRIVATE.Equals(path) ||
                     BybitConstants.V3_UNIFIED_PRIVATE.Equals(path) ||
                     BybitConstants.V3_SPOT_PRIVATE.Equals(path);
@@ -161,6 +163,7 @@ namespace bybit.net.api.Websockets
         /// <returns>A task that represents the asynchronous subscription operation.</returns>
         private async Task SendSubscription(string[] args)
         {
+            BybitParametersUtils.EnsureNoDuplicates(args);
             var subMessage = new { req_id = Guid.NewGuid().ToString(), op = "subscribe", args = args };
             string subMessageJson = JsonConvert.SerializeObject(subMessage);
             await Console.Out.WriteLineAsync($"send subscription {subMessageJson}");
