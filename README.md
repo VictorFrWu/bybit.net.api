@@ -51,7 +51,7 @@ Console.WriteLine(accountInfo);
 ```
 - Position Info
 ```DotNet
-BybitPositionService positionService = new BybitPositionService(apiKey: "xxxxxx", apiSecret: "xxxxxxxxxxxxxxxxx");
+BybitPositionService positionService = new BybitPositionService(apiKey: "xxxxxxxxxxxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxxx");
 var positionInfo = await positionService.GetPositionInfo(category: Category.LINEAR, symbol: "BLZUSDT");
 Console.WriteLine(positionInfo);
 ```

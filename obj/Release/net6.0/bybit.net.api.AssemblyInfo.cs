@@ -12,7 +12,7 @@ using System;
 using System.Reflection;
 
 [assembly: System.Reflection.AssemblyCompanyAttribute("Bybit")]
-[assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
+[assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Bybit.Net.Api provides an official, robust, and high-performance DotNet connector" +
     " to Bybit\'s trading APIs.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.1.0")]

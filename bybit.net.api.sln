@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bybit.net.api", "bybit.net.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "bybit.api.test", "..\bybit.api.test\bybit.api.test.csproj", "{E6E35786-3681-49F0-AB46-405D0EA6A5C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bybit.api.console", "..\bybit.api.console\bybit.api.console.csproj", "{33298811-8F59-40A2-9CB4-B23468FDF48A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{E6E35786-3681-49F0-AB46-405D0EA6A5C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6E35786-3681-49F0-AB46-405D0EA6A5C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6E35786-3681-49F0-AB46-405D0EA6A5C4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{33298811-8F59-40A2-9CB4-B23468FDF48A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{33298811-8F59-40A2-9CB4-B23468FDF48A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{33298811-8F59-40A2-9CB4-B23468FDF48A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{33298811-8F59-40A2-9CB4-B23468FDF48A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
