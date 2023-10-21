@@ -41,21 +41,53 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <param name="limit"></param>
-        /// <returns></returns>
+        /// <returns>Market kline</returns>
         public async Task<string?> GetMarketKline(string category, string symbol, string interval, int? start = null, int? end = null, int? limit = null)
         {
+            var query = new Dictionary<string, object>
+                        {
+                    { "category", category },
+                    { "symbol", symbol },
+                    { "interval", interval }, };
+            if (start.HasValue) query.Add("start", start.Value);
+            if (end.HasValue) query.Add("end", end.Value);
+            if (limit.HasValue) query.Add("limit", limit);
             var result = await SendPublicAsync<string>(
                 MAKRKET_KLINE,
                 HttpMethod.Get,
-                query: new Dictionary<string, object>
-                {
+                query: query);
+
+            return result;
+        }
+
+        private const string MAKR_PRICE_KLINE = "/v5/market/mark-price-kline";
+        /// <summary>
+        /// Query for historical mark price klines. Charts are returned in groups based on the requested interval.
+        /// Covers: USDT perpetual / USDC contract / Inverse contract
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="symbol"></param>
+        /// <param name="interval"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="limit"></param>
+        /// <returns>Market kline</returns>
+        public async Task<string?> GetMarKPricetKline(string category, string symbol, string interval, int? start = null, int? end = null, int? limit = null)
+        {
+            var query = new Dictionary<string, object>
+                        {
                     { "category", category },
                     { "symbol", symbol },
-                    { "interval", interval },
-                    { "start", start },
-                    { "end", end },
-                    { "limit", limit },
-                });
+                    { "interval", interval }, };
+            if (start.HasValue) query.Add("start", start.Value);
+            if (end.HasValue) query.Add("end", end.Value);
+            if (limit.HasValue) query.Add("limit", limit);
+
+            var result = await SendPublicAsync<string>(
+                MAKR_PRICE_KLINE,
+                HttpMethod.Get,
+                query: query
+                );
 
             return result;
         }
