@@ -19,11 +19,36 @@ namespace bybit.net.api
             this.recWindow = recWindow;
         }
 
-        public string Sign(string data)
+        
+        /// <summary>
+        /// Generate signature for http post request
+        /// </summary>
+        /// <param name="parameters">query parameters</param>
+        /// <returns>signature</returns>
+        public string GeneratePostSignature(IDictionary<string, object> parameters)
+        {
+            string paramJson = JsonConvert.SerializeObject(parameters);
+            string rawData = currentTimeStamp + apikey + recWindow + paramJson;
+            return Sign(rawData);
+        }
+
+        /// <summary>
+        /// Generate signature for http get request
+        /// </summary>
+        /// <param name="parameters">query parameters</param>
+        /// <returns>signature</returns>
+        public string GenerateGetSignature(IDictionary<string, object> parameters)
+        {
+            string queryString = GenerateQueryString(parameters);
+            string rawData = currentTimeStamp + apikey + recWindow + queryString;
+            return Sign(rawData);
+        }
+
+        private string Sign(string data)
         {
             try
             {
-                if(string.IsNullOrEmpty(apikey) || string.IsNullOrEmpty(apiSecret))
+                if (string.IsNullOrEmpty(apikey) || string.IsNullOrEmpty(apiSecret))
                     throw new BybitClientException("Please set your api key and api secret", -1);
                 using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(apiSecret));
                 byte[] computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(data));
@@ -35,23 +60,9 @@ namespace bybit.net.api
             }
         }
 
-        public string GeneratePostSignature(Dictionary<string, object> parameters)
-        {
-            string paramJson = JsonConvert.SerializeObject(parameters);
-            string rawData = currentTimeStamp + apikey + recWindow + paramJson;
-            return rawData;
-        }
-
-        public string GenerateQueryString(Dictionary<string, object> parameters)
+        private string GenerateQueryString(IDictionary<string, object> parameters)
         {
             return string.Join("&", parameters.Select(p => $"{p.Key}={p.Value}"));
-        }
-
-        public string GenerateGetSignature(Dictionary<string, object> parameters)
-        {
-            string queryString = GenerateQueryString(parameters);
-            string rawData = currentTimeStamp + apikey + recWindow + queryString;
-            return rawData;
         }
     }
 }

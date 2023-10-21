@@ -2,10 +2,6 @@
 {
     public class BybitClientException : BybitHttpException
     {
-        public BybitClientException()
-        : base()
-        {
-        }
         public BybitClientException(string message)
         : base(message)
         {

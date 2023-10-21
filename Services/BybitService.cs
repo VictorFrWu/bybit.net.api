@@ -11,7 +11,7 @@ namespace bybit.net.api
     public abstract class BybitService
     {
         private static readonly string UserAgent = "bybit.net.api/" + VersionInfo.GetVersion;
-        private static readonly string CurrentTimeStamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString();
+        private static readonly string CurrentTimeStamp = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
         private readonly string? apiKey;
         private readonly string? apiSecret;
         private readonly bool? useTestnet;
@@ -25,7 +25,16 @@ namespace bybit.net.api
             this.useTestnet = useTestnet ?? true;
         }
 
-        public async Task<T?> SendPublicAsync<T>(string requestUri, HttpMethod httpMethod, Dictionary<string, object>? query = null)
+        #region public exposed methods
+        /// <summary>
+        /// Sends an asynchronous public request to Bybit API.
+        /// </summary>
+        /// <typeparam name="T">The type of object to deserialize the response into.</typeparam>
+        /// <param name="requestUri">The URI of the endpoint to request.</param>
+        /// <param name="httpMethod">The HTTP method (GET, POST, etc.) of the request.</param>
+        /// <param name="query">Optional dictionary containing query parameters for the request.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the deserialized response object of type T.</returns>
+        protected async Task<T?> SendPublicAsync<T>(string requestUri, HttpMethod httpMethod, Dictionary<string, object>? query = null)
         {
             string? content = null;
             if (query is not null)
@@ -43,6 +52,14 @@ namespace bybit.net.api
             return await SendAsync<T>(requestUri, httpMethod, null, content);
         }
 
+        /// <summary>
+        /// Sends an asynchronous signed request to Bybit API, including authentication.
+        /// </summary>
+        /// <typeparam name="T">The type of object to deserialize the response into.</typeparam>
+        /// <param name="requestUri">The URI of the endpoint to request.</param>
+        /// <param name="httpMethod">The HTTP method (GET, POST, etc.) of the request.</param>
+        /// <param name="query">Optional dictionary containing query parameters for the request.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the deserialized response object of type T.</returns>
         protected async Task<T?> SendSignedAsync<T>(string requestUri, HttpMethod httpMethod, Dictionary<string, object>? query = null)
         {
             StringBuilder queryStringBuilder = new();
@@ -67,7 +84,15 @@ namespace bybit.net.api
 
             return await SendAsync<T>(requestUri, httpMethod, signature, content ?? null);
         }
+        #endregion
 
+        #region Private Helpers Method
+        /// <summary>
+        /// Builds a query string for a request from the given set of query parameters.
+        /// </summary>
+        /// <param name="queryParameters">Dictionary containing the query parameters for the request.</param>
+        /// <param name="builder">StringBuilder to which the query string will be appended.</param>
+        /// <returns>A StringBuilder containing the constructed query string.</returns>
         private StringBuilder BuildQueryString(Dictionary<string, object> queryParameters, StringBuilder builder)
         {
             IEnumerable<(KeyValuePair<string, object> queryParameter, string queryParameterValue)> enumerable()
@@ -98,7 +123,16 @@ namespace bybit.net.api
             return builder;
         }
 
-        private async Task<T?> SendAsync<T>(string requestUri, HttpMethod httpMethod, string? signature = null, object? content = null)
+        /// <summary>
+        /// Sends an asynchronous request to the given URI and returns the response after deserializing it.
+        /// </summary>
+        /// <typeparam name="T">The type of object to deserialize the response into.</typeparam>
+        /// <param name="requestUri">The URI of the endpoint to request.</param>
+        /// <param name="httpMethod">The HTTP method (GET, POST, etc.) of the request.</param>
+        /// <param name="signature">Optional signature for authentication.</param>
+        /// <param name="content">Optional content to include in the request body.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the deserialized response object of type T or throws an exception if there's an issue.</returns>
+        private async Task<T?> SendAsync<T>(string requestUri, HttpMethod httpMethod, string? signature = null, string? content = null)
         {
             using HttpRequestMessage request = BuildHttpRequest(requestUri, httpMethod, signature, content);
 
@@ -161,9 +195,17 @@ namespace bybit.net.api
             return default;
         }
 
-        private HttpRequestMessage BuildHttpRequest(string requestUri, HttpMethod httpMethod, string? signature, object? content)
+        /// <summary>
+        /// Build http request add attributes to header
+        /// </summary>
+        /// <param name="requestUri">The URI of the endpoint to request.</param>
+        /// <param name="httpMethod">The HTTP method (GET, POST, etc.) of the request.</param>
+        /// <param name="signature">Optional signature for authentication.</param>
+        /// <param name="content">Optional content to include in the request body.</param>
+        /// <returns>Http Request message</returns>
+        private HttpRequestMessage BuildHttpRequest(string requestUri, HttpMethod httpMethod, string? signature, string? content)
         {
-            var baseUrl = (this.useTestnet ?? true) ? BybitConstants.TESTNET_URL : BybitConstants.MAINNET_URL;
+            var baseUrl = (this.useTestnet ?? true) ? BybitConstants.HTTP_TESTNET_URL : BybitConstants.HTTP_MAINNET_URL;
             var request = new HttpRequestMessage(httpMethod, baseUrl + requestUri);
             if (signature != null && signature.Length > 0)
             {
@@ -179,9 +221,10 @@ namespace bybit.net.api
             }
             if (content is not null)
             {
-                request.Content = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");
+                request.Content = new StringContent(content, Encoding.UTF8, "application/json");
             }
             return request;
         }
+        #endregion
     }
 }
