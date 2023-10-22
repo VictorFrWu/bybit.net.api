@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "8kPBDwU15QJHKOpXRmPeyO5PVG1EjJ8EJB9U+v02nLbrntVrDEXgQc90snFzVfiWp+sGWYqd8byIjvP/ZWHi3A==",
+  "dgSpecHash": "Ay5gfRpHk5OIwZ4L8JYGoP02be67ouWG4qKKeKVGI555V7uOgxWzsbuC5Nqvcow59BWbW+vKAfJlBolVZIlbRA==",
   "success": true,
   "projectFilePath": "C:\\Net\\GithubProjects\\bybit.net.api\\Examples\\bybit.api.console\\bybit.api.console.csproj",
   "expectedPackageFiles": [
@@ -11,8 +11,7 @@
     "C:\\Users\\hwu\\.nuget\\packages\\microsoft.extensions.options\\7.0.0\\microsoft.extensions.options.7.0.0.nupkg.sha512",
     "C:\\Users\\hwu\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
     "C:\\Users\\hwu\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
-    "C:\\Users\\hwu\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
-    "C:\\Users\\hwu\\.nuget\\packages\\bybit.net.api\\1.0.0\\bybit.net.api.1.0.0.nupkg.sha512"
+    "C:\\Users\\hwu\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
   ],
   "logs": []
 }

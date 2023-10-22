@@ -14,23 +14,26 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/wuhewuhe/bybit.net.api</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+	<VersionPrefix>1.0.0</VersionPrefix>
     <AssemblyVersion>1.1.0</AssemblyVersion>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageTags>Bybit Api Crypto Rest Http Webscoket</PackageTags>
     <PackageReleaseNotes>Bybit.Net.Api is under active development with the latest features and updates from Bybit's API implemented promptly. The module utilizes minimal external libraries to provide a lightweight and efficient experience.</PackageReleaseNotes>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Consoles\**" />
-    <Compile Remove="Tests\**" />
-    <EmbeddedResource Remove="Consoles\**" />
-    <EmbeddedResource Remove="Tests\**" />
-    <None Remove="Consoles\**" />
-    <None Remove="Tests\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="..\..\..\Users\hwu\Downloads\logo.png">
+    <None Include="..\..\images\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
