@@ -120,8 +120,20 @@ List of other contributors
             </sub>
         </a>
         <br />
-        <a href="https://github.com/wuhewuhe/bybit-DotNet-api/commits?author=wuhewuhe" title="Code">💻</a>
-        <a href="https://github.com/wuhewuhe/bybit-DotNet-api/commits?author=wuhewuhe" title="Documentation">📖</a>
+        <a href="https://github.com/wuhewuhe/bybit-java-api/commits?author=wuhewuhe" title="Code">💻</a>
+        <a href="https://github.com/wuhewuhe/bybit-java-api/commits?author=wuhewuhe" title="Documentation">📖</a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/Doom-Prince">
+            <img src="https://avatars.githubusercontent.com/u/124635036?v=4" width="100px;" alt=""/>
+            <br />
+            <sub>   
+                <b>Doom</b>
+            </sub>
+        </a>
+        <br />
+        <a href="https://github.com/wuhewuhe/bybit-java-api/commits?author=Doom-Prince" title="Code">💻</a>
+        <a href="https://github.com/wuhewuhe/bybit-java-api/commits?author=Doom-Prince" title="Documentation">📖</a>
     </td>
   </tr>
 </table>
