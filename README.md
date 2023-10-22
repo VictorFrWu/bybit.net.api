@@ -1,6 +1,6 @@
-﻿# bybit.net.api
+﻿# Bybit Open API Connector .Net6
 
-The Official DotNet API connector for Bybit's HTTP and WebSocket APIs.
+[![[Nuget]](https://img.shields.io/nuget/v/bybit.net.api)](https://www.nuget.org/packages/bybit.net.api) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/wuhewuhe/bybit.net.api/blob/main/LICENSE)
 
 ## Table of Contents
 
@@ -13,34 +13,55 @@ The Official DotNet API connector for Bybit's HTTP and WebSocket APIs.
 - [Donations](#donations)
 
 ## About
-Bybit.Net.Api provides an official, robust, and high-performance DotNet connector to Bybit's trading APIs. Initially conceptualized by esteemed DotNet developer Victor, this module is now maintained by Bybit's in-house DotNet experts. Your contributions are most welcome!
+**Bybit.Net.Api** offers an official, powerful, and efficient .NET connector to the  [Bybit public Trading API](https://bybit-exchange.github.io/docs/v5/intro)
+
+Dive into a plethora of functionalities:
+- Market Data Retrieval
+- Trade Execution
+- Position Management
+- Account and Asset Info Retrieval
+- User Management
+- Public Websocket Streaming
+- Private Websocket Streaming
+
+This initiative, originated by the renowned .NET developer Victor, now flourishes under the meticulous care of Bybit's dedicated team of in-house .NET professionals. 
+Your contributions are warmly welcomed and appreciated!
 
 ## Development
-Bybit.Net.Api is under active development with the latest features and updates from Bybit's API implemented promptly. The module utilizes minimal external libraries to provide a lightweight and efficient experience. If you've made enhancements or fixed bugs, please submit a pull request.
+**Bybit.Net.Api** constantly evolves, keeping pace with the freshest features from Bybit's API. Crafted for efficiency, the library maintains a slim profile by minimizing external dependencies. If you've broadened its horizons or ironed out bugs, we eagerly await your pull request.
 
 ## Installation
-Ensure you have DotNet 11 or higher. You can include Bybit.Net.Api in your project using Maven or Gradle.
-
-Maven Example
-```DotNet
-bybit.net.api.1.0.0.nupkg
+Ensure you're using .NET 6 or newer. This SDK depends on Microsoft.Extensions.Logging 7.0.0 and Newtonsoft 13.0.3.
+Dotnet CLI
+```bash
+dotnet add package bybit.net.api
 ```
 
+Nuget tool
+```DotNet
+NuGet\Install-Package bybit.net.api
+```
+
+Package reference
+```DotNet
+<PackageReference Include="bybit.net.api"/>
+```
 ## Usage
 
-### Http Examples
-- Place Single Order
-```DotNet
-BybitTradeService tradeService = new BybitTradeService(apiKey: "xxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxx");
-var orderInfo = await tradeService.PlaceOrder(category: Category.LINEAR, symbol: "BLZUSDT", side: Side.BUY, orderType: OrderType.MARKET, qty: "15", timeInForce: TimeInForce.GTC);
-Console.WriteLine(orderInfo);
-```
-
+### RESTful APIs
 - Market Kline
 ```DotNet
 BybitMarketDataService market = new BybitMarketDataService();
 var klineInfo = await market.GetMarketKline("spot", "BTCUSDT", "1");
 Console.WriteLine(klineInfo);
+```
+
+### Authentication - RESTful APIs
+- Place Single Order
+```DotNet
+BybitTradeService tradeService = new BybitTradeService(apiKey: "xxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxx");
+var orderInfo = await tradeService.PlaceOrder(category: Category.LINEAR, symbol: "BLZUSDT", side: Side.BUY, orderType: OrderType.MARKET, qty: "15", timeInForce: TimeInForce.GTC);
+Console.WriteLine(orderInfo);
 ```
 
 - Account Wallet
@@ -64,7 +85,6 @@ websocket.OnMessageReceived(
     (data) =>
     {
         Console.WriteLine(data);
-
         return Task.CompletedTask;
     }, CancellationToken.None);
 
@@ -79,7 +99,6 @@ websocket.OnMessageReceived(
     (data) =>
     {
         Console.WriteLine(data);
-
         return Task.CompletedTask;
     }, CancellationToken.None);
 
@@ -108,6 +127,6 @@ List of other contributors
 </table>
 
 ## Donations
-Your donations keep our development active and our community growing. Donate to YOUR_CRYPTO_ADDRESS.
+Your donations keep our development active and our community growing. Donate USDT to our [ERC20 Wallet Address](0x238bbb45af1254e2fd76564c9b56042c452f3d6e).
 
 Note: Replace placeholders (like YOUR_API_KEY, links, or other details) with the actual information. You can also customize this template to better fit the actual state and details of your DotNet API.
