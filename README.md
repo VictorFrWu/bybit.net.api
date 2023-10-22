@@ -1,6 +1,6 @@
 ﻿# Bybit Open API Connector .Net6
 
-[![[Nuget]](https://img.shields.io/nuget/v/bybit.net.api)](https://www.nuget.org/packages/bybit.net.api) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/wuhewuhe/bybit.net.api/blob/main/LICENSE)
+![[Nuget](https://img.shields.io/nuget/v/bybit.net.api)](https://www.nuget.org/packages/bybit.net.api) ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/wuhewuhe/bybit.net.api/blob/main/LICENSE) ![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)
 
 ## Table of Contents
 
@@ -104,8 +104,9 @@ websocket.OnMessageReceived(
 
 await websocket.ConnectAsync(new string[] { "order" }, CancellationToken.None);
 ```
+
 ## Contact
-For support, join our DotNet Bybit API community on DotNetBybitAPI Telegram.
+For support, join our Bybit API community on [Telegram](https://t.me/Bybitapi).
 
 ## Contributors
 List of other contributors
