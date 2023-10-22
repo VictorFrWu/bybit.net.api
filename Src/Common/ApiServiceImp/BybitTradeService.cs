@@ -1,7 +1,5 @@
 ﻿using bybit.net.api.Models;
 using bybit.net.api.Services;
-using System.Drawing;
-
 
 namespace bybit.net.api.ApiServiceImp
 {

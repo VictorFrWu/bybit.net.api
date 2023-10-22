@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "kipzJPtnRqPmsZk27PBoObf872Og/NtJ42w+I3TYOEbGyQr/dsM35XenPLiTRfFwWREJgWayv1jZz44zpEa+QA==",
+  "dgSpecHash": "QeeaTATgdqMZg9DbIaWHJN/RmwOQLl4d5Q4v80g3ds5T92leC+VOTLu/UvAkcwCGAAItI5kFPmQJRAy113YYbg==",
   "success": true,
   "projectFilePath": "C:\\Net\\GithubProjects\\bybit.net.api\\Tests\\bybit.api.test\\bybit.api.test.csproj",
   "expectedPackageFiles": [
@@ -101,8 +101,7 @@
     "C:\\Users\\hwu\\.nuget\\packages\\xunit.core\\2.5.3\\xunit.core.2.5.3.nupkg.sha512",
     "C:\\Users\\hwu\\.nuget\\packages\\xunit.extensibility.core\\2.5.3\\xunit.extensibility.core.2.5.3.nupkg.sha512",
     "C:\\Users\\hwu\\.nuget\\packages\\xunit.extensibility.execution\\2.5.3\\xunit.extensibility.execution.2.5.3.nupkg.sha512",
-    "C:\\Users\\hwu\\.nuget\\packages\\xunit.runner.visualstudio\\2.5.3\\xunit.runner.visualstudio.2.5.3.nupkg.sha512",
-    "C:\\Users\\hwu\\.nuget\\packages\\bybit.net.api\\1.0.0\\bybit.net.api.1.0.0.nupkg.sha512"
+    "C:\\Users\\hwu\\.nuget\\packages\\xunit.runner.visualstudio\\2.5.3\\xunit.runner.visualstudio.2.5.3.nupkg.sha512"
   ],
   "logs": []
 }
