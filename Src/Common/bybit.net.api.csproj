@@ -14,12 +14,14 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/wuhewuhe/bybit.net.api</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-	<VersionPrefix>1.0.1</VersionPrefix>
+    <VersionPrefix>1.0.2</VersionPrefix>
     <AssemblyVersion>1.1.0</AssemblyVersion>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageTags>Bybit Api Crypto Rest Http Webscoket</PackageTags>
-    <PackageReleaseNotes>implement bybit v5 api and websocket, support market data, user, position, account, asset, spot margin service and instituion service.
-need to implement all open api endpoint in each section</PackageReleaseNotes>
+    <PackageReleaseNotes>
+      implement bybit v5 api and websocket, support market data, user, position, account, asset, spot margin service and instituion service.
+      need to implement all open api endpoint in each section
+    </PackageReleaseNotes>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
