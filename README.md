@@ -129,12 +129,12 @@ List of other contributors
             <img src="https://avatars.githubusercontent.com/u/42719618?v=4" width="100px;" alt=""/>
             <br />
             <sub>   
-                <b>Victor</b>
+                <b>Dimitri</b>
             </sub>
         </a>
         <br />
-        <a href="https://github.com/wuhewuhe/bybit.net.api/commits?author=wuhewuhe" title="Code">💻</a>
-        <a href="https://github.com/wuhewuhe/bybit.net.api/commits?author=wuhewuhe" title="Documentation">📖</a>
+        <a href="https://github.com/wuhewuhe/bybit.net.api/commits?author=dimibatch" title="Code">💻</a>
+        <a href="https://github.com/wuhewuhe/bybit.net.api/commits?author=dimibatch" title="Documentation">📖</a>
     </td>
     <td align="center">
         <a href="https://github.com/Doom-Prince">
