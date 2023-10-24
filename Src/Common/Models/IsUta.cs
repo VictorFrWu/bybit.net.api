@@ -12,7 +12,7 @@
 
         public bool Value { get; private set; }
 
-        public override string ToString() => Value.ToString();
+        public override readonly string ToString() => Value.ToString();
 
         public static implicit operator bool(IsUta isUta) => isUta.Value;
     }
