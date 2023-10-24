@@ -15,7 +15,7 @@ namespace bybit.net.api.ApiServiceImp
         {
         }
 
-        private const string NEW_ORDER = "/v5/order/create";
+        private const string PLACE_ORDER = "/v5/order/create";
         /// <summary>
         /// Send in a new order.
         /// - Supported order types: Limit order (specify order qty and price), Market order (execute at best available market price, with price conversion protections).
@@ -59,9 +59,9 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="slOrderType"></param>
         /// <returns>Order result</returns>
         public async Task<string?> PlaceOrder(Category category, string symbol, Side side, OrderType orderType, string qty, string? price = null, TimeInForce? timeInForce = null, int? isLeverage = null, int? triggerDirection = null,
-                                                string? orderFilter = null, string? triggerPrice = null, TriggerBy? triggerBy = null, string? orderIv = null, int? positionIdx = null,string? orderLinkId = null, string? takeProfit = null,
-                                                string? stopLoss = null, TriggerBy? tpTriggerBy = null, TriggerBy? slTriggerBy = null, bool? reduceOnly = null, bool? closeOnTrigger = null,SmpType? smpType = null,bool? mmp = null,TpslMode? tpslMode = null,
-                                                string? tpLimitPrice = null,string? slLimitPrice = null,string? tpOrderType = null, string? slOrderType = null)
+                                                string? orderFilter = null, string? triggerPrice = null, TriggerBy? triggerBy = null, string? orderIv = null, int? positionIdx = null, string? orderLinkId = null, string? takeProfit = null,
+                                                string? stopLoss = null, TriggerBy? tpTriggerBy = null, TriggerBy? slTriggerBy = null, bool? reduceOnly = null, bool? closeOnTrigger = null, SmpType? smpType = null, bool? mmp = null, TpslMode? tpslMode = null,
+                                                string? tpLimitPrice = null, string? slLimitPrice = null, OrderType? tpOrderType = null, OrderType? slOrderType = null)
         {
             var query = new Dictionary<string, object>
                         {
@@ -94,10 +94,274 @@ namespace bybit.net.api.ApiServiceImp
                 ("tpslMode", tpslMode?.Value),
                 ("tpLimitPrice", tpLimitPrice),
                 ("slLimitPrice", slLimitPrice),
-                ("tpOrderType", tpOrderType),
-                ("slOrderType", slOrderType)
+                ("tpOrderType", tpOrderType?.Value),
+                ("slOrderType", slOrderType?.Value)
             );
-            var result = await this.SendSignedAsync<string>(NEW_ORDER, HttpMethod.Post, query: query);
+            var result = await this.SendSignedAsync<string>(PLACE_ORDER, HttpMethod.Post, query: query);
+            return result;
+        }
+        private const string BATCH_PLACE_ORDER = "/v5/order/create-batch";
+        private const string BATCH_AMEND_ORDER = "/v5/order/amend-batch";
+        private const string BATCH_CANCEL_ORDER = "/v5/order/cancel-batch";
+
+
+        private const string AMEND_ORDER = "/v5/order/amend";
+        /// <summary>
+        /// Amend Order
+        ///Unified account covers: USDT perpetual / USDC contract / Inverse contract / Option
+        ///Classic account covers: USDT perpetual / Inverse contract
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="symbol"></param>
+        /// <param name="orderId"></param>
+        /// <param name="orderLinkId"></param>
+        /// <param name="orderIv"></param>
+        /// <param name="triggerPrice"></param>
+        /// <param name="qty"></param>
+        /// <param name="price"></param>
+        /// <param name="takeProfit"></param>
+        /// <param name="orderLinkId"></param>
+        /// <param name="takeProfit"></param>
+        /// <param name="stopLoss"></param>
+        /// <param name="tpTriggerBy"></param>
+        /// <param name="slTriggerBy"></param>
+        /// <param name="triggerBy"></param>
+        /// <param name="tpLimitPrice"></param>
+        /// <param name="slLimitPrice"></param>
+        /// <returns>Order result</returns>
+        public async Task<string?> AmendOrder(Category category, string symbol, string? orderId = null, string? orderLinkId = null, string? orderIv = null, string? qty = null, string? price = null,
+                                               string? triggerPrice = null, TriggerBy? triggerBy = null, string? takeProfit = null, string? stopLoss = null, TriggerBy? tpTriggerBy = null, TriggerBy? slTriggerBy = null,
+                                                string? tpLimitPrice = null, string? slLimitPrice = null)
+        {
+            var query = new Dictionary<string, object>
+                        {
+                            { "category", category.Value },
+                            { "symbol", symbol },
+                        };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("orderId", orderId),
+                ("price", price),
+                ("qty", qty),
+                ("orderLinkId", orderLinkId),
+                ("orderIv", orderIv),
+                ("triggerPrice", triggerPrice),
+                ("triggerBy", triggerBy?.Value),
+                ("takeProfit", takeProfit),
+                ("stopLoss", stopLoss),
+                ("tpTriggerBy", tpTriggerBy?.Value),
+                ("slTriggerBy", slTriggerBy?.Value),
+                ("tpLimitPrice", tpLimitPrice),
+                ("slLimitPrice", slLimitPrice)
+            );
+            var result = await this.SendSignedAsync<string>(AMEND_ORDER, HttpMethod.Post, query: query);
+            return result;
+        }
+
+        private const string CANCEL_ORDER = "/v5/order/cancel";
+        /// <summary>
+        /// Amend Order
+        ///Unified account covers: USDT perpetual / USDC contract / Inverse contract / Option
+        ///Classic account covers: USDT perpetual / Inverse contract
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="symbol"></param>
+        /// <param name="orderId"></param>
+        /// <param name="orderLinkId"></param>
+        /// <param name="orderFilter"></param>
+        /// <returns>Order result</returns>
+        public async Task<string?> CancelOrder(Category category, string symbol, string? orderId = null, string? orderLinkId = null, string? orderFilter = null)
+        {
+            var query = new Dictionary<string, object>
+                        {
+                            { "category", category.Value },
+                            { "symbol", symbol },
+                        };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("orderId", orderId),
+                ("orderLinkId", orderLinkId),
+                ("orderFilter", orderFilter)
+            );
+            var result = await this.SendSignedAsync<string>(CANCEL_ORDER, HttpMethod.Post, query: query);
+            return result;
+        }
+
+        private const string REALTIME_ORDER = "/v5/order/realtime";
+
+        /// <summary>
+        /// Query unfilled or partially filled orders in real-time. To query older order records, please use the order history interface.
+        /// Unified account covers: Spot / USDT perpetual / USDC contract / Inverse contract / Options
+        /// Classic account covers: Spot / USDT perpetual / Inverse contract
+        ///It also supports querying filled, cancelled, and rejected orders which occurred in last 10 minutes(check the openOnly param). At most, 500 orders will be returned.
+        /// You can query by symbol, baseCoin, orderId and orderLinkId, and if you pass multiple params, the system will process them according to this priority: orderId > orderLinkId > symbol > baseCoin.
+        /// The records are sorted by the createdTime from newest to oldest.
+        /// Classic account spot trade can return open orders only
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="symbol"></param>
+        /// <param name="baseCoin"></param>
+        /// <param name="settleCoin"></param>
+        /// <param name="orderId"></param>
+        /// <param name="orderLinkId"></param>
+        /// <param name="openOnly"></param>
+        /// <param name="orderFilter"></param>
+        /// <param name="limit"></param>
+        /// <param name="cursor"></param>
+        /// <returns>Get Open Orders</returns>
+        public async Task<string?> GetOpenOrders(Category category, string? symbol = null, string? baseCoin = null, string? settleCoin = null, string? orderId = null, string? orderLinkId = null, int? openOnly = null, string? orderFilter = null, int? limit = null, string? cursor = null)
+        {
+            var query = new Dictionary<string, object>
+                        {
+                            { "category", category.Value },
+                        };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("symbol", symbol),
+                ("baseCoin", baseCoin),
+                ("settleCoin", settleCoin),
+                ("orderId", orderId),
+                ("orderLinkId", orderLinkId),
+                ("openOnly", openOnly),
+                ("orderFilter", orderFilter),
+                ("limit", limit),
+                ("cursor", cursor)
+            );
+            var result = await this.SendSignedAsync<string>(REALTIME_ORDER, HttpMethod.Get, query: query);
+            return result;
+        }
+
+        private const string CANCEL_ALL_ORDER = "/v5/order/cancel-all";
+        /// <summary>
+        /// Cancel all open orders
+        /// Unified account covers: Spot / USDT perpetual / USDC contract / Inverse contract / Options
+        /// Classic account covers: Spot / USDT perpetual / Inverse contract
+        /// Support cancel orders by symbol/baseCoin/settleCoin.If you pass multiple of these params, the system will process one of param, which priority is symbol > baseCoin > settleCoin.
+        /// NOTE: category=option, you can cancel all option open orders without passing any of those three params. However, for linear and inverse, you must specify one of those three params.
+        /// NOTE: category=spot, you can cancel all spot open orders(normal order by default) without passing other params.
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="symbol"></param>
+        /// <param name="baseCoin"></param>
+        /// <param name="settleCoin"></param>
+        /// <param name="orderFilter"></param>
+        /// <param name="stopOrderType"></param>
+        /// <returns>Orders result</returns>
+        public async Task<string?> CancelAllOrder(Category category, string? symbol = null, string? baseCoin = null, string? settleCoin = null, string? orderFilter = null, StopOrderType? stopOrderType = null)
+        {
+            var query = new Dictionary<string, object>
+                        {
+                            { "category", category.Value },
+                        };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("symbol", symbol),
+                ("baseCoin", baseCoin),
+                ("settleCoin", settleCoin),
+                ("stopOrderType", stopOrderType?.OrderType),
+                ("orderFilter", orderFilter)
+            );
+            var result = await this.SendSignedAsync<string>(CANCEL_ALL_ORDER, HttpMethod.Post, query: query);
+            return result;
+        }
+
+        private const string ORDER_HISTORY = "/v5/order/history";
+        /// <summary>
+        /// Query order history. As order creation/cancellation is asynchronous, the data returned from this endpoint may delay. If you want to get real-time order information, you could query this endpoint or rely on the websocket stream (recommended).
+        /// Unified account covers: Spot / USDT perpetual / USDC contract / Inverse contract / Options
+        /// Classic account covers: Spot / USDT perpetual / Inverse contract
+        /// The orders in the last 7 days: supports querying all statuses
+        /// The orders beyond 7 days: supports querying filled orders
+        /// You can query by symbol, baseCoin, orderId and orderLinkId, and if you pass multiple params, the system will process them according to this priority: orderId > orderLinkId > symbol > baseCoin.
+        /// Classic account spot can get final status orders only
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="symbol"></param>
+        /// <param name="baseCoin"></param>
+        /// <param name="settleCoin"></param>
+        /// <param name="orderId"></param>
+        /// <param name="orderLinkId"></param>
+        /// <param name="orderStatus"></param>
+        /// <param name="orderFilter"></param>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="limit"></param>
+        /// <param name="cursor"></param>
+        /// <returns>Orders History</returns>
+        public async Task<string?> GetOrdersHistory(Category category, string? symbol = null, string? baseCoin = null, string? settleCoin = null, string? orderId = null, string? orderLinkId = null, OrderStatus? orderStatus = null, string? orderFilter = null, int? startTime = null, int? endTime = null, int? limit = null, string? cursor = null)
+        {
+            var query = new Dictionary<string, object>
+                        {
+                            { "category", category.Value },
+                        };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("symbol", symbol),
+                ("baseCoin", baseCoin),
+                ("settleCoin", settleCoin),
+                ("orderId", orderId),
+                ("orderLinkId", orderLinkId),
+                ("orderStatus", orderStatus?.Status),
+                ("orderFilter", orderFilter),
+                ("startTime", startTime),
+                ("endTime", endTime),
+                ("limit", limit),
+                ("cursor", cursor)
+            );
+            var result = await this.SendSignedAsync<string>(ORDER_HISTORY, HttpMethod.Get, query: query);
+            return result;
+        }
+
+        private const string BORROW_QUOTA = "/v5/order/spot-borrow-check";
+
+        /// <summary>
+        /// Query the qty and amount of borrowable coins in spot account.  Covers: Spot(Unified Account)
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="symbol"></param>
+        /// <param name="side"></param>
+        /// <returns>Spot Borrow Quota</returns>
+        public async Task<string?> GetSpotBorrowQuota(Category category, string symbol, Side? side = null)
+        {
+            var query = new Dictionary<string, object>
+                        {
+                            { "category", category.Value },
+                            { "symbol", symbol },
+                        };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("side", side?.Value)
+            );
+            var result = await this.SendSignedAsync<string>(BORROW_QUOTA, HttpMethod.Get, query: query);
+            return result;
+        }
+
+        private const string DISCONNECT_CANCELL_ALL = "/v5/order/disconnected-cancel-all";
+
+        /// <summary>
+        /// Set Disconnect Cancel All  Covers: Option(Unified Account)
+        /// What is Disconnection Protect (DCP)?
+        /// Based on the websocket private connection and heartbeat mechanism, Bybit provides disconnection protection function.The timing starts from the first disconnection. 
+        /// If the Bybit server does not receive the reconnection from the client for more than 10 (default) seconds and resumes the heartbeat "ping", 
+        /// then the client is in the state of "disconnection protect", all active option orders of the client will be cancelled automatically.
+        /// If within 10 seconds, the client reconnects and resumes the heartbeat "ping", the timing will be reset and restarted at the next disconnection.
+        /// 
+        /// If you need to turn it on/off, you can contact your client manager for consultation and application. The default time window is 10 seconds.
+        /// 
+        /// Effective for options only.
+        /// 
+        /// After the request is successfully sent, the system needs a certain time to take effect. It is recommended to query or set again after 10 seconds
+        /// </summary>
+        /// <param name="timeWindow"></param>
+        /// <returns>None</returns>
+        public async Task<string?> SetDisconnectCancelAll(int timeWindow)
+        {
+            var query = new Dictionary<string, object>
+            {
+                { "timeWindow", timeWindow },
+            };
+
+            var result = await this.SendSignedAsync<string>(DISCONNECT_CANCELL_ALL, HttpMethod.Post, query: query);
             return result;
         }
     }

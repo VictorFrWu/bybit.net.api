@@ -22,3 +22,4 @@ C:\Net\GithubProjects\bybit.net.api\Src\Common\bin\Release\net6.0\bybit.net.api.
 C:\Net\GithubProjects\bybit.net.api\Src\Common\bin\Release\net6.0\bybit.net.api.dll
 C:\Net\GithubProjects\bybit.net.api\Src\Common\bin\Release\net6.0\bybit.net.api.pdb
 C:\Net\GithubProjects\bybit.net.api\Src\Common\obj\Release\net6.0\ref\bybit.net.api.dll
+C:\Net\GithubProjects\bybit.net.api\Src\Common\obj\Release\net6.0\bybit.net.api.sourcelink.json
