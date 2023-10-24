@@ -14,7 +14,7 @@
     <releaseNotes>implement bybit v5 api and websocket, support market data, user, position, account, asset, spot margin service and instituion service.
 need to implement all open api endpoint in each section</releaseNotes>
     <tags>Bybit Api Crypto Rest Http Webscoket</tags>
-    <repository type="git" url="https://github.com/wuhewuhe/bybit.net.api" />
+    <repository type="git" url="https://github.com/wuhewuhe/bybit.net.api" commit="acc2a943011892379f82b9f12e9875b8c8acb932" />
     <dependencies>
       <group targetFramework="net6.0">
         <dependency id="Microsoft.Extensions.Logging" version="7.0.0" exclude="Build,Analyzers" />
