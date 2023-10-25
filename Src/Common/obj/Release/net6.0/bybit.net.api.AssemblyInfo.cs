@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Bybit.Net.Api provides an official, robust, and high-performance DotNet connector" +
     " to Bybit\'s trading APIs.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.1.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.2+3023f1909936a18482e7d0855d9708cb9198ee74")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.2")]
 [assembly: System.Reflection.AssemblyProductAttribute("bybit.net.api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("bybit.net.api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.1.0")]
