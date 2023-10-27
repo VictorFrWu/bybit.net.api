@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>bybit.net.api</id>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <title>bybit.net.api</title>
     <authors>VictorWu</authors>
     <license type="file">LICENSE</license>
@@ -10,9 +10,21 @@
     <icon>logo.png</icon>
     <readme>README.md</readme>
     <projectUrl>https://github.com/wuhewuhe/bybit.net.api</projectUrl>
-    <description>Bybit.Net.Api provides an official, robust, and high-performance DotNet connector to Bybit's trading APIs.</description>
-    <releaseNotes>implemented bybit v5 api and websocket, support market data, Trade and position, 
-      need to finishall open api endpoint about account, asset, spot margin service and instituion service.</releaseNotes>
+    <description>**Bybit.Net.Api** offers an official, powerful, and efficient .NET connector to the  [Bybit public Trading API](https://bybit-exchange.github.io/docs/v5/intro)
+
+Dive into a plethora of functionalities:
+- Public Websocket Streaming
+- Private Websocket Streaming
+- Market Data Retrieval
+- Trade Execution
+- Position Management
+- Account and Asset Info Retrieval
+- User Management
+- Upgrade History
+- Spot Margin UTA &amp; Classical Service
+- Broker Earning Data</description>
+    <releaseNotes>implemented bybit v5 api and websocket, support market data, Trade and position, user management, upgrade history, Account and asset data
+      need to complete instituion and c2c lending service, implement batch order and modify uid function</releaseNotes>
     <tags>Bybit Api Crypto Rest Http Webscoket</tags>
     <repository type="git" url="https://github.com/wuhewuhe/bybit.net.api" commit="f3d32e6e2cb5cc0b79574e4249218d99959d467b" />
     <dependencies>

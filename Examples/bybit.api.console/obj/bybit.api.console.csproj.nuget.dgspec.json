@@ -63,12 +63,12 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100-rc.2.23502.2\\RuntimeIdentifierGraph.json"
         }
       }
     },
     "C:\\Net\\GithubProjects\\bybit.net.api\\Src\\Common\\bybit.net.api.csproj": {
-      "version": "1.0.1",
+      "version": "1.0.3",
       "restore": {
         "projectUniqueName": "C:\\Net\\GithubProjects\\bybit.net.api\\Src\\Common\\bybit.net.api.csproj",
         "projectName": "bybit.net.api",
@@ -132,7 +132,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.200\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100-rc.2.23502.2\\RuntimeIdentifierGraph.json"
         }
       }
     }

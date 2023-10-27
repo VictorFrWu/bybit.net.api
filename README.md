@@ -16,13 +16,16 @@
 **Bybit.Net.Api** offers an official, powerful, and efficient .NET connector to the  [Bybit public Trading API](https://bybit-exchange.github.io/docs/v5/intro)
 
 Dive into a plethora of functionalities:
+- Public Websocket Streaming
+- Private Websocket Streaming
 - Market Data Retrieval
 - Trade Execution
 - Position Management
 - Account and Asset Info Retrieval
 - User Management
-- Public Websocket Streaming
-- Private Websocket Streaming
+- Upgrade History
+- Spot Margin UTA & Classical Service
+- Broker Earning Data
 
 This initiative, originated by the renowned .NET developer Victor, now flourishes under the meticulous care of Bybit's dedicated team of in-house .NET professionals. 
 Your contributions are warmly welcomed and appreciated!
@@ -47,7 +50,7 @@ Package reference
 <PackageReference Include="bybit.net.api"/>
 ```
 ## Usage
-
+Note: Replace placeholders (like YOUR_API_KEY, links, or other details) with the actual information. You can also customize this template to better fit the actual state and details of your DotNet API.
 ### RESTful APIs
 - Market Kline
 ```DotNet
@@ -124,34 +127,9 @@ List of other contributors
         <a href="https://github.com/wuhewuhe/bybit.net.api/commits?author=wuhewuhe" title="Code">💻</a>
         <a href="https://github.com/wuhewuhe/bybit.net.api/commits?author=wuhewuhe" title="Documentation">📖</a>
     </td>
-    <td align="center">
-        <a href="https://github.com/dimibatch">
-            <img src="https://avatars.githubusercontent.com/u/42719618?v=4" width="100px;" alt=""/>
-            <br />
-            <sub>   
-                <b>Dimitri</b>
-            </sub>
-        </a>
-        <br />
-        <a href="https://github.com/wuhewuhe/bybit.net.api/commits?author=dimibatch" title="Code">💻</a>
-        <a href="https://github.com/wuhewuhe/bybit.net.api/commits?author=dimibatch" title="Documentation">📖</a>
-    </td>
-    <td align="center">
-        <a href="https://github.com/Doom-Prince">
-            <img src="https://avatars.githubusercontent.com/u/124635036?v=4" width="100px;" alt=""/>
-            <br />
-            <sub>   
-                <b>Doom</b>
-            </sub>
-        </a>
-        <br />
-        <a href="https://github.com/wuhewuhe/bybit.net.api/commits?author=Doom-Prince" title="Code">💻</a>
-        <a href="https://github.com/wuhewuhe/bybit.net.api/commits?author=Doom-Prince" title="Documentation">📖</a>
-    </td>
   </tr>
 </table>
 
 ## Donations
 Your donations keep our development active and our community growing. Donate USDT to our [ERC20 Wallet Address](0x238bbb45af1254e2fd76564c9b56042c452f3d6e).
 
-Note: Replace placeholders (like YOUR_API_KEY, links, or other details) with the actual information. You can also customize this template to better fit the actual state and details of your DotNet API.

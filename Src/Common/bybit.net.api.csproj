@@ -8,19 +8,31 @@
     <Title>bybit.net.api</Title>
     <Authors>VictorWu</Authors>
     <Company>Bybit</Company>
-    <Description>Bybit.Net.Api provides an official, robust, and high-performance DotNet connector to Bybit's trading APIs.</Description>
+    <Description>**Bybit.Net.Api** offers an official, powerful, and efficient .NET connector to the  [Bybit public Trading API](https://bybit-exchange.github.io/docs/v5/intro)
+
+Dive into a plethora of functionalities:
+- Public Websocket Streaming
+- Private Websocket Streaming
+- Market Data Retrieval
+- Trade Execution
+- Position Management
+- Account and Asset Info Retrieval
+- User Management
+- Upgrade History
+- Spot Margin UTA &amp; Classical Service
+- Broker Earning Data</Description>
     <PackageProjectUrl>https://github.com/wuhewuhe/bybit.net.api</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/wuhewuhe/bybit.net.api</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <VersionPrefix>1.0.2</VersionPrefix>
+    <VersionPrefix>1.0.3</VersionPrefix>
     <AssemblyVersion>1.1.0</AssemblyVersion>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageTags>Bybit Api Crypto Rest Http Webscoket</PackageTags>
     <PackageReleaseNotes>
-      implemented bybit v5 api and websocket, support market data, Trade and position, 
-      need to finishall open api endpoint about account, asset, spot margin service and instituion service.
+      implemented bybit v5 api and websocket, support market data, Trade and position, user management, upgrade history, Account and asset data
+      need to complete instituion and c2c lending service, implement batch order and modify uid function
     </PackageReleaseNotes>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>

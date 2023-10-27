@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace bybit.net.api.Models
+﻿namespace bybit.net.api.Models
 {
     public struct AccountType
     {
@@ -25,7 +19,7 @@ namespace bybit.net.api.Models
 
         public string Value { get; private set; }
 
-        public override string ToString() => Value;
+        public override readonly string ToString() => Value;
 
         public static implicit operator string(AccountType accountType) => accountType.Value;
     }
