@@ -24,6 +24,7 @@ namespace bybit.net.api.ApiServiceImp
 
         // to do create sub uid api key; Modify Master API Key; Modify Sub API Key
 
+        #region Upgrade HIstory
         private const string PREUPGRADE_ORDER_HISTORY = "/v5/pre-upgrade/order/history";
         /// <summary>
         /// After the account is upgraded to a Unified account, you can get the orders which occurred before the upgrade.
@@ -212,7 +213,9 @@ namespace bybit.net.api.ApiServiceImp
             var result = await this.SendSignedAsync<string>(PREUPGRADE_USDC_SETTLEMENT, HttpMethod.Get, query: query);
             return result;
         }
+        #endregion
 
+        #region User Service
         private const string CREATE_SUB_USER = "/v5/user/create-sub-member";
         /// <summary>
         /// Create a new sub user id. Use master user's api key only.
@@ -359,8 +362,9 @@ namespace bybit.net.api.ApiServiceImp
         public async Task<string?> GetAffiliateUserInfo(string uid)
         {
             var query = new Dictionary<string, object> { {"uid", uid } };
-            var result = await this.SendSignedAsync<string>(AFFILIATE_USER_INFO, HttpMethod.Post, query: query);
+            var result = await this.SendSignedAsync<string>(AFFILIATE_USER_INFO, HttpMethod.Get, query: query);
             return result;
         }
+        #endregion
     }
 }
