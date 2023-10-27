@@ -15,6 +15,8 @@ namespace bybit.net.api.ApiServiceImp
         {
         }
 
+        // to do batch order implementation
+
         private const string PLACE_ORDER = "/v5/order/create";
         /// <summary>
         /// Send in a new order.
