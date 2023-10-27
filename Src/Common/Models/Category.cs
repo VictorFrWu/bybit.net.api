@@ -13,6 +13,6 @@
         public static Category OPTION { get => new("option"); }
         public string Value { get; private set; }
         public static implicit operator string(Category enm) => enm.Value;
-        public override string ToString() => this.Value.ToString();
+        public override readonly string ToString() => this.Value.ToString();
     }
 }

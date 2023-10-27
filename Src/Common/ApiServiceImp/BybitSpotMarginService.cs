@@ -100,7 +100,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="qty"></param>
         /// <param name="completeRepayment"></param>
         /// <returns>Repay</returns>
-        public async Task<string?> ReapySpotMarginLoan(string coin, string qty, CompleteRepayment? completeRepayment = null)
+        public async Task<string?> RepaySpotMarginLoan(string coin, string qty, CompleteRepayment? completeRepayment = null)
         {
             var query = new Dictionary<string, object> { { "coin", coin }, { "qty", qty } };
             BybitParametersUtils.AddOptionalParameters(query,
@@ -142,7 +142,7 @@ namespace bybit.net.api.ApiServiceImp
                 ("endTime", endTime),
                 ("limit", limit)
             );
-            var result = await this.SendSignedAsync<string>(CLASSICAL_PEPAYMENTS_ORDERS, HttpMethod.Post, query: query);
+            var result = await this.SendSignedAsync<string>(CLASSICAL_PEPAYMENTS_ORDERS, HttpMethod.Get, query: query);
             return result;
         }
 
@@ -167,7 +167,7 @@ namespace bybit.net.api.ApiServiceImp
                 ("endTime", endTime),
                 ("limit", limit)
             );
-            var result = await this.SendSignedAsync<string>(CLASSICAL_BORROW_ORDERS, HttpMethod.Post, query: query);
+            var result = await this.SendSignedAsync<string>(CLASSICAL_BORROW_ORDERS, HttpMethod.Get, query: query);
             return result;
         }
         #endregion
@@ -341,7 +341,7 @@ namespace bybit.net.api.ApiServiceImp
                 ("limit", limit),
                 ("cursor", cursor)
             );
-            var result = await this.SendSignedAsync<string>(LEVERQGE_TOKEN_RECORDS, HttpMethod.Post, query: query);
+            var result = await this.SendSignedAsync<string>(LEVERQGE_TOKEN_RECORDS, HttpMethod.Get, query: query);
             return result;
         }
         #endregion
