@@ -6,13 +6,13 @@ namespace bybit.net.api.ApiServiceImp
 {
     public class BybitMarketDataService : BybitApiService
     {
-        public BybitMarketDataService(bool useTestnet = true, string? apiKey = null, string? apiSecret = null)
-        : this(new HttpClient(), useTestnet, apiKey, apiSecret)
+        public BybitMarketDataService(bool useTestnet = false )
+        : this(new HttpClient(), useTestnet)
         {
         }
 
-        public BybitMarketDataService(HttpClient httpClient, bool useTestnet = true, string? apiKey = null, string? apiSecret = null)
-            : base(httpClient, useTestnet, apiKey, apiSecret)
+        public BybitMarketDataService(HttpClient httpClient, bool useTestnet = false)
+            : base(httpClient, useTestnet)
         {
         }
 

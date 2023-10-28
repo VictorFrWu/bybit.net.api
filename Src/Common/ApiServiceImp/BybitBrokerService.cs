@@ -5,12 +5,12 @@ namespace bybit.net.api.ApiServiceImp
 {
     public class BybitBrokerService : BybitApiService
     {
-        public BybitBrokerService(string apiKey, string apiSecret, bool useTestnet = true)
+        public BybitBrokerService(string apiKey, string apiSecret, bool useTestnet = false)
         : this(new HttpClient(), apiKey, apiSecret, useTestnet)
         {
         }
 
-        public BybitBrokerService(HttpClient httpClient, string apiKey, string apiSecret, bool useTestnet = true)
+        public BybitBrokerService(HttpClient httpClient, string apiKey, string apiSecret, bool useTestnet = false)
             : base(httpClient, useTestnet, apiKey, apiSecret)
         {
         }

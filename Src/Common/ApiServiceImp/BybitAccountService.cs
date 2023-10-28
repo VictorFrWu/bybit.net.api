@@ -1,22 +1,16 @@
 ﻿using bybit.net.api.Models;
 using bybit.net.api.Services;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net;
-using System.Numerics;
-using System.Security.Principal;
 
 namespace bybit.net.api.ApiServiceImp
 {
     public class BybitAccountService : BybitApiService
     {
-        public BybitAccountService(string apiKey, string apiSecret, bool useTestnet = true)
+        public BybitAccountService(string apiKey, string apiSecret, bool useTestnet = false)
         : this(new HttpClient(), apiKey, apiSecret, useTestnet)
         {
         }
 
-        public BybitAccountService(HttpClient httpClient, string apiKey, string apiSecret, bool useTestnet = true)
+        public BybitAccountService(HttpClient httpClient, string apiKey, string apiSecret, bool useTestnet = false)
             : base(httpClient, useTestnet, apiKey, apiSecret)
         {
         }

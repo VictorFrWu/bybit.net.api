@@ -1,31 +1,17 @@
 ﻿using bybit.net.api.Models;
 using bybit.net.api.Services;
-using Microsoft.Extensions.Options;
-using System.Collections.Generic;
-using System;
-using System.Reflection.Emit;
-using System.Runtime.ConstrainedExecution;
-using System.Security.Principal;
-using System.Buffers.Text;
-using Microsoft.VisualBasic;
-using System.Dynamic;
-using System.Reflection;
-using System.Threading.Channels;
-using System.Collections;
-using System.Net.WebSockets;
-using System.Runtime.Intrinsics.X86;
 
 
 namespace bybit.net.api.ApiServiceImp
 {
     public class BybitPositionService : BybitApiService
     {
-        public BybitPositionService(string apiKey, string apiSecret, bool useTestnet = true)
+        public BybitPositionService(string apiKey, string apiSecret, bool useTestnet = false)
         : this(new HttpClient(), apiKey, apiSecret, useTestnet)
         {
         }
 
-        public BybitPositionService(HttpClient httpClient, string apiKey, string apiSecret, bool useTestnet = true)
+        public BybitPositionService(HttpClient httpClient, string apiKey, string apiSecret, bool useTestnet = false)
             : base(httpClient, useTestnet, apiKey, apiSecret)
         {
         }
