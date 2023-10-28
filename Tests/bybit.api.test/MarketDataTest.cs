@@ -8,8 +8,6 @@ namespace bybit.api.test
 {
     public class MarketDataTest
     {
-        private string apiKey = "api-key";
-        private string apiSecret = "api-secret";
         #region CheckServerTime
         [Fact]
         public async Task CheckServerTime_ResponseAsync()
@@ -25,9 +23,7 @@ namespace bybit.api.test
                 });
 
             BybitMarketDataService market = new(
-                new HttpClient(mockMessageHandler.Object),
-                apiKey: this.apiKey,
-                apiSecret: this.apiSecret);
+                new HttpClient(mockMessageHandler.Object));
 
             var result = await market.CheckServerTime();
 

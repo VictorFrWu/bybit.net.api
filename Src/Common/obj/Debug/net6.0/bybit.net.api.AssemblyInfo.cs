@@ -13,10 +13,20 @@ using System.Reflection;
 
 [assembly: System.Reflection.AssemblyCompanyAttribute("Bybit")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
-[assembly: System.Reflection.AssemblyDescriptionAttribute("Bybit.Net.Api provides an official, robust, and high-performance DotNet connector" +
-    " to Bybit\'s trading APIs.")]
+[assembly: System.Reflection.AssemblyDescriptionAttribute(@"**Bybit.Net.Api** offers an official, powerful, and efficient .NET connector to the  [Bybit public Trading API](https://bybit-exchange.github.io/docs/v5/intro)
+Dive into a plethora of functionalities:
+- Public Websocket Streaming
+- Private Websocket Streaming
+- Market Data Retrieval
+- Trade Execution
+- Position Management
+- Account and Asset Info Retrieval
+- User Management
+- Upgrade History
+- Spot Margin UTA & Classical Service
+- Broker Earning Data")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.1.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.3+d41af3ad70fc5a45b276992e011f754dae0e670b")]
 [assembly: System.Reflection.AssemblyProductAttribute("bybit.net.api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("bybit.net.api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.1.0")]

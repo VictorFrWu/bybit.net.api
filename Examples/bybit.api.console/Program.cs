@@ -1,8 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using bybit.net.api.ApiServiceImp;
 using bybit.net.api.Models;
-using bybit.net.api.Services;
-using bybit.net.api.WebSocketStream;
 
 Console.WriteLine("Hello, World!");
 
@@ -37,7 +35,7 @@ Console.WriteLine("Hello, World!");
 
 //await websocket.ConnectAsync(new string[] { "publicTrade.BTCUSDT" }, CancellationToken.None);
 
-//var websocket = new BybitPrivateWebsocket(apiKey: "8wYkmpLsMg10eNQyPm", apiSecret: "Ouxc34myDnXvei54XsBZgoQzfGxO4bkr2Zsj");
+//var websocket = new BybitPrivateWebsocket(apiKey: "xxxxxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxxxxxxx");
 //websocket.OnMessageReceived(
 //    (data) =>
 //    {
@@ -56,7 +54,7 @@ Console.WriteLine("Hello, World!");
 //var accountInfo = await accountService.GetAccountBalance(accountType: AccountType.Unified);
 //Console.WriteLine(accountInfo);
 
-BybitPositionService positionService = new BybitPositionService(apiKey: "8wYkmpLsMg10eNQyPm", apiSecret: "Ouxc34myDnXvei54XsBZgoQzfGxO4bkr2Zsj");
+BybitPositionService positionService = new BybitPositionService(apiKey: "8wYkmpLsMg10eNQyPm", apiSecret: "Ouxc34myDnXvei54XsBZgoQzfGxO4bkr2Zsj", true);
 var positionInfo = await positionService.GetPositionInfo(category: Category.LINEAR, symbol: "BLZUSDT");
 Console.WriteLine(positionInfo);
 Console.ReadLine();

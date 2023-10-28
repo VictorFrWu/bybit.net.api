@@ -1,23 +1,16 @@
 ﻿using bybit.net.api.Models;
 using bybit.net.api.Services;
-using System.Net;
-using System;
-using System.Diagnostics.Metrics;
-using System.Dynamic;
-using System.Security.Principal;
-using System.Security;
-using System.Transactions;
 
 namespace bybit.net.api.ApiServiceImp
 {
     public class BybitUserService : BybitApiService
     {
-        public BybitUserService(string apiKey, string apiSecret, bool useTestnet = true)
+        public BybitUserService(string apiKey, string apiSecret, bool useTestnet = false)
         : this(new HttpClient(), apiKey, apiSecret, useTestnet)
         {
         }
 
-        public BybitUserService(HttpClient httpClient, string apiKey, string apiSecret, bool useTestnet = true)
+        public BybitUserService(HttpClient httpClient, string apiKey, string apiSecret, bool useTestnet = false)
             : base(httpClient, useTestnet, apiKey, apiSecret)
         {
         }

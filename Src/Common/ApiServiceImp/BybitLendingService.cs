@@ -1,6 +1,5 @@
 ﻿using bybit.net.api.Models;
 using bybit.net.api.Services;
-using System.Net.Sockets;
 
 namespace bybit.net.api.ApiServiceImp
 {
@@ -115,6 +114,134 @@ namespace bybit.net.api.ApiServiceImp
         #endregion
 
         #region C2C Lending
+        private const string C2C_LENDING_INFO = "/v5/lending/info";
+        /// <summary>
+        /// Get the basic information of lending coins
+        /// All v5/lending APIs need SPOT permission.
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <returns> Get Lending Coin Info </returns>
+        public async Task<string?> GetC2CLendingCoinInfo(string? coin = null)
+        {
+            var query = new Dictionary<string, object> { };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("coin", coin)
+            );
+            var result = await this.SendSignedAsync<string>(C2C_LENDING_INFO, HttpMethod.Get, query: query);
+            return result;
+        }
+
+        private const string C2C_DEPOSIT_FUND = "/v5/lending/purchase";
+        /// <summary>
+        /// Lending funds to Bybit asset pool
+        /// normal & UMA account: deduct funds from Spot wallet
+        /// UTA account: deduct funds from Unified wallet
+        /// </summary>
+        /// <param name="coin"></param>
+        /// <param name="quantity"></param>
+        /// <param name="serialNo"></param>
+        /// <returns>Deposit Funds</returns>
+        public async Task<string?> C2CDepositFund(string? coin = null, string? quantity = null, string? serialNo = null)
+        {
+            var query = new Dictionary<string, object> { };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("coin", coin),
+                ("quantity", quantity),
+                ("serialNo", serialNo)
+            );
+            var result = await this.SendSignedAsync<string>(C2C_DEPOSIT_FUND, HttpMethod.Post, query: query);
+            return result;
+        }
+
+        private const string C2C_REDEEM_FUND = "/v5/lending/redeem";
+        /// <summary>
+        /// Withdraw funds from the Bybit asset pool.
+        /// There will be two redemption records: one for the redeemed quantity, and the other one is for the total interest occurred.
+        /// </summary>
+        /// <param name="coin"></param>
+        /// <param name="quantity"></param>
+        /// <param name="serialNo"></param>
+        /// <returns>Redeem Funds</returns>
+        public async Task<string?> C2CRedeemFund(string? coin = null, string? quantity = null, string? serialNo = null)
+        {
+            var query = new Dictionary<string, object> { };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("coin", coin),
+                ("quantity", quantity),
+                ("serialNo", serialNo)
+            );
+            var result = await this.SendSignedAsync<string>(C2C_REDEEM_FUND, HttpMethod.Post, query: query);
+            return result;
+        }
+
+        private const string C2C_CANCEL_REDEEM = " /v5/lending/redeem-cancel";
+        /// <summary>
+        /// Withdraw funds from the Bybit asset pool.
+        /// There will be two redemption records: one for the redeemed quantity, and the other one is for the total interest occurred.
+        /// </summary>
+        /// <param name="coin"></param>
+        /// <param name="quantity"></param>
+        /// <param name="serialNo"></param>
+        /// <returns>Redeem Funds</returns>
+        public async Task<string?> C2CCancelRedeem(string? coin = null, string? orderId = null, string? serialNo = null)
+        {
+            var query = new Dictionary<string, object> { };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("coin", coin),
+                ("orderId", orderId),
+                ("serialNo", serialNo)
+            );
+            var result = await this.SendSignedAsync<string>(C2C_CANCEL_REDEEM, HttpMethod.Post, query: query);
+            return result;
+        }
+
+        private const string C2C_LENDING_ORDERS = "/v5/ins-loan/ensure-tokens-convert";
+        /// <summary>
+        /// Get the past 2 years data by default
+        /// Get up to the past 2 years of data
+        /// </summary>
+        /// <param name="coin"></param>
+        /// <param name="orderId"></param>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="limit"></param>
+        /// <returns>Get Loan Orders</returns>
+        public async Task<string?> GetC2CLendingOrders(string? coin = null, string? orderId = null, int? startTime = null, int? endTime = null, int? limit = null, LendingOrderType? orderType = null)
+        {
+            var query = new Dictionary<string, object> { };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("coin", coin),
+                ("orderId", orderId),
+                ("startTime", startTime),
+                ("endTime", endTime),
+                ("limit", limit),
+                ("orderType", orderType?.Value)
+            );
+            var result = await this.SendSignedAsync<string>(C2C_LENDING_ORDERS, HttpMethod.Get, query: query);
+            return result;
+        }
+
+        private const string C2C_LENDING_ACCOUNT = "/v5/lending/account";
+        /// <summary>
+        /// Get Lending Account Info
+        /// </summary>
+        /// <param name="coin"></param>
+        /// <returns>Get Lending Account Info</returns>
+        public async Task<string?> GetC2CLendingOrders(string? coin = null)
+        {
+            var query = new Dictionary<string, object> { };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("coin", coin)
+            );
+            var result = await this.SendSignedAsync<string>(C2C_LENDING_ACCOUNT, HttpMethod.Get, query: query);
+            return result;
+        }
         #endregion
     }
 }

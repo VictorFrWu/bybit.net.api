@@ -222,3 +222,4 @@ C:\Net\GithubProjects\bybit.net.api\Tests\bybit.api.test\bin\Release\net6.0\bybi
 C:\Net\GithubProjects\bybit.net.api\Tests\bybit.api.test\obj\Release\net6.0\bybit.api.test.csproj.CopyComplete
 C:\Net\GithubProjects\bybit.net.api\Tests\bybit.api.test\obj\Release\net6.0\bybit.api.test.genruntimeconfig.cache
 C:\Net\GithubProjects\bybit.net.api\Tests\bybit.api.test\obj\Release\net6.0\ref\bybit.api.test.dll
+C:\Net\GithubProjects\bybit.net.api\Tests\bybit.api.test\obj\Release\net6.0\bybit.api.test.sourcelink.json

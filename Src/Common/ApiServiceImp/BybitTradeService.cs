@@ -1,16 +1,24 @@
 ﻿using bybit.net.api.Models;
 using bybit.net.api.Services;
+using Microsoft.VisualBasic;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Numerics;
+using System.Runtime.ConstrainedExecution;
+using System.Runtime.Intrinsics.X86;
+using System.Threading;
 
 namespace bybit.net.api.ApiServiceImp
 {
     public class BybitTradeService : BybitApiService
     {
-        public BybitTradeService(string apiKey, string apiSecret, bool useTestnet = true)
+        public BybitTradeService(string apiKey, string apiSecret, bool useTestnet = false)
         : this(new HttpClient(), apiKey, apiSecret, useTestnet)
         {
         }
 
-        public BybitTradeService(HttpClient httpClient, string apiKey, string apiSecret, bool useTestnet = true)
+        public BybitTradeService(HttpClient httpClient, string apiKey, string apiSecret, bool useTestnet = false)
             : base(httpClient, useTestnet, apiKey, apiSecret)
         {
         }
@@ -103,9 +111,38 @@ namespace bybit.net.api.ApiServiceImp
             return result;
         }
         private const string BATCH_PLACE_ORDER = "/v5/order/create-batch";
-        private const string BATCH_AMEND_ORDER = "/v5/order/amend-batch";
-        private const string BATCH_CANCEL_ORDER = "/v5/order/cancel-batch";
-
+        /// <summary>
+        /// Covers: Option (UTA, UTA Pro) / USDT Perpetual, UDSC Perpetual, USDC Futures (UTA Pro)
+        /// This endpoint allows you to place more than one order in a single request.
+        /// Make sure you have sufficient funds in your account when placing an order.Once an order is placed, according to the funds required by the order, the funds in your account will be frozen by the corresponding amount during the life cycle of the order.
+        /// A maximum of 20 orders (option) & 10 orders (linear) can be placed per request. The returned data list is divided into two lists. The first list indicates whether or not the order creation was successful and the second list details the created order information.The structure of the two lists are completely consistent.
+        /// Check the rate limit instruction when category=linear here
+        /// Risk control limit notice:
+        /// Bybit will monitor on your API requests.When the total number of orders of a single user(aggregated the number of orders across main account and sub-accounts) within a day(UTC 0 - UTC 24) exceeds a certain upper limit, the platform will reserve the right to remind, warn, and impose necessary restrictions.Customers who use API default to acceptance of these terms and have the obligation to cooperate with adjustments.
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="request"></param>
+        /// <returns>List Order Result</returns>
+        public async Task<string?> PlaceBatchOrder(Category category, List<Dictionary<string, object>> request)
+        {
+            var query = new Dictionary<string, object>
+            {
+                { "category", category.Value },
+                { "request", request }
+            };
+            var result = await this.SendSignedAsync<string>(BATCH_PLACE_ORDER, HttpMethod.Post, query: query);
+            return result;
+        }
+        public async Task<string?> PlaceBatchOrder(Category category, List<OrderRequest> request)
+        {
+            var query = new Dictionary<string, object>
+                        {
+                            { "category", category.Value },
+                            { "request", request }
+                        };
+            var result = await this.SendSignedAsync<string>(BATCH_PLACE_ORDER, HttpMethod.Post, query: query);
+            return result;
+        }
 
         private const string AMEND_ORDER = "/v5/order/amend";
         /// <summary>
@@ -160,6 +197,38 @@ namespace bybit.net.api.ApiServiceImp
             return result;
         }
 
+        private const string BATCH_AMEND_ORDER = "/v5/order/amend-batch";
+
+        /// <summary>
+        /// Covers: Option (UTA, UTA Pro) / USDT Perpetual, UDSC Perpetual, USDC Futures (UTA Pro)
+        /// This endpoint allows you to amend more than one open order in a single request.
+        /// You can modify unfilled or partially filled orders.Conditional orders are not supported.
+        /// A maximum of 20 orders (option) & 10 orders (linear) can be amended per request.
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="request"></param>
+        /// <returns>List Order Result</returns>
+        public async Task<string?> AmendBatchOrder(Category category, List<Dictionary<string, object>> request)
+        {
+            var query = new Dictionary<string, object>
+            {
+                { "category", category.Value },
+                { "request", request }
+            };
+            var result = await this.SendSignedAsync<string>(BATCH_AMEND_ORDER, HttpMethod.Post, query: query);
+            return result;
+        }
+        public async Task<string?> AmendBatchOrder(Category category, List<OrderRequest> request)
+        {
+            var query = new Dictionary<string, object>
+                        {
+                            { "category", category.Value },
+                            { "request", request }
+                        };
+            var result = await this.SendSignedAsync<string>(BATCH_AMEND_ORDER, HttpMethod.Post, query: query);
+            return result;
+        }
+
         private const string CANCEL_ORDER = "/v5/order/cancel";
         /// <summary>
         /// Amend Order
@@ -186,6 +255,28 @@ namespace bybit.net.api.ApiServiceImp
                 ("orderFilter", orderFilter)
             );
             var result = await this.SendSignedAsync<string>(CANCEL_ORDER, HttpMethod.Post, query: query);
+            return result;
+        }
+
+        private const string BATCH_CANCEL_ORDER = "/v5/order/cancel-batch";
+        public async Task<string?> CancelBatchOrder(Category category, List<Dictionary<string, object>> request)
+        {
+            var query = new Dictionary<string, object>
+            {
+                { "category", category.Value },
+                { "request", request }
+            };
+            var result = await this.SendSignedAsync<string>(BATCH_CANCEL_ORDER, HttpMethod.Post, query: query);
+            return result;
+        }
+        public async Task<string?> CancelBatchOrder(Category category, List<OrderRequest> request)
+        {
+            var query = new Dictionary<string, object>
+                        {
+                            { "category", category.Value },
+                            { "request", request }
+                        };
+            var result = await this.SendSignedAsync<string>(BATCH_CANCEL_ORDER, HttpMethod.Post, query: query);
             return result;
         }
 
