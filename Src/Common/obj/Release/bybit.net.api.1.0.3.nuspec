@@ -11,7 +11,6 @@
     <readme>README.md</readme>
     <projectUrl>https://github.com/wuhewuhe/bybit.net.api</projectUrl>
     <description>**Bybit.Net.Api** offers an official, powerful, and efficient .NET connector to the  [Bybit public Trading API](https://bybit-exchange.github.io/docs/v5/intro)
-
 Dive into a plethora of functionalities:
 - Public Websocket Streaming
 - Private Websocket Streaming
@@ -26,7 +25,7 @@ Dive into a plethora of functionalities:
     <releaseNotes>implemented bybit v5 api and websocket, support market data, Trade and position, user management, upgrade history, Account and asset data
       need to complete instituion and c2c lending service, implement batch order and modify uid function</releaseNotes>
     <tags>Bybit Api Crypto Rest Http Webscoket</tags>
-    <repository type="git" url="https://github.com/wuhewuhe/bybit.net.api" commit="f3d32e6e2cb5cc0b79574e4249218d99959d467b" />
+    <repository type="git" url="https://github.com/wuhewuhe/bybit.net.api" commit="c7eb92ff350954774af1f99a08f88d2c76bb8714" />
     <dependencies>
       <group targetFramework="net6.0">
         <dependency id="Microsoft.Extensions.Logging" version="7.0.0" exclude="Build,Analyzers" />

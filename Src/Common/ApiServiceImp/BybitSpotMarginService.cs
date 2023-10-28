@@ -5,12 +5,12 @@ namespace bybit.net.api.ApiServiceImp
 {
     public class BybitSpotMarginService : BybitApiService
     {
-        public BybitSpotMarginService(string apiKey, string apiSecret, bool useTestnet = true)
+        public BybitSpotMarginService(string apiKey, string apiSecret, bool useTestnet = false)
         : this(new HttpClient(), apiKey, apiSecret, useTestnet)
         {
         }
 
-        public BybitSpotMarginService(HttpClient httpClient, string apiKey, string apiSecret, bool useTestnet = true)
+        public BybitSpotMarginService(HttpClient httpClient, string apiKey, string apiSecret, bool useTestnet = false)
             : base(httpClient, useTestnet, apiKey, apiSecret)
         {
         }

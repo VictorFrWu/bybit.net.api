@@ -9,7 +9,6 @@
     <Authors>VictorWu</Authors>
     <Company>Bybit</Company>
     <Description>**Bybit.Net.Api** offers an official, powerful, and efficient .NET connector to the  [Bybit public Trading API](https://bybit-exchange.github.io/docs/v5/intro)
-
 Dive into a plethora of functionalities:
 - Public Websocket Streaming
 - Private Websocket Streaming

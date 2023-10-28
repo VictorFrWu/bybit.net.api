@@ -22,7 +22,13 @@ namespace bybit.net.api
             this.httpClient = httpClient;
             this.apiKey = apiKey;
             this.apiSecret = apiSecret;
-            this.useTestnet = useTestnet ?? true;
+            this.useTestnet = useTestnet ?? false;
+        }
+
+        public BybitService(HttpClient httpClient, bool? useTestnet = null)
+        {
+            this.httpClient = httpClient;
+            this.useTestnet = useTestnet ?? false;
         }
 
         #region public exposed methods
@@ -205,7 +211,7 @@ namespace bybit.net.api
         /// <returns>Http Request message</returns>
         private HttpRequestMessage BuildHttpRequest(string requestUri, HttpMethod httpMethod, string? signature, string? content)
         {
-            var baseUrl = (this.useTestnet ?? true) ? BybitConstants.HTTP_TESTNET_URL : BybitConstants.HTTP_MAINNET_URL;
+            var baseUrl = (this.useTestnet ?? false) ? BybitConstants.HTTP_TESTNET_URL : BybitConstants.HTTP_MAINNET_URL;
             var request = new HttpRequestMessage(httpMethod, baseUrl + requestUri);
             if (signature != null && signature.Length > 0)
             {
