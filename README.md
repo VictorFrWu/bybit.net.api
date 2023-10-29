@@ -50,32 +50,34 @@ Package reference
 <PackageReference Include="bybit.net.api"/>
 ```
 ## Usage
+By default is bybit Mainnet, if you want to test in Bybit testnet, please add a parameter **useTestnet: true** when initiate service instance
+
 Note: Replace placeholders (like YOUR_API_KEY, links, or other details) with the actual information. You can also customize this template to better fit the actual state and details of your DotNet API.
 ### RESTful APIs
 - Market Kline
 ```DotNet
-BybitMarketDataService market = new BybitMarketDataService();
-var klineInfo = await market.GetMarketKline("spot", "BTCUSDT", "1");
+BybitMarketDataService market = new();
+var klineInfo = await market.GetMarketKline(Category.SPOT, "BTCUSDT", MarketInterval.OneMinute);
 Console.WriteLine(klineInfo);
 ```
 
 ### Authentication - RESTful APIs
 - Place Single Order
 ```DotNet
-BybitTradeService tradeService = new BybitTradeService(apiKey: "xxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxx");
+BybitTradeService tradeService = new(apiKey: "xxxxxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxxxxxxx");
 var orderInfo = await tradeService.PlaceOrder(category: Category.LINEAR, symbol: "BLZUSDT", side: Side.BUY, orderType: OrderType.MARKET, qty: "15", timeInForce: TimeInForce.GTC);
 Console.WriteLine(orderInfo);
 ```
 
 - Account Wallet
 ```DotNet
-BybitAccountService accountService = new BybitAccountService(apiKey: "xxxxxxxx", apiSecret: "xxxxxxxxxxxxxxx");
+BybitAccountService accountService = new(apiKey: "xxxxxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxxxxxxx");
 var accountInfo = await accountService.GetAccountBalance(accountType: AccountType.Unified);
 Console.WriteLine(accountInfo);
 ```
 - Position Info
 ```DotNet
-BybitPositionService positionService = new BybitPositionService(apiKey: "xxxxxxxxxxxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxxx");
+BybitPositionService positionService = new(apiKey: "xxxxxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxxxxxxx", true);
 var positionInfo = await positionService.GetPositionInfo(category: Category.LINEAR, symbol: "BLZUSDT");
 Console.WriteLine(positionInfo);
 ```
@@ -83,29 +85,27 @@ Console.WriteLine(positionInfo);
 ### Websocket public channel
 - Trade Subscribe
 ```DotNet
-var websocket = new BybitLinearWebSocket();
-websocket.OnMessageReceived(
+var linearWebsocket = new BybitLinearWebSocket(true);
+linearWebsocket.OnMessageReceived(
     (data) =>
     {
         Console.WriteLine(data);
         return Task.CompletedTask;
     }, CancellationToken.None);
-
-await websocket.ConnectAsync(new string[] { "publicTrade.BTCUSDT" }, CancellationToken.None);
+await linearWebsocket.ConnectAsync(new string[] { "publicTrade.BTCUSDT" }, CancellationToken.None);
 ```
 
 ### Websocket private channel
 - Order Subscribe
 ```DotNet
-var websocket = new BybitPrivateWebsocket(apiKey: "xxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxxxx");
-websocket.OnMessageReceived(
+var privateWebsocket = new BybitPrivateWebsocket(apiKey: "xxxxxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxxxxxxx");
+privateWebsocket.OnMessageReceived(
     (data) =>
     {
         Console.WriteLine(data);
         return Task.CompletedTask;
     }, CancellationToken.None);
-
-await websocket.ConnectAsync(new string[] { "order" }, CancellationToken.None);
+await privateWebsocket.ConnectAsync(new string[] { "order" }, CancellationToken.None);
 ```
 
 ## Contact
