@@ -1,4 +1,7 @@
 ﻿using bybit.net.api.Models;
+using bybit.net.api.Models.Account;
+using bybit.net.api.Models.Position;
+using bybit.net.api.Models.Trade;
 using bybit.net.api.Services;
 
 

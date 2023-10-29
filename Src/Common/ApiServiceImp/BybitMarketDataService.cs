@@ -1,4 +1,6 @@
 ﻿using bybit.net.api.Models;
+using bybit.net.api.Models.Market;
+using bybit.net.api.Models.Trade;
 using bybit.net.api.Services;
 
 

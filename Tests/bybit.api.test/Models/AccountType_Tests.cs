@@ -1,4 +1,4 @@
-﻿using bybit.net.api.Models;
+﻿using bybit.net.api.Models.Account;
 using Xunit;
 
 namespace bybit.api.test.Models

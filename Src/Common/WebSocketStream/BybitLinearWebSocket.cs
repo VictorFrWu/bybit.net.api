@@ -5,12 +5,12 @@ namespace bybit.net.api.WebSocketStream
 {
     public class BybitLinearWebSocket : BybitWebSocket
     {
-        public BybitLinearWebSocket(bool useTestNet = true, int receiveBufferSize = 8192, string? apiKey = null, string? apiSecret = null)
+        public BybitLinearWebSocket(bool useTestNet = false, int receiveBufferSize = 8192, string? apiKey = null, string? apiSecret = null)
             : base(new BybitWebSocketHandler(new ClientWebSocket()), GetStreamUrl(useTestNet), receiveBufferSize, apiKey, apiSecret)
         {
         }
 
-        public BybitLinearWebSocket(IBybitWebSocketHandler handler, bool useTestNet = true, int receiveBufferSize = 8192, string? apiKey = null, string? apiSecret = null)
+        public BybitLinearWebSocket(IBybitWebSocketHandler handler, bool useTestNet = false, int receiveBufferSize = 8192, string? apiKey = null, string? apiSecret = null)
             : base(handler, GetStreamUrl(useTestNet), receiveBufferSize, apiKey, apiSecret)
         {
         }
