@@ -1,4 +1,4 @@
-﻿using bybit.net.api.Models;
+﻿using bybit.net.api.Models.Lending;
 using bybit.net.api.Services;
 
 namespace bybit.net.api.ApiServiceImp

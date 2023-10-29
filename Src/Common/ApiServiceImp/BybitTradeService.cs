@@ -1,13 +1,6 @@
 ﻿using bybit.net.api.Models;
+using bybit.net.api.Models.Trade;
 using bybit.net.api.Services;
-using Microsoft.VisualBasic;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Numerics;
-using System.Runtime.ConstrainedExecution;
-using System.Runtime.Intrinsics.X86;
-using System.Threading;
 
 namespace bybit.net.api.ApiServiceImp
 {
@@ -22,8 +15,6 @@ namespace bybit.net.api.ApiServiceImp
             : base(httpClient, useTestnet, apiKey, apiSecret)
         {
         }
-
-        // to do batch order implementation
 
         private const string PLACE_ORDER = "/v5/order/create";
         /// <summary>
@@ -133,6 +124,19 @@ namespace bybit.net.api.ApiServiceImp
             var result = await this.SendSignedAsync<string>(BATCH_PLACE_ORDER, HttpMethod.Post, query: query);
             return result;
         }
+
+        /// <summary>
+        /// Covers: Option (UTA, UTA Pro) / USDT Perpetual, UDSC Perpetual, USDC Futures (UTA Pro)
+        /// This endpoint allows you to place more than one order in a single request.
+        /// Make sure you have sufficient funds in your account when placing an order.Once an order is placed, according to the funds required by the order, the funds in your account will be frozen by the corresponding amount during the life cycle of the order.
+        /// A maximum of 20 orders (option) & 10 orders (linear) can be placed per request. The returned data list is divided into two lists. The first list indicates whether or not the order creation was successful and the second list details the created order information.The structure of the two lists are completely consistent.
+        /// Check the rate limit instruction when category=linear here
+        /// Risk control limit notice:
+        /// Bybit will monitor on your API requests.When the total number of orders of a single user(aggregated the number of orders across main account and sub-accounts) within a day(UTC 0 - UTC 24) exceeds a certain upper limit, the platform will reserve the right to remind, warn, and impose necessary restrictions.Customers who use API default to acceptance of these terms and have the obligation to cooperate with adjustments.
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="request"></param>
+        /// <returns>List Order Result</returns>
         public async Task<string?> PlaceBatchOrder(Category category, List<OrderRequest> request)
         {
             var query = new Dictionary<string, object>
@@ -198,12 +202,11 @@ namespace bybit.net.api.ApiServiceImp
         }
 
         private const string BATCH_AMEND_ORDER = "/v5/order/amend-batch";
-
         /// <summary>
         /// Covers: Option (UTA, UTA Pro) / USDT Perpetual, UDSC Perpetual, USDC Futures (UTA Pro)
         /// This endpoint allows you to amend more than one open order in a single request.
         /// You can modify unfilled or partially filled orders.Conditional orders are not supported.
-        /// A maximum of 20 orders (option) & 10 orders (linear) can be amended per request.
+        /// A maximum of 20 orders (option) and 10 orders (linear) can be amended per request.
         /// </summary>
         /// <param name="category"></param>
         /// <param name="request"></param>
@@ -218,6 +221,16 @@ namespace bybit.net.api.ApiServiceImp
             var result = await this.SendSignedAsync<string>(BATCH_AMEND_ORDER, HttpMethod.Post, query: query);
             return result;
         }
+
+        /// <summary>
+        /// Covers: Option (UTA, UTA Pro) / USDT Perpetual, UDSC Perpetual, USDC Futures (UTA Pro)
+        /// This endpoint allows you to amend more than one open order in a single request.
+        /// You can modify unfilled or partially filled orders.Conditional orders are not supported.
+        /// A maximum of 20 orders (option) & 10 orders (linear) can be amended per request.
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="request"></param>
+        /// <returns>List Order Result</returns>
         public async Task<string?> AmendBatchOrder(Category category, List<OrderRequest> request)
         {
             var query = new Dictionary<string, object>
@@ -259,6 +272,17 @@ namespace bybit.net.api.ApiServiceImp
         }
 
         private const string BATCH_CANCEL_ORDER = "/v5/order/cancel-batch";
+        /// <summary>
+        /// This endpoint allows you to cancel more than one open order in a single request.
+        /// Covers: Option(UTA, UTA Pro) / USDT Perpetual, UDSC Perpetual, USDC Futures(UTA Pro)
+        /// You must specify orderId or orderLinkId.
+        /// If orderId and orderLinkId is not matched, the system will process orderId first.
+        /// You can cancel unfilled or partially filled orders.
+        /// A maximum of 20 orders (option) and 10 orders (linear) can be cancelled per request.
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="request"></param>
+        /// <returns>List Order Result</returns>
         public async Task<string?> CancelBatchOrder(Category category, List<Dictionary<string, object>> request)
         {
             var query = new Dictionary<string, object>
@@ -269,6 +293,18 @@ namespace bybit.net.api.ApiServiceImp
             var result = await this.SendSignedAsync<string>(BATCH_CANCEL_ORDER, HttpMethod.Post, query: query);
             return result;
         }
+
+        /// <summary>
+        /// This endpoint allows you to cancel more than one open order in a single request.
+        /// Covers: Option(UTA, UTA Pro) / USDT Perpetual, UDSC Perpetual, USDC Futures(UTA Pro)
+        /// You must specify orderId or orderLinkId.
+        /// If orderId and orderLinkId is not matched, the system will process orderId first.
+        /// You can cancel unfilled or partially filled orders.
+        /// A maximum of 20 orders (option) and 10 orders (linear) can be cancelled per request.
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="request"></param>
+        /// <returns>List Order Result</returns>
         public async Task<string?> CancelBatchOrder(Category category, List<OrderRequest> request)
         {
             var query = new Dictionary<string, object>
@@ -281,7 +317,6 @@ namespace bybit.net.api.ApiServiceImp
         }
 
         private const string REALTIME_ORDER = "/v5/order/realtime";
-
         /// <summary>
         /// Query unfilled or partially filled orders in real-time. To query older order records, please use the order history interface.
         /// Unified account covers: Spot / USDT perpetual / USDC contract / Inverse contract / Options
@@ -406,7 +441,6 @@ namespace bybit.net.api.ApiServiceImp
         }
 
         private const string BORROW_QUOTA = "/v5/order/spot-borrow-check";
-
         /// <summary>
         /// Query the qty and amount of borrowable coins in spot account.  Covers: Spot(Unified Account)
         /// </summary>
@@ -438,11 +472,8 @@ namespace bybit.net.api.ApiServiceImp
         /// If the Bybit server does not receive the reconnection from the client for more than 10 (default) seconds and resumes the heartbeat "ping", 
         /// then the client is in the state of "disconnection protect", all active option orders of the client will be cancelled automatically.
         /// If within 10 seconds, the client reconnects and resumes the heartbeat "ping", the timing will be reset and restarted at the next disconnection.
-        /// 
         /// If you need to turn it on/off, you can contact your client manager for consultation and application. The default time window is 10 seconds.
-        /// 
         /// Effective for options only.
-        /// 
         /// After the request is successfully sent, the system needs a certain time to take effect. It is recommended to query or set again after 10 seconds
         /// </summary>
         /// <param name="timeWindow"></param>

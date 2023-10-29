@@ -25,13 +25,13 @@ Dive into a plethora of functionalities:
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/wuhewuhe/bybit.net.api</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <VersionPrefix>1.0.3</VersionPrefix>
+    <VersionPrefix>1.0.4</VersionPrefix>
     <AssemblyVersion>1.1.0</AssemblyVersion>
     <NeutralLanguage>en</NeutralLanguage>
-    <PackageTags>Bybit Api Crypto Rest Http Webscoket</PackageTags>
+    <PackageTags>Bybit Future Spot Trading Option Inverse Linear Api Crypto Rest Http Https Webscoket WSS OpenApi</PackageTags>
     <PackageReleaseNotes>
-      implemented bybit v5 api and websocket, support market data, Trade and position, user management, upgrade history, Account and asset data
-      need to complete instituion and c2c lending service, implement batch order and modify uid function
+      implemented all bybit v5 api and websocket, support market data, Trade and position, user management, upgrade history, Account and asset data,
+      instituion and c2c lending service. Add function batch order crate/amend/cancel and also create sub api key, modify master and sub api key
     </PackageReleaseNotes>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>

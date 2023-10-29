@@ -1,60 +1,56 @@
-﻿// See https://aka.ms/new-console-template for more information
-using bybit.net.api.ApiServiceImp;
+﻿using bybit.net.api.ApiServiceImp;
 using bybit.net.api.Models;
-
-Console.WriteLine("Hello, World!");
-
-//BybitMarketDataService market = new BybitMarketDataService();
-//var klineInfo = await market.GetMarketKline("spot", "BTCUSDT", "1");
-//Console.WriteLine(klineInfo);
-
-//var websocket = new BybitSpotWebSocket();
-//websocket.OnMessageReceived(
-//    (data) =>
-//    {
-//        Console.WriteLine(data);
-
-//        return Task.CompletedTask;
-//    }, CancellationToken.None);
-
-//await websocket.ConnectAsync(new string[] { "orderbook.50.BTCUSDT" }, CancellationToken.None);
+using bybit.net.api.Models.Account;
+using bybit.net.api.Models.Market;
+using bybit.net.api.Models.Trade;
+using bybit.net.api.WebSocketStream;
 
 
-//BybitMarketDataService market = new BybitMarketDataService();
-//var klineInfo = await market.GetMarKPricetKline("linear", "BTCUSDT", "1");
-//Console.WriteLine(klineInfo);
+BybitMarketDataService market = new(true);
+var klineInfo = await market.GetMarketKline(Category.SPOT, "BTCUSDT", MarketInterval.OneMinute);
+Console.WriteLine(klineInfo);
+var klinePriceInfo = await market.GetMarKPricetKline(Category.LINEAR, "BTCUSDT", MarketInterval.OneMinute);
+Console.WriteLine(klinePriceInfo);
 
-//var websocket = new BybitLinearWebSocket();
-//websocket.OnMessageReceived(
-//    (data) =>
-//    {
-//        Console.WriteLine(data);
+var spotWebsocket = new BybitSpotWebSocket(true);
+spotWebsocket.OnMessageReceived(
+    (data) =>
+    {
+        Console.WriteLine(data);
 
-//        return Task.CompletedTask;
-//    }, CancellationToken.None);
+        return Task.CompletedTask;
+    }, CancellationToken.None);
 
-//await websocket.ConnectAsync(new string[] { "publicTrade.BTCUSDT" }, CancellationToken.None);
+await spotWebsocket.ConnectAsync(new string[] { "orderbook.50.BTCUSDT" }, CancellationToken.None);
 
-//var websocket = new BybitPrivateWebsocket(apiKey: "xxxxxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxxxxxxx");
-//websocket.OnMessageReceived(
-//    (data) =>
-//    {
-//        Console.WriteLine(data);
 
-//        return Task.CompletedTask;
-//    }, CancellationToken.None);
+var linearWebsocket = new BybitLinearWebSocket(true);
+linearWebsocket.OnMessageReceived(
+    (data) =>
+    {
+        Console.WriteLine(data);
+        return Task.CompletedTask;
+    }, CancellationToken.None);
+await linearWebsocket.ConnectAsync(new string[] { "publicTrade.BTCUSDT" }, CancellationToken.None);
 
-//await websocket.ConnectAsync(new string[] { "order" }, CancellationToken.None);
+var privateWebsocket = new BybitPrivateWebsocket(apiKey: "xxxxxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxxxxxxx");
+privateWebsocket.OnMessageReceived(
+    (data) =>
+    {
+        Console.WriteLine(data);
+        return Task.CompletedTask;
+    }, CancellationToken.None);
+await privateWebsocket.ConnectAsync(new string[] { "order" }, CancellationToken.None);
 
-//BybitTradeService tradeService = new BybitTradeService(apiKey: "8wYkmpLsMg10eNQyPm", apiSecret: "Ouxc34myDnXvei54XsBZgoQzfGxO4bkr2Zsj");
-//var orderInfo = await tradeService.PlaceOrder(category: Category.LINEAR, symbol: "BLZUSDT", side: Side.BUY, orderType: OrderType.MARKET, qty: "15", timeInForce: TimeInForce.GTC);
-//Console.WriteLine(orderInfo);
+BybitTradeService tradeService = new(apiKey: "xxxxxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxxxxxxx");
+var orderInfo = await tradeService.PlaceOrder(category: Category.LINEAR, symbol: "BLZUSDT", side: Side.BUY, orderType: OrderType.MARKET, qty: "15", timeInForce: TimeInForce.GTC);
+Console.WriteLine(orderInfo);
 
-//BybitAccountService accountService = new BybitAccountService(apiKey: "8wYkmpLsMg10eNQyPm", apiSecret: "Ouxc34myDnXvei54XsBZgoQzfGxO4bkr2Zsj");
-//var accountInfo = await accountService.GetAccountBalance(accountType: AccountType.Unified);
-//Console.WriteLine(accountInfo);
+BybitAccountService accountService = new(apiKey: "xxxxxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxxxxxxx");
+var accountInfo = await accountService.GetAccountBalance(accountType: AccountType.Unified);
+Console.WriteLine(accountInfo);
 
-BybitPositionService positionService = new BybitPositionService(apiKey: "8wYkmpLsMg10eNQyPm", apiSecret: "Ouxc34myDnXvei54XsBZgoQzfGxO4bkr2Zsj", true);
+BybitPositionService positionService = new(apiKey: "xxxxxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxxxxxxx", true);
 var positionInfo = await positionService.GetPositionInfo(category: Category.LINEAR, symbol: "BLZUSDT");
 Console.WriteLine(positionInfo);
 Console.ReadLine();

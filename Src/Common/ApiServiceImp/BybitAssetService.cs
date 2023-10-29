@@ -1,4 +1,7 @@
 ﻿using bybit.net.api.Models;
+using bybit.net.api.Models.Account;
+using bybit.net.api.Models.Asset;
+using bybit.net.api.Models.Position;
 using bybit.net.api.Services;
 
 namespace bybit.net.api.ApiServiceImp

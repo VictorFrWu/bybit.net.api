@@ -1,4 +1,8 @@
 ﻿using bybit.net.api.Models;
+using bybit.net.api.Models.Account;
+using bybit.net.api.Models.Position;
+using bybit.net.api.Models.Trade;
+using bybit.net.api.Models.User;
 using bybit.net.api.Services;
 
 namespace bybit.net.api.ApiServiceImp
@@ -14,8 +18,6 @@ namespace bybit.net.api.ApiServiceImp
             : base(httpClient, useTestnet, apiKey, apiSecret)
         {
         }
-
-        // to do create sub uid api key; Modify Master API Key; Modify Sub API Key
 
         #region Upgrade HIstory
         private const string PREUPGRADE_ORDER_HISTORY = "/v5/pre-upgrade/order/history";
@@ -209,6 +211,167 @@ namespace bybit.net.api.ApiServiceImp
         #endregion
 
         #region User Service
+        private const string CREATE_SUB_API_KEY = "/v5/user/create-sub-api";
+        /// <summary>
+        /// To create new API key for those newly created sub UID. Use master user's api key only.
+        /// The API key must have one of the below permissions in order to call this endpoint..
+        /// master API key: "Account Transfer", "Subaccount Transfer", "Withdrawal"
+        /// </summary>
+        /// <param name="subuid"></param>
+        /// <param name="permissions"></param>
+        /// <param name="note"></param>
+        /// <param name="ReadOnly"></param>
+        /// <param name="ips"></param>
+        /// <returns>Create Sub UID API Key</returns>
+        public async Task<string?> CreateUserSubApiKey(int subuid, ReadOnly readOnly, SubUserPermissions permissions, string? note = null, string? ips = null)
+        {
+            var query = new Dictionary<string, object>
+                        {
+                            { "subuid", subuid },
+                            { "permissions", permissions },
+                            {"readOnly", readOnly.Value},
+                        };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("ips", ips),
+                ("note", note)
+            );
+            var result = await this.SendSignedAsync<string>(CREATE_SUB_API_KEY, HttpMethod.Post, query: query);
+            return result;
+        }
+
+        /// <summary>
+        /// To create new API key for those newly created sub UID. Use master user's api key only.
+        /// The API key must have one of the below permissions in order to call this endpoint..
+        /// master API key: "Account Transfer", "Subaccount Transfer", "Withdrawal"
+        /// </summary>
+        /// <param name="subuid"></param>
+        /// <param name="permissions"></param>
+        /// <param name="note"></param>
+        /// <param name="ReadOnly"></param>
+        /// <param name="ips"></param>
+        /// <returns>Create Sub UID API Key</returns>
+        public async Task<string?> CreateUserSubApiKey(int subuid, ReadOnly readOnly, Dictionary<string, List<string>> permissions, string? note = null, string? ips = null)
+        {
+            var query = new Dictionary<string, object>
+                        {
+                            { "subuid", subuid },
+                            { "permissions", permissions },
+                            {"readOnly", readOnly.Value},
+                        };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("ips", ips),
+                ("note", note)
+            );
+            var result = await this.SendSignedAsync<string>(CREATE_SUB_API_KEY, HttpMethod.Post, query: query);
+            return result;
+        }
+
+        private const string UPDATE_MASTER_API_KEY = "/v5/user/update-api";
+        /// <summary>
+        /// Modify the settings of master api key. Use the api key pending to be modified to call the endpoint. Use master user's api key only.
+        /// The API key must have one of the below permissions in order to call this endpoint..
+        /// master API key: "Account Transfer", "Subaccount Transfer", "Withdrawal"
+        /// Only the api key that calls this interface can be modified
+        /// </summary>
+        /// <param name="permissions"></param>
+        /// <param name="note"></param>
+        /// <param name="ReadOnly"></param>
+        /// <param name="ips"></param>
+        /// <returns>Master API Key</returns>
+        public async Task<string?> ModifyUserMasterApiKey(MasterUserPermissions? permissions = null, string? note = null, ReadOnly? readOnly = null, string? ips = null)
+        {
+            var query = new Dictionary<string, object> { };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("permissions", permissions),
+                ("ips", ips),
+                ("ReadOnly", readOnly?.Value),
+                ("note", note)
+            );
+            var result = await this.SendSignedAsync<string>(UPDATE_MASTER_API_KEY, HttpMethod.Post, query: query);
+            return result;
+        }
+
+        /// <summary>
+        /// Modify the settings of master api key. Use the api key pending to be modified to call the endpoint. Use master user's api key only.
+        /// The API key must have one of the below permissions in order to call this endpoint..
+        /// master API key: "Account Transfer", "Subaccount Transfer", "Withdrawal"
+        /// Only the api key that calls this interface can be modified
+        /// </summary>
+        /// <param name="permissions"></param>
+        /// <param name="note"></param>
+        /// <param name="ReadOnly"></param>
+        /// <param name="ips"></param>
+        /// <returns>Master API Key</returns>
+        public async Task<string?> ModifyUserMasterApiKey(Dictionary<string, List<string>>? permissions = null, string? note = null, ReadOnly? readOnly = null, string? ips = null)
+        {
+            var query = new Dictionary<string, object> { };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("permissions", permissions),
+                ("ips", ips),
+                ("ReadOnly", readOnly?.Value),
+                ("note", note)
+            );
+            var result = await this.SendSignedAsync<string>(UPDATE_MASTER_API_KEY, HttpMethod.Post, query: query);
+            return result;
+        }
+
+        private const string UPDATE_SUB_API_KEY = "/v5/user/update-sub-api";
+        /// <summary>
+        /// Modify the settings of sub api key. Use the sub account api key pending to be modified to call the endpoint or use master account api key to manage its sub account api key.
+        /// The API key must have one of the below permissions in order to call this endpoint
+        /// sub API key: "Account Transfer", "Sub Member Transfer"
+        /// master API Key: "Account Transfer", "Sub Member Transfer", "Withdrawal"
+        /// </summary>
+        /// <param name="permissions"></param>
+        /// <param name="note"></param>
+        /// <param name="ReadOnly"></param>
+        /// <param name="ips"></param>
+        /// <returns>Sub API Key</returns>
+        public async Task<string?> ModifyUserSubApiKey(string? apikey = null, SubUserPermissions? permissions = null, string? note = null, ReadOnly? readOnly = null, string? ips = null)
+        {
+            var query = new Dictionary<string, object> { };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("apikey", apikey),
+                ("permissions", permissions),
+                ("ips", ips),
+                ("ReadOnly", readOnly?.Value),
+                ("note", note)
+            );
+            var result = await this.SendSignedAsync<string>(UPDATE_SUB_API_KEY, HttpMethod.Post, query: query);
+            return result;
+        }
+
+        /// <summary>
+        /// Modify the settings of sub api key. Use the sub account api key pending to be modified to call the endpoint or use master account api key to manage its sub account api key.
+        /// The API key must have one of the below permissions in order to call this endpoint
+        /// sub API key: "Account Transfer", "Sub Member Transfer"
+        /// master API Key: "Account Transfer", "Sub Member Transfer", "Withdrawal"
+        /// </summary>
+        /// <param name="permissions"></param>
+        /// <param name="note"></param>
+        /// <param name="ReadOnly"></param>
+        /// <param name="ips"></param>
+        /// <returns>Sub API Key</returns>
+        public async Task<string?> ModifyUserSubApiKey(string? apikey = null, Dictionary<string, List<string>>? permissions = null, string? note = null, ReadOnly? readOnly = null, string? ips = null)
+        {
+            var query = new Dictionary<string, object> { };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("apikey", apikey),
+                ("permissions", permissions),
+                ("ips", ips),
+                ("ReadOnly", readOnly?.Value),
+                ("note", note)
+            );
+            var result = await this.SendSignedAsync<string>(UPDATE_SUB_API_KEY, HttpMethod.Post, query: query);
+            return result;
+        }
+
         private const string CREATE_SUB_USER = "/v5/user/create-sub-member";
         /// <summary>
         /// Create a new sub user id. Use master user's api key only.
@@ -222,7 +385,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="isUta"></param>
         /// <param name="note"></param>
         /// <returns>new user member</returns>
-        public async Task<string?> CreateUserSubMember(string username, MemberType memeberType, string? password = null, Switch? switchLogin = null, IsUta? isUta = null, string? note = null)
+        public async Task<string?> CreateUserSubMember(string username, MemberType memeberType, string? password = null, SwitchLogin? switchLogin = null, IsUta? isUta = null, string? note = null)
         {
             var query = new Dictionary<string, object>
                         {
@@ -354,7 +517,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <returns>Get Affiliate User Info</returns>
         public async Task<string?> GetAffiliateUserInfo(string uid)
         {
-            var query = new Dictionary<string, object> { {"uid", uid } };
+            var query = new Dictionary<string, object> { { "uid", uid } };
             var result = await this.SendSignedAsync<string>(AFFILIATE_USER_INFO, HttpMethod.Get, query: query);
             return result;
         }

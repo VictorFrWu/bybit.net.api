@@ -25,7 +25,7 @@ Dive into a plethora of functionalities:
     <releaseNotes>implemented bybit v5 api and websocket, support market data, Trade and position, user management, upgrade history, Account and asset data
       need to complete instituion and c2c lending service, implement batch order and modify uid function</releaseNotes>
     <tags>Bybit Api Crypto Rest Http Webscoket</tags>
-    <repository type="git" url="https://github.com/wuhewuhe/bybit.net.api" commit="d41af3ad70fc5a45b276992e011f754dae0e670b" />
+    <repository type="git" url="https://github.com/wuhewuhe/bybit.net.api" commit="0941288c22f42a12e228023cbdc540d4451204f6" />
     <dependencies>
       <group targetFramework="net6.0">
         <dependency id="Microsoft.Extensions.Logging" version="7.0.0" exclude="Build,Analyzers" />
