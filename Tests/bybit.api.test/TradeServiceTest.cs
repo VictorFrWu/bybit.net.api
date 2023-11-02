@@ -115,6 +115,19 @@ namespace bybit.api.test
                 Assert.Equal("OK", orderInfo?.RetMsg);
             }
         }
+
+        [Fact]
+        public async Task Check_CancelAllOrder()
+        {
+            var orderInfoString = await TradeService.CancelAllOrder(category: Category.LINEAR, baseCoin:"USDT");
+            if (!string.IsNullOrEmpty(orderInfoString))
+            {
+                Console.WriteLine(orderInfoString);
+                OrderResult? orderInfo = JsonConvert.DeserializeObject<OrderResult>(orderInfoString);
+                Assert.Equal(0, orderInfo?.RetCode);
+                Assert.Equal("OK", orderInfo?.RetMsg);
+            }
+        }
         #endregion
     }
 }
