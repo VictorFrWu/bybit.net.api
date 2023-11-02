@@ -49,6 +49,7 @@ Package reference
 ```DotNet
 <PackageReference Include="bybit.net.api"/>
 ```
+Furthermore methods to install pakcage, please check [Nuget Repository](https://www.nuget.org/packages/bybit.net.api)
 ## Usage
 By default is bybit Mainnet, if you want to test in Bybit testnet, please add a parameter **useTestnet: true** when initiate service instance
 

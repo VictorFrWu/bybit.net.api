@@ -3,7 +3,9 @@ using bybit.net.api.Models.Account;
 using bybit.net.api.Models.Position;
 using bybit.net.api.Models.Trade;
 using bybit.net.api.Services;
-
+using System.Diagnostics.Metrics;
+using System.Numerics;
+using System;
 
 namespace bybit.net.api.ApiServiceImp
 {
@@ -306,6 +308,19 @@ namespace bybit.net.api.ApiServiceImp
         }
 
         private const string CLOSE_PNL = "/v5/position/closed-pnl";
+        /// <summary>
+        /// Get Closed PnL
+        /// Query user's closed profit and loss records. The results are sorted by createdTime in descending order.
+        /// Unified account covers: USDT perpetual / USDC contract / Inverse contract
+        /// Classic account covers: USDT perpetual / Inverse contract
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="symbol"></param>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="limit"></param>
+        /// <param name="cursor"></param>
+        /// <returns>Close PNL</returns>
         public async Task<string?> GetClosedPnl(Category category, string? symbol = null, int? startTime = null, int? endTime = null, int? limit = null, string? cursor = null)
         {
             var query = new Dictionary<string, object> { { "category", category.Value } };
@@ -318,6 +333,24 @@ namespace bybit.net.api.ApiServiceImp
                 ("cursor", cursor)
             );
             var result = await this.SendSignedAsync<string>(CLOSE_PNL, HttpMethod.Get, query: query);
+            return result;
+        }
+
+
+        private const string CONFIRM_NEW_RISK_LIMIT = "/v5/position/confirm-pending-mmr";
+        /// <summary>
+        /// Confirm New Risk Limit
+        /// It is only applicable when the user is marked as only reducing positions(please see the isReduceOnly field in the Get Position Info interface). After the user actively adjusts the risk level, this interface is called to try to calculate the adjusted risk level, and if it passes(retCode= 0), the system will remove the position reduceOnly mark.You are recommended to call Get Position Info to check isReduceOnly field.
+        /// Unified account covers: USDT perpetual / USDC contract / Inverse contract
+        /// Classic account covers: USDT perpetual / Inverse contract
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="symbol"></param>
+        /// <returns>None</returns>
+        public async Task<string?> ConfirmPositionRiskLimit(Category category, string symbol)
+        {
+            var query = new Dictionary<string, object> { { "category", category.Value }, { "symbol", symbol } };
+            var result = await this.SendSignedAsync<string>(CONFIRM_NEW_RISK_LIMIT, HttpMethod.Post, query: query);
             return result;
         }
     }

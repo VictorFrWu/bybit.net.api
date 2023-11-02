@@ -119,9 +119,7 @@ namespace bybit.api.test
         [Fact]
         public async Task Check_CancelAllOrder()
         {
-            var order1 = new OrderRequest { Symbol = "BTC-10FEB23-24000-C", OrderLinkId = "9b381bb1-401" };
-            var order2 = new OrderRequest { Symbol = "BTC-10FEB23-24000-C", OrderLinkId = "82ee86dd-001" };
-            var orderInfoString = await TradeService.CancelBatchOrder(category: Category.LINEAR, request: new List<OrderRequest> { order1, order2 });
+            var orderInfoString = await TradeService.CancelAllOrder(category: Category.LINEAR, baseCoin:"USDT");
             if (!string.IsNullOrEmpty(orderInfoString))
             {
                 Console.WriteLine(orderInfoString);

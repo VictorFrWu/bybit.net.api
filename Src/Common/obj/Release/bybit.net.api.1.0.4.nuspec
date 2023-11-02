@@ -25,7 +25,7 @@ Dive into a plethora of functionalities:
     <releaseNotes>implemented all bybit v5 api and websocket, support market data, Trade and position, user management, upgrade history, Account and asset data,
       instituion and c2c lending service. Add function batch order crate/amend/cancel and also create sub api key, modify master and sub api key</releaseNotes>
     <tags>Bybit Future Spot Trading Option Inverse Linear Api Crypto Rest Http Https Webscoket WSS OpenApi</tags>
-    <repository type="git" url="https://github.com/wuhewuhe/bybit.net.api" commit="a92ba88e05db24924b5112919c4a5afb48080178" />
+    <repository type="git" url="https://github.com/wuhewuhe/bybit.net.api" commit="dd5742ebb229438c1732488e54364512e7f08d54" />
     <dependencies>
       <group targetFramework="net6.0">
         <dependency id="Microsoft.Extensions.Logging" version="7.0.0" exclude="Build,Analyzers" />
