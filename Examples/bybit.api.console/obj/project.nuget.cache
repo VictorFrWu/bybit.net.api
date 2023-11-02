@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "W6xVopiwIHaNBDKCef1ICaDbQyryg7wP7mKSwpGIt4Jw6UX1/lvDaZBIemgVJwTu+6AeI8ucnJsZhAWkI0eD8A==",
+  "dgSpecHash": "7hbiZ7F5TCVHC9GmbIL9ABz3WWDnsijprOlFJqh8oCJMS5m0TSl7EMfGujAYWum43rJO3bnrcHrscxW4m26AMw==",
   "success": true,
   "projectFilePath": "C:\\Net\\GithubProjects\\bybit.net.api\\Examples\\bybit.api.console\\bybit.api.console.csproj",
   "expectedPackageFiles": [
