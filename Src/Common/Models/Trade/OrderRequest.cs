@@ -17,6 +17,7 @@
         public string? TimeInForce { get; set; } // Time in force
         public int? PositionIdx { get; set; } // Position mode identifier
         public string? OrderLinkId { get; set; } // User customised order ID
+        public string? OrderId { get; set; } // Server Order Id
         public string? TakeProfit { get; set; } // Take profit price
         public string? StopLoss { get; set; } // Stop loss price
         public string? TpTriggerBy { get; set; } // Price type to trigger take profit

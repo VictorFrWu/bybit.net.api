@@ -26,7 +26,7 @@ Dive into a plethora of functionalities:
 - Spot Margin UTA & Classical Service
 - Broker Earning Data")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.1.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.4+a92ba88e05db24924b5112919c4a5afb48080178")]
 [assembly: System.Reflection.AssemblyProductAttribute("bybit.net.api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("bybit.net.api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.1.0")]
