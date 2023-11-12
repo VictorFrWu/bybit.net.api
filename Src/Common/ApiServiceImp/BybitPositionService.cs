@@ -288,7 +288,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="limit"></param>
         /// <param name="cursor"></param>
         /// <returns> Execution List </returns>
-        public async Task<string?> GetExecutionList(Category category, string? symbol = null, string? orderId = null, string? orderLinkId = null, string? baseCoin = null, int? startTime = null, int? endTime = null, ExecType? execType = null, int? limit = null, string? cursor = null)
+        public async Task<string?> GetExecutionList(Category category, string? symbol = null, string? orderId = null, string? orderLinkId = null, string? baseCoin = null, long? startTime = null, long? endTime = null, ExecType? execType = null, int? limit = null, string? cursor = null)
         {
             var query = new Dictionary<string, object> { { "category", category.Value } };
 
@@ -321,7 +321,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="limit"></param>
         /// <param name="cursor"></param>
         /// <returns>Close PNL</returns>
-        public async Task<string?> GetClosedPnl(Category category, string? symbol = null, int? startTime = null, int? endTime = null, int? limit = null, string? cursor = null)
+        public async Task<string?> GetClosedPnl(Category category, string? symbol = null, long? startTime = null, long? endTime = null, int? limit = null, string? cursor = null)
         {
             var query = new Dictionary<string, object> { { "category", category.Value } };
 

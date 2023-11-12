@@ -64,7 +64,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="endTime"></param>
         /// <param name="limit"></param>
         /// <returns>Get Loan Orders</returns>
-        public async Task<string?> GetInsLoanOrders(string? orderId = null, int? startTime = null, int? endTime = null, int? limit = null)
+        public async Task<string?> GetInsLoanOrders(string? orderId = null, long? startTime = null, long? endTime = null, int? limit = null)
         {
             var query = new Dictionary<string, object> { };
 
@@ -87,7 +87,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="endTime"></param>
         /// <param name="limit"></param>
         /// <returns>Get Repay Orders</returns>
-        public async Task<string?> GetInsLoanRepayOrders(int? startTime = null, int? endTime = null, int? limit = null)
+        public async Task<string?> GetInsLoanRepayOrders(long? startTime = null, long? endTime = null, int? limit = null)
         {
             var query = new Dictionary<string, object> { };
 
@@ -210,7 +210,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="endTime"></param>
         /// <param name="limit"></param>
         /// <returns>Get Loan Orders</returns>
-        public async Task<string?> GetC2CLendingOrders(string? coin = null, string? orderId = null, int? startTime = null, int? endTime = null, int? limit = null, LendingOrderType? orderType = null)
+        public async Task<string?> GetC2CLendingOrders(string? coin = null, string? orderId = null, long? startTime = null, long? endTime = null, int? limit = null, LendingOrderType? orderType = null)
         {
             var query = new Dictionary<string, object> { };
 

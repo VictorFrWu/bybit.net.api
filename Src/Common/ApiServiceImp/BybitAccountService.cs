@@ -59,7 +59,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="limit"></param>
         /// <param name="cursor"></param>
         /// <returns> Borrow History</returns>
-        public async Task<string?> GetAccountBorrowHistory(string? currency = null, int? startTime = null, int? endTime = null, int? limit = null, string? cursor = null)
+        public async Task<string?> GetAccountBorrowHistory(string? currency = null, long? startTime = null, long? endTime = null, int? limit = null, string? cursor = null)
         {
             var query = new Dictionary<string, object> { };
 
@@ -169,7 +169,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="limit"></param>
         /// <param name="cursor"></param>
         /// <returns>Transaction Data</returns>
-        public async Task<string?> GetAccountTransaction(AccountType? accountType = null, Category? category = null, string? currency = null, string? baseCoin = null, TransactionType? type = null, int? startTime = null, int? endTime = null, int? limit = null, string? cursor = null)
+        public async Task<string?> GetAccountTransaction(AccountType? accountType = null, Category? category = null, string? currency = null, string? baseCoin = null, TransactionType? type = null, long? startTime = null, long? endTime = null, int? limit = null, string? cursor = null)
         {
             var query = new Dictionary<string, object> { };
 

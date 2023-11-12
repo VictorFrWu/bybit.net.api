@@ -4,7 +4,7 @@ using Moq.Protected;
 using System.Net;
 using Xunit;
 
-namespace bybit.api.test
+namespace bybit.api.test.Tests
 {
     public class MarketDataTest
     {

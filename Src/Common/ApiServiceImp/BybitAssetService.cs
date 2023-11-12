@@ -232,7 +232,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="limit"></param>
         /// <param name="cursor"></param>
         /// <returns>Internal Transfers</returns>
-        public async Task<string?> GetInternalTransferRecords(string? transferId = null, string? coin = null, TransferStatus? transferStatus = null, int? startTime = null, int? endTime = null, int? limit = null, string? cursor = null)
+        public async Task<string?> GetInternalTransferRecords(string? transferId = null, string? coin = null, TransferStatus? transferStatus = null, long? startTime = null, long? endTime = null, int? limit = null, string? cursor = null)
         {
             var query = new Dictionary<string, object> { };
 
@@ -264,7 +264,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="limit"></param>
         /// <param name="cursor"></param>
         /// <returns>Universal Transfers</returns>
-        public async Task<string?> GetUniversalTransferRecords(string? transferId = null, string? coin = null, TransferStatus? transferStatus = null, int? startTime = null, int? endTime = null, int? limit = null, string? cursor = null)
+        public async Task<string?> GetUniversalTransferRecords(string? transferId = null, string? coin = null, TransferStatus? transferStatus = null, long? startTime = null, long? endTime = null, int? limit = null, string? cursor = null)
         {
             var query = new Dictionary<string, object> { };
 
@@ -347,7 +347,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="limit"></param>
         /// <param name="cursor"></param>
         /// <returns>deposit records</returns>
-        public async Task<string?> GetAssetDepositRecords(string? coin = null, int? startTime = null, int? endTime = null, int? limit = null, string? cursor = null)
+        public async Task<string?> GetAssetDepositRecords(string? coin = null, long? startTime = null, long? endTime = null, int? limit = null, string? cursor = null)
         {
             var query = new Dictionary<string, object> { };
 
@@ -373,7 +373,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="limit"></param>
         /// <param name="cursor"></param>
         /// <returns>Query subaccount's deposit records by main UID's API key.</returns>
-        public async Task<string?> GetAssetSubDepositRecords(string subMemberId, string? coin = null, int? startTime = null, int? endTime = null, int? limit = null, string? cursor = null)
+        public async Task<string?> GetAssetSubDepositRecords(string subMemberId, string? coin = null, long? startTime = null, long? endTime = null, int? limit = null, string? cursor = null)
         {
             var query = new Dictionary<string, object> { { "subMemberId", subMemberId } };
 
@@ -399,7 +399,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="limit"></param>
         /// <param name="cursor"></param>
         /// <returns>Query deposit records within the Bybit platform. These transactions are not on the blockchain.</returns>
-        public async Task<string?> GetAssetInternalDepositRecords(string? coin = null, int? startTime = null, int? endTime = null, int? limit = null, string? cursor = null)
+        public async Task<string?> GetAssetInternalDepositRecords(string? coin = null, long? startTime = null, long? endTime = null, int? limit = null, string? cursor = null)
         {
             var query = new Dictionary<string, object> { };
 
@@ -477,7 +477,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="limit"></param>
         /// <param name="cursor"></param>
         /// <returns>Get Withdrawal Records</returns>
-        public async Task<string?> GetAssetWithdrawRecords(string? coin = null, string? withdrawID = null, WithdrawType? withdrawType = null, int? startTime = null, int? endTime = null, int? limit = null, string? cursor = null)
+        public async Task<string?> GetAssetWithdrawRecords(string? coin = null, string? withdrawID = null, WithdrawType? withdrawType = null, long? startTime = null, long? endTime = null, int? limit = null, string? cursor = null)
         {
             var query = new Dictionary<string, object> { };
             BybitParametersUtils.AddOptionalParameters(query,
