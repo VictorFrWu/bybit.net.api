@@ -416,7 +416,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="limit"></param>
         /// <param name="cursor"></param>
         /// <returns>Orders History</returns>
-        public async Task<string?> GetOrdersHistory(Category category, string? symbol = null, string? baseCoin = null, string? settleCoin = null, string? orderId = null, string? orderLinkId = null, OrderStatus? orderStatus = null, string? orderFilter = null, int? startTime = null, int? endTime = null, int? limit = null, string? cursor = null)
+        public async Task<string?> GetOrdersHistory(Category category, string? symbol = null, string? baseCoin = null, string? settleCoin = null, string? orderId = null, string? orderLinkId = null, OrderStatus? orderStatus = null, string? orderFilter = null, long? startTime = null, long? endTime = null, int? limit = null, string? cursor = null)
         {
             var query = new Dictionary<string, object>
                         {

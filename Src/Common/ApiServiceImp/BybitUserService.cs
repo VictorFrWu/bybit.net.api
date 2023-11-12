@@ -39,7 +39,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="cursor"></param>
         /// <returns>Get Pre-upgrade Order History</returns>
         public async Task<string?> GetPreUpgradeOrderHistory(Category category, string? symbol = null, string? baseCoin = null, string? orderId = null, string? orderLinkId = null, string? orderFilter = null,
-                                                          OrderStatus? orderStatus = null, int? startTime = null, int? endTime = null, int? limit = null, string? cursor = null)
+                                                          OrderStatus? orderStatus = null, long? startTime = null, long? endTime = null, int? limit = null, string? cursor = null)
         {
             var query = new Dictionary<string, object>
                         {
@@ -82,7 +82,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="cursor"></param>
         /// <returns>Get Pre-upgrade Trade History</returns>
         public async Task<string?> GetPreUpgradeTradeHistory(Category category, string? symbol = null, string? baseCoin = null, string? orderId = null, string? orderLinkId = null,
-                                                          ExecType? execType = null, int? startTime = null, int? endTime = null, int? limit = null, string? cursor = null)
+                                                          ExecType? execType = null, long? startTime = null, long? endTime = null, int? limit = null, string? cursor = null)
         {
             var query = new Dictionary<string, object>
                         {
@@ -116,7 +116,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="limit"></param>
         /// <param name="cursor"></param>
         /// <returns>Get Pre-upgrade Closed PnL</returns>
-        public async Task<string?> GetPreUpgradeClosePnl(Category category, string symbol, int? startTime = null, int? endTime = null, int? limit = null, string? cursor = null)
+        public async Task<string?> GetPreUpgradeClosePnl(Category category, string symbol, long? startTime = null, long? endTime = null, int? limit = null, string? cursor = null)
         {
             var query = new Dictionary<string, object>
                         {
@@ -146,7 +146,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="limit"></param>
         /// <param name="cursor"></param>
         /// <returns>Get Pre-upgrade Transaction Log</returns>
-        public async Task<string?> GetPreUpgradeTransactionLog(Category category, string? baseCoin = null, TransactionType? type = null, int? startTime = null, int? endTime = null, int? limit = null, string? cursor = null)
+        public async Task<string?> GetPreUpgradeTransactionLog(Category category, string? baseCoin = null, TransactionType? type = null, long? startTime = null, long? endTime = null, int? limit = null, string? cursor = null)
         {
             var query = new Dictionary<string, object>
                         {

@@ -134,7 +134,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="endTime"></param>
         /// <param name="limit"></param>
         /// <returns>Get Repayment Order Detail</returns>
-        public async Task<string?> GetSpotMarginRepaymentOrders(string? coin = null, int? startTime = null, int? endTime = null, int? limit = null)
+        public async Task<string?> GetSpotMarginRepaymentOrders(string? coin = null, long? startTime = null, long? endTime = null, int? limit = null)
         {
             var query = new Dictionary<string, object>();
 
@@ -158,7 +158,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="endTime"></param>
         /// <param name="limit"></param>
         /// <returns>Get Borrow Order Detail</returns>
-        public async Task<string?> GetSpotMarginBorrowOrders(string? coin = null, SpotMarginStatus? status = null, int? startTime = null, int? endTime = null, int? limit = null)
+        public async Task<string?> GetSpotMarginBorrowOrders(string? coin = null, SpotMarginStatus? status = null, long? startTime = null, long? endTime = null, int? limit = null)
         {
             var query = new Dictionary<string, object>();
 
@@ -329,7 +329,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="limit"></param>
         /// <param name="cursor"></param>
         /// <returns>Get purchase or redeem history</returns>
-        public async Task<string?> GetSpotLeverageTokenRecords(string? ltCoin = null, string? orderId = null, string? ltOrderType = null, string? serialNo = null, int? startTime = null, int? endTime = null, int? limit = null, string? cursor = null)
+        public async Task<string?> GetSpotLeverageTokenRecords(string? ltCoin = null, string? orderId = null, string? ltOrderType = null, string? serialNo = null, long? startTime = null, long? endTime = null, int? limit = null, string? cursor = null)
         {
             var query = new Dictionary<string, object>();
 

@@ -17,7 +17,7 @@ namespace bybit.net.api.ApiServiceImp
 
         private const string BROKER_EARNING_DATA = "/v5/broker/earning-record";
        
-        public async Task<string?> GetBrokerEarning(BizType? bizType = null, int? startTime = null, int? endTime = null, int? limit = null, string? cursor = null)
+        public async Task<string?> GetBrokerEarning(BizType? bizType = null, long? startTime = null, long? endTime = null, int? limit = null, string? cursor = null)
         {
             var query = new Dictionary<string, object>();
 

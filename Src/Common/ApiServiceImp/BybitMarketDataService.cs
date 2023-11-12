@@ -46,7 +46,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="end"></param>
         /// <param name="limit"></param>
         /// <returns>Market kline</returns>
-        public async Task<string?> GetMarketKline(Category category, string symbol, MarketInterval interval, int? start = null, int? end = null, int? limit = null)
+        public async Task<string?> GetMarketKline(Category category, string symbol, MarketInterval interval, long? start = null, long? end = null, int? limit = null)
         {
             var query = new Dictionary<string, object>
                         {
@@ -76,7 +76,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="end"></param>
         /// <param name="limit"></param>
         /// <returns>Market kline</returns>
-        public async Task<string?> GetMarKPricetKline(Category category, string symbol, MarketInterval interval, int? start = null, int? end = null, int? limit = null)
+        public async Task<string?> GetMarKPricetKline(Category category, string symbol, MarketInterval interval, long? start = null, long? end = null, int? limit = null)
         {
             var query = new Dictionary<string, object>
                         {
@@ -108,7 +108,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="end"></param>
         /// <param name="limit"></param>
         /// <returns>Market kline</returns>
-        public async Task<string?> GetIndexPricetKline(Category category, string symbol, MarketInterval interval, int? start = null, int? end = null, int? limit = null)
+        public async Task<string?> GetIndexPricetKline(Category category, string symbol, MarketInterval interval, long? start = null, long? end = null, int? limit = null)
         {
             var query = new Dictionary<string, object>
                         {
@@ -140,7 +140,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="end"></param>
         /// <param name="limit"></param>
         /// <returns>Market kline</returns>
-        public async Task<string?> GetPremiumIndexPricetKline(Category category, string symbol, MarketInterval interval, int? start = null, int? end = null, int? limit = null)
+        public async Task<string?> GetPremiumIndexPricetKline(Category category, string symbol, MarketInterval interval, long? start = null, long? end = null, int? limit = null)
         {
             var query = new Dictionary<string, object>
                         {
@@ -269,7 +269,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="endTime"></param>
         /// <param name="limit"></param>
         /// <returns>Market Funding History</returns>
-        public async Task<string?> GetMarketFundingHistory(Category category, string symbol, int? startTime = null, int? endTime = null, int? limit = null)
+        public async Task<string?> GetMarketFundingHistory(Category category, string symbol, long? startTime = null, long? endTime = null, int? limit = null)
         {
             var query = new Dictionary<string, object> { { "category", category }, { "symbol", symbol } };
 
@@ -334,7 +334,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="endTime"></param>
         /// <param name="limit"></param>
         /// <returns>Market Open Interest</returns>
-        public async Task<string?> GetMarketOpenInterest(Category category, string symbol, MarketIntervalTime intervalTime, int? startTime = null, int? endTime = null, int? limit = null, string? cursor = null)
+        public async Task<string?> GetMarketOpenInterest(Category category, string symbol, MarketIntervalTime intervalTime, long? startTime = null, long? endTime = null, int? limit = null, string? cursor = null)
         {
             var query = new Dictionary<string, object> { { "category", category }, { "symbol", symbol }, { "intervalTime", intervalTime.Value } };
 
@@ -369,7 +369,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="startTime"></param>
         /// <param name="endTime"></param>
         /// <returns>Market Historical Volatility</returns>
-        public async Task<string?> GetMarketHistoricalVolatility(Category category, string? baseCoin = null, string? period = null, int? startTime = null, int? endTime = null)
+        public async Task<string?> GetMarketHistoricalVolatility(Category category, string? baseCoin = null, string? period = null, long? startTime = null, long? endTime = null)
         {
             var query = new Dictionary<string, object> { { "category", category } };
 
