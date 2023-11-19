@@ -20,9 +20,8 @@ namespace bybit.net.api.Websockets
         private readonly string? apiKey;
         private readonly string? apiSecret;
         private readonly string? maxAliveTime; // Valid only for private channel
-        private bool? debugMode;
 
-        public BybitWebSocket(IBybitWebSocketHandler handler, string url, int pingInterval = 20, int receiveBufferSize = 8192, string? apiKey = null, string? apiSecret = null, string? maxAliveTime = null, bool? debugMode = false)
+        public BybitWebSocket(IBybitWebSocketHandler handler, string url, int pingInterval = 20, int receiveBufferSize = 8192, string? apiKey = null, string? apiSecret = null, string? maxAliveTime = null)
         {
             this.handler = handler;
             this.url = url;
@@ -31,7 +30,6 @@ namespace bybit.net.api.Websockets
             this.apiSecret = apiSecret;
             this.pingInterval = pingInterval;
             this.maxAliveTime = maxAliveTime;
-            this.debugMode = debugMode;
             this.onMessageReceivedFunctions = new List<Func<string, Task>>();
             this.onMessageReceivedCancellationTokenRegistrations = new List<CancellationTokenRegistration>();
         }
@@ -74,10 +72,7 @@ namespace bybit.net.api.Websockets
         /// <returns>A task that represents the asynchronous disconnect operation.</returns>
         public async Task DisconnectAsync(CancellationToken cancellationToken)
         {
-            if (this.loopCancellationTokenSource != null)
-            {
-                this.loopCancellationTokenSource.Cancel();
-            }
+            this.loopCancellationTokenSource?.Cancel();
 
             if (this.handler.State == WebSocketState.Open)
             {
@@ -200,7 +195,7 @@ namespace bybit.net.api.Websockets
             var hash = hmacsha256.ComputeHash(Encoding.UTF8.GetBytes(_val));
             string signature = BitConverter.ToString(hash).Replace("-", "").ToLower();
 
-            var authMessage = new { req_id = Guid.NewGuid().ToString(), op = "auth", args = new object[] { key, expires, signature } };
+            var authMessage = new { req_id = BybitParametersUtils.GenerateTransferId(), op = "auth", args = new object[] { key, expires, signature } };
             string authMessageJson = JsonConvert.SerializeObject(authMessage);
             await Console.Out.WriteLineAsync(authMessageJson);
             await SendAsync(authMessageJson, CancellationToken.None);

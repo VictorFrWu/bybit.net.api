@@ -1,5 +1,4 @@
 ﻿using bybit.net.api.Websockets;
-using Moq;
 using System.Net.WebSockets;
 using System.Text;
 using Xunit;

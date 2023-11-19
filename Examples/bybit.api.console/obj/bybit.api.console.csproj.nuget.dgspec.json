@@ -68,7 +68,7 @@
       }
     },
     "C:\\Net\\GithubProjects\\bybit.net.api\\Src\\Common\\bybit.net.api.csproj": {
-      "version": "1.0.6",
+      "version": "1.0.7",
       "restore": {
         "projectUniqueName": "C:\\Net\\GithubProjects\\bybit.net.api\\Src\\Common\\bybit.net.api.csproj",
         "projectName": "bybit.net.api",

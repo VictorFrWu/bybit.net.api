@@ -25,13 +25,27 @@ Dive into a plethora of functionalities:
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/wuhewuhe/bybit.net.api</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <VersionPrefix>1.0.6</VersionPrefix>
+    <VersionPrefix>1.0.7</VersionPrefix>
     <AssemblyVersion>1.1.0</AssemblyVersion>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageTags>Bybit Future Spot Trading Option Inverse Linear Api Crypto Rest Http Https Webscoket WSS OpenApi</PackageTags>
     <PackageReleaseNotes>
-      - Add more test
-      - Change start and end time parameter to long type
+      ## Release-Notes
+      ### HTTP Request
+      - Receive Window Parameter: Added by default (5 seconds).
+      - Debug Mode Parameter: Added by default (false) to print request and response headers.
+      - Base URL Setting: Allows setting to testnet or mainnet. by default [HTTP_MAINNET_URL](https://api.bybit.com)
+      - Trade API: For create/amend/cancel single and batch orders, now supports dedicated class, dictionary.
+      - Asset API: Deposit and withdrawal operations will automatically generate a transfer ID.
+      - Account API : Add new function Set Spot Hedging
+      - Position API : Add new function Confirm New Risk Limit
+
+      ### WebSocket
+      - Ping Pong Interval Parameter: Added by default (20 seconds).
+      - Max Alive Time Parameter: Only supports private channel, ranging from 30s to 600s (also supports minutes).
+
+      ### Change Log
+      - Deprecated useTestnet from http rest api: replace by target url
     </PackageReleaseNotes>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
