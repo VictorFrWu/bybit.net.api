@@ -7,15 +7,16 @@ namespace bybit.net.api.ApiServiceImp
 {
     public class BybitSpotMarginService : BybitApiService
     {
-        public BybitSpotMarginService(string apiKey, string apiSecret, bool useTestnet = false)
-        : this(new HttpClient(), apiKey, apiSecret, useTestnet)
+        public BybitSpotMarginService(string apiKey, string apiSecret, string? url = null, string recvWindow = BybitConstants.DEFAULT_REC_WINDOW, bool debugMode = false)
+        : this(httpClient: new HttpClient(), apiKey: apiKey, apiSecret: apiSecret, url: url, recvWindow: recvWindow, debugMode: debugMode)
         {
         }
 
-        public BybitSpotMarginService(HttpClient httpClient, string apiKey, string apiSecret, bool useTestnet = false)
-            : base(httpClient, useTestnet, apiKey, apiSecret)
+        public BybitSpotMarginService(HttpClient httpClient, string apiKey, string apiSecret, string? url = null, string recvWindow = BybitConstants.DEFAULT_REC_WINDOW, bool debugMode = false)
+            : base(httpClient: httpClient, apiKey: apiKey, apiSecret: apiSecret, url: url, recvWindow: recvWindow, debugMode: debugMode)
         {
         }
+
         #region Spot Margin Trade Classic
         private const string CLASSICAL_SPOT_MARGIN_COIN = "/v5/spot-cross-margin-trade/pledge-token";
         /// <summary>

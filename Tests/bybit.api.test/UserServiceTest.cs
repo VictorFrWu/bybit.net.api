@@ -1,13 +1,13 @@
+using bybit.net.api;
 using bybit.net.api.ApiServiceImp;
 using bybit.net.api.Models;
-using bybit.net.api.Models.Trade;
 using Xunit;
 
 namespace bybit.api.test
 {
     public class UserServiceTest
     {
-        readonly BybitUserService userService = new(apiKey: "8wYkmpLsMg10eNQyPm", apiSecret: "Ouxc34myDnXvei54XsBZgoQzfGxO4bkr2Zsj", true);
+        readonly BybitUserService userService = new(apiKey: "8wYkmpLsMg10eNQyPm", apiSecret: "Ouxc34myDnXvei54XsBZgoQzfGxO4bkr2Zsj", BybitConstants.HTTP_TESTNET_URL);
         #region Batch Order
         [Fact]
         public async Task Check_CreateSubApiKey()

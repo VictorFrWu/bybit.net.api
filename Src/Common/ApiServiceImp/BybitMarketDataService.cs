@@ -8,13 +8,13 @@ namespace bybit.net.api.ApiServiceImp
 {
     public class BybitMarketDataService : BybitApiService
     {
-        public BybitMarketDataService(bool useTestnet = false )
-        : this(new HttpClient(), useTestnet)
+        public BybitMarketDataService(string? url = null, string recvWindow = BybitConstants.DEFAULT_REC_WINDOW, bool debugMode = false)
+        : this(httpClient: new HttpClient(), url: url, recvWindow: recvWindow, debugMode: debugMode)
         {
         }
 
-        public BybitMarketDataService(HttpClient httpClient, bool useTestnet = false)
-            : base(httpClient, useTestnet)
+        public BybitMarketDataService(HttpClient httpClient, string? url = null, string recvWindow = BybitConstants.DEFAULT_REC_WINDOW, bool debugMode = false)
+            : base(httpClient: httpClient, url: url, recvWindow: recvWindow, debugMode: debugMode)
         {
         }
 
@@ -53,9 +53,11 @@ namespace bybit.net.api.ApiServiceImp
                     { "category", category },
                     { "symbol", symbol },
                     { "interval", interval }, };
-            if (start.HasValue) query.Add("start", start.Value);
-            if (end.HasValue) query.Add("end", end.Value);
-            if (limit.HasValue) query.Add("limit", limit);
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("start", start),
+                ("end", end),
+                ("limit", limit)
+            );
             var result = await SendPublicAsync<string>(
                 MAKRKET_KLINE,
                 HttpMethod.Get,
@@ -83,10 +85,11 @@ namespace bybit.net.api.ApiServiceImp
                     { "category", category },
                     { "symbol", symbol },
                     { "interval", interval }, };
-            if (start.HasValue) query.Add("start", start.Value);
-            if (end.HasValue) query.Add("end", end.Value);
-            if (limit.HasValue) query.Add("limit", limit);
-
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("start", start),
+                ("end", end),
+                ("limit", limit)
+            );
             var result = await SendPublicAsync<string>(
                 MARK_PRICE_KLINE,
                 HttpMethod.Get,
@@ -115,10 +118,11 @@ namespace bybit.net.api.ApiServiceImp
                     { "category", category },
                     { "symbol", symbol },
                     { "interval", interval }, };
-            if (start.HasValue) query.Add("start", start.Value);
-            if (end.HasValue) query.Add("end", end.Value);
-            if (limit.HasValue) query.Add("limit", limit);
-
+            BybitParametersUtils.AddOptionalParameters(query,
+                 ("start", start),
+                 ("end", end),
+                 ("limit", limit)
+             );
             var result = await SendPublicAsync<string>(
                 INDEX_PRICE_KLINE,
                 HttpMethod.Get,
@@ -147,10 +151,11 @@ namespace bybit.net.api.ApiServiceImp
                     { "category", category },
                     { "symbol", symbol },
                     { "interval", interval }, };
-            if (start.HasValue) query.Add("start", start.Value);
-            if (end.HasValue) query.Add("end", end.Value);
-            if (limit.HasValue) query.Add("limit", limit);
-
+            BybitParametersUtils.AddOptionalParameters(query,
+                 ("start", start),
+                 ("end", end),
+                 ("limit", limit)
+             );
             var result = await SendPublicAsync<string>(
                 PREMIUM_INDEX_PRICE_KLINE,
                 HttpMethod.Get,
@@ -174,9 +179,9 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="cursor"></param>
         /// <param name="limit"></param>
         /// <returns>Instrument Info</returns>
-        public async Task<string?> GetInstrumentInfo(Category category, string symbol, InstrumentStatus? status = null, string? baseCoin = null, int? limit = null, string? cursor = null)
+        public async Task<string?> GetInstrumentInfo(Category category, string? symbol = null, InstrumentStatus? status = null, string? baseCoin = null, int? limit = null, string? cursor = null)
         {
-            var query = new Dictionary<string, object> { { "category", category }, { "symbol", symbol }, };
+            var query = new Dictionary<string, object> { { "category", category },};
 
             BybitParametersUtils.AddOptionalParameters(query,
                 ("status", status?.Status),

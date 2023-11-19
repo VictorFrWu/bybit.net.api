@@ -1,12 +1,13 @@
 ﻿using bybit.net.api.Models;
 using Xunit;
 using bybit.net.api.ApiServiceImp;
+using bybit.net.api;
 
 namespace bybit.api.test
 {
     public class PositionServiceTest
     {
-        readonly BybitPositionService PositionService = new(apiKey: "YOUR_API_KEY", apiSecret: "YOUR_API_SECRET", true);
+        readonly BybitPositionService PositionService = new(apiKey: "8wYkmpLsMg10eNQyPm", apiSecret: "Ouxc34myDnXvei54XsBZgoQzfGxO4bkr2Zsj", url:BybitConstants.HTTP_TESTNET_URL);
         #region Poistion GetPositionList
         [Fact]
         public async Task Check_ConfirmPositionInfo()

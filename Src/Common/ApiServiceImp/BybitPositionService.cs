@@ -3,21 +3,18 @@ using bybit.net.api.Models.Account;
 using bybit.net.api.Models.Position;
 using bybit.net.api.Models.Trade;
 using bybit.net.api.Services;
-using System.Diagnostics.Metrics;
-using System.Numerics;
-using System;
 
 namespace bybit.net.api.ApiServiceImp
 {
     public class BybitPositionService : BybitApiService
     {
-        public BybitPositionService(string apiKey, string apiSecret, bool useTestnet = false)
-        : this(new HttpClient(), apiKey, apiSecret, useTestnet)
+        public BybitPositionService(string apiKey, string apiSecret, string? url = null, string recvWindow = BybitConstants.DEFAULT_REC_WINDOW, bool debugMode = false)
+        : this(httpClient: new HttpClient(), apiKey: apiKey, apiSecret: apiSecret, url: url, recvWindow: recvWindow, debugMode: debugMode)
         {
         }
 
-        public BybitPositionService(HttpClient httpClient, string apiKey, string apiSecret, bool useTestnet = false)
-            : base(httpClient, useTestnet, apiKey, apiSecret)
+        public BybitPositionService(HttpClient httpClient, string apiKey, string apiSecret, string? url = null, string recvWindow = BybitConstants.DEFAULT_REC_WINDOW, bool debugMode = false)
+            : base(httpClient: httpClient, apiKey: apiKey, apiSecret: apiSecret, url: url, recvWindow: recvWindow, debugMode: debugMode)
         {
         }
 

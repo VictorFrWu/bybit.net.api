@@ -5,13 +5,13 @@ namespace bybit.net.api.WebSocketStream
 {
     public class BybitSpotWebSocket : BybitWebSocket
     {
-        public BybitSpotWebSocket(bool useTestNet = false, int receiveBufferSize = 8192, string? apiKey = null, string? apiSecret = null)
-            : base(new BybitWebSocketHandler(new ClientWebSocket()), GetStreamUrl(useTestNet), receiveBufferSize, apiKey, apiSecret)
+        public BybitSpotWebSocket(bool useTestNet = false, int pingIntevral = 20, int receiveBufferSize = 8192, string? apiKey = null, string? apiSecret = null)
+            : base(new BybitWebSocketHandler(new ClientWebSocket()), GetStreamUrl(useTestNet), pingIntevral, receiveBufferSize, apiKey, apiSecret)
         {
         }
 
-        public BybitSpotWebSocket(IBybitWebSocketHandler handler, bool useTestNet = false, int receiveBufferSize = 8192, string? apiKey = null, string? apiSecret = null)
-            : base(handler, GetStreamUrl(useTestNet), receiveBufferSize, apiKey, apiSecret)
+        public BybitSpotWebSocket(IBybitWebSocketHandler handler, bool useTestNet = false, int pingIntevral = 20, int receiveBufferSize = 8192, string? apiKey = null, string? apiSecret = null)
+            : base(handler, GetStreamUrl(useTestNet), pingIntevral, receiveBufferSize, apiKey, apiSecret)
         {
         }
 

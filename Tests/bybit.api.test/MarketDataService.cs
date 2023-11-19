@@ -3,12 +3,13 @@ using bybit.net.api.Models.Market;
 using bybit.net.api.Models;
 using Newtonsoft.Json;
 using Xunit;
+using bybit.net.api;
 
 namespace bybit.api.test
 {
     public class MarketDataService
     {
-        readonly BybitMarketDataService marketDataService = new(true);
+        readonly BybitMarketDataService marketDataService = new(url: BybitConstants.HTTP_TESTNET_URL);
         #region Market Kline
         [Fact]
         public async Task CheckMarketKline_ResponseAsync()

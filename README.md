@@ -7,6 +7,7 @@
 - [About](#about)
 - [Development](#development)
 - [Installation](#installation)
+- [Release Notes](#release-notes)
 - [Usage](#usage)
 - [Contact](#contact)
 - [Contributors](#contributors)
@@ -50,6 +51,24 @@ Package reference
 <PackageReference Include="bybit.net.api"/>
 ```
 Furthermore methods to install pakcage, please check [Nuget Repository](https://www.nuget.org/packages/bybit.net.api)
+
+## Release-Notes
+### HTTP Sync & Async Request
+- Receive Window Parameter: Added by default (5 seconds).
+- Debug Mode Parameter: Added by default (false) to print request and response headers.
+- Base URL Setting: Allows setting to testnet or mainnet. by default [HTTP_MAINNET_URL](https://api.bybit.com)
+- Trade API: For create/amend/cancel single & batch orders, now supports dedicated class, dictionary.
+- Asset API: Deposit and withdrawal operations will automatically generate a transfer ID.
+- Account API : Add new function Set Spot Hedging
+- Position API : Add new function Confirm New Risk Limit
+
+### WebSocket
+- Ping Pong Interval Parameter: Added by default (20 seconds).
+- Max Alive Time Parameter: Only supports private channel, ranging from 30s to 600s (also supports minutes).
+
+### Change Log
+- Deprecated useTestnet from http rest api: replace by target url
+
 ## Usage
 By default is bybit Mainnet, if you want to test in Bybit testnet, please add a parameter **useTestnet: true** when initiate service instance
 
@@ -70,6 +89,24 @@ var orderInfo = await tradeService.PlaceOrder(category: Category.LINEAR, symbol:
 Console.WriteLine(orderInfo);
 ```
 
+- Place Bacth Order by Dictionary
+```DotNet
+Dictionary<string, object> dict1 = new() { { "symbol", "XRPUSDT" }, { "orderType", "Limit" }, { "side", "Buy" }, { "qty", "10" }, { "price", "0.6080" }, { "timeInForce", "GTC" } };
+Dictionary<string, object> dict2 = new() { { "symbol", "BLZUSDT" }, { "orderType", "Limit" }, { "side", "Buy" }, { "qty", "10" }, { "price", "0.6080" }, { "timeInForce", "GTC" } };
+List<Dictionary<string, object>> request = new() { dict1, dict2 };
+var orderInfoString = await TradeService.PlaceBatchOrder(category: Category.LINEAR, request: request);
+Console.WriteLine(orderInfoString);
+```
+
+- Place Bacth Order by dedicated OrderRequest Class
+```DotNet
+var order1 = new OrderRequest { Symbol = "XRPUSDT", OrderType = OrderType.LIMIT.Value, Side = Side.BUY.Value, Qty = "10", Price = "0.6080", TimeInForce = TimeInForce.GTC.Value };
+var order2 = new OrderRequest { Symbol = "BLZUSDT", OrderType = OrderType.LIMIT.Value, Side = Side.BUY.Value, Qty = "10", Price = "0.6080", TimeInForce = TimeInForce.GTC.Value };
+var request = new List<OrderRequest> { order1, order2 };
+var orderInfoString = await TradeService.PlaceBatchOrder(category: Category.LINEAR, request: request);
+Console.WriteLine(orderInfoString);
+```
+
 - Account Wallet
 ```DotNet
 BybitAccountService accountService = new(apiKey: "xxxxxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxxxxxxx");
@@ -78,7 +115,7 @@ Console.WriteLine(accountInfo);
 ```
 - Position Info
 ```DotNet
-BybitPositionService positionService = new(apiKey: "xxxxxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxxxxxxx", true);
+BybitPositionService positionService = new(apiKey: "xxxxxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxxxxxxx");
 var positionInfo = await positionService.GetPositionInfo(category: Category.LINEAR, symbol: "BLZUSDT");
 Console.WriteLine(positionInfo);
 ```
@@ -86,7 +123,7 @@ Console.WriteLine(positionInfo);
 ### Websocket public channel
 - Trade Subscribe
 ```DotNet
-var linearWebsocket = new BybitLinearWebSocket(true);
+var linearWebsocket = new BybitLinearWebSocket(useTestNet: true, pingIntevral: 5);
 linearWebsocket.OnMessageReceived(
     (data) =>
     {
@@ -99,7 +136,7 @@ await linearWebsocket.ConnectAsync(new string[] { "publicTrade.BTCUSDT" }, Cance
 ### Websocket private channel
 - Order Subscribe
 ```DotNet
-var privateWebsocket = new BybitPrivateWebsocket(apiKey: "xxxxxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxxxxxxx");
+var privateWebsocket = new(apiKey: "xxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxx", useTestNet: true, pingIntevral: 5, maxAliveTime:"120s");
 privateWebsocket.OnMessageReceived(
     (data) =>
     {
