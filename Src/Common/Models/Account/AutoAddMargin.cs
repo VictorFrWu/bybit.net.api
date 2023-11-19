@@ -1,16 +1,16 @@
 ﻿namespace bybit.net.api.Models.Account
 {
-    public struct AutoAddMargin
+    public struct SpotHedgeMode
     {
-        private AutoAddMargin(int value)
+        private SpotHedgeMode(string value)
         {
             Value = value;
         }
 
-        public static AutoAddMargin OFF => new(0);
-        public static AutoAddMargin ON => new(1);
-        public int Value { get; private set; }
+        public static SpotHedgeMode OFF => new("OFF");
+        public static SpotHedgeMode ON => new("ON");
+        public string Value { get; private set; }
         public override readonly string ToString() => Value.ToString();
-        public static implicit operator int(AutoAddMargin autoAddMargin) => autoAddMargin.Value;
+        public static implicit operator string(SpotHedgeMode spotHedgeMode) => spotHedgeMode.Value;
     }
 }

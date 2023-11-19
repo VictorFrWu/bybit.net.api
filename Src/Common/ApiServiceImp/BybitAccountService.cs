@@ -7,13 +7,13 @@ namespace bybit.net.api.ApiServiceImp
 {
     public class BybitAccountService : BybitApiService
     {
-        public BybitAccountService(string apiKey, string apiSecret, bool useTestnet = false)
-        : this(new HttpClient(), apiKey, apiSecret, useTestnet)
+        public BybitAccountService(string apiKey, string apiSecret, string? url = null, string recvWindow = BybitConstants.DEFAULT_REC_WINDOW, bool debugMode = false)
+        : this(httpClient: new HttpClient(), apiKey: apiKey, apiSecret: apiSecret, url: url, recvWindow: recvWindow, debugMode: debugMode)
         {
         }
 
-        public BybitAccountService(HttpClient httpClient, string apiKey, string apiSecret, bool useTestnet = false)
-            : base(httpClient, useTestnet, apiKey, apiSecret)
+        public BybitAccountService(HttpClient httpClient, string apiKey, string apiSecret, string? url = null, string recvWindow = BybitConstants.DEFAULT_REC_WINDOW, bool debugMode = false)
+            : base(httpClient: httpClient, apiKey: apiKey, apiSecret: apiSecret, url: url, recvWindow: recvWindow, debugMode: debugMode)
         {
         }
 
@@ -244,6 +244,25 @@ namespace bybit.net.api.ApiServiceImp
                ("baseCoin", baseCoin)
            );
             var result = await this.SendSignedAsync<string>(RESET_MMP, HttpMethod.Post, query: query);
+            return result;
+        }
+
+        private const string SET_SPOT_HEDGE = "/v5/account/set-hedging-mode";
+        /// <summary>
+        /// You can turn on/off Spot hedging feature in Portfolio margin for Unified account.
+        /// Only unified account is applicable
+        /// Only portfolio margin mode is applicable
+        /// Institutional lending account is not supported
+        /// </summary>
+        /// <param name="spotHedgeMode"></param>
+        /// <returns>Set Spot Hedging</returns>
+        public async Task<string?> SetSpotHedgingMode(SpotHedgeMode? spotHedgeMode = null)
+        {
+            var query = new Dictionary<string, object> { };
+            BybitParametersUtils.AddOptionalParameters(query,
+               ("setHedgingMode", spotHedgeMode?.Value)
+           );
+            var result = await this.SendSignedAsync<string>(SET_SPOT_HEDGE, HttpMethod.Post, query: query);
             return result;
         }
 

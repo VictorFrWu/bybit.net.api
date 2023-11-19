@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("bybit.api.test")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e1e433f2257d778eded143134542dd0a7bf8bad9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e704c8600ab9323cb6099a0fa6df87a02c723065")]
 [assembly: System.Reflection.AssemblyProductAttribute("bybit.api.test")]
 [assembly: System.Reflection.AssemblyTitleAttribute("bybit.api.test")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -4,8 +4,8 @@ namespace bybit.api.test.Mocks
 {
     public class MockBybitService : BybitService
     {
-        public MockBybitService(HttpClient httpClient, string? apiKey = null, string? apiSecret = null, bool? useTestnet = null)
-        : base(httpClient:httpClient, apiKey: apiKey, apiSecret: apiSecret, useTestnet: useTestnet)
+        public MockBybitService(HttpClient httpClient, string? apiKey = null, string? apiSecret = null, string? url = BybitConstants.HTTP_MAINNET_URL)
+        : base(httpClient:httpClient, apiKey: apiKey, apiSecret: apiSecret, url: url)
         {
         }
 

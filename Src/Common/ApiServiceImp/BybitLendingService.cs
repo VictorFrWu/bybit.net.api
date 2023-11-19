@@ -5,13 +5,13 @@ namespace bybit.net.api.ApiServiceImp
 {
     public class BybitLendingService : BybitApiService
     {
-        public BybitLendingService(string apiKey, string apiSecret, bool useTestnet = false)
-        : this(new HttpClient(), apiKey, apiSecret, useTestnet)
+        public BybitLendingService(string apiKey, string apiSecret, string? url = null, string recvWindow = BybitConstants.DEFAULT_REC_WINDOW, bool debugMode = false)
+        : this(httpClient: new HttpClient(), apiKey: apiKey, apiSecret: apiSecret, url: url, recvWindow: recvWindow, debugMode: debugMode)
         {
         }
 
-        public BybitLendingService(HttpClient httpClient, string apiKey, string apiSecret, bool useTestnet = false)
-            : base(httpClient: httpClient, useTestnet, apiKey, apiSecret)
+        public BybitLendingService(HttpClient httpClient, string apiKey, string apiSecret, string? url = null, string recvWindow = BybitConstants.DEFAULT_REC_WINDOW, bool debugMode = false)
+            : base(httpClient: httpClient, apiKey: apiKey, apiSecret: apiSecret, url: url, recvWindow: recvWindow, debugMode: debugMode)
         {
         }
 

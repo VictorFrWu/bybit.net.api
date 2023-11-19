@@ -22,8 +22,12 @@ namespace bybit.api.test.Tests
                     Content = new StringContent(responseContent),
                 });
 
-            BybitMarketDataService market = new(
-                new HttpClient(mockMessageHandler.Object));
+            var httpClient = new HttpClient(mockMessageHandler.Object)
+            {
+                BaseAddress = new Uri("https://api.bybit.com") // Set a valid base address here
+            };
+
+            BybitMarketDataService market = new(httpClient);
 
             var result = await market.CheckServerTime();
 

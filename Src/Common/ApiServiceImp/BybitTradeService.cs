@@ -6,13 +6,13 @@ namespace bybit.net.api.ApiServiceImp
 {
     public class BybitTradeService : BybitApiService
     {
-        public BybitTradeService(string apiKey, string apiSecret, bool useTestnet = false)
-        : this(new HttpClient(), apiKey, apiSecret, useTestnet)
+        public BybitTradeService(string apiKey, string apiSecret, string? url = null, string recvWindow = BybitConstants.DEFAULT_REC_WINDOW, bool debugMode = false)
+        : this(httpClient: new HttpClient(), apiKey: apiKey, apiSecret: apiSecret, url: url, recvWindow: recvWindow, debugMode: debugMode)
         {
         }
 
-        public BybitTradeService(HttpClient httpClient, string apiKey, string apiSecret, bool useTestnet = false)
-            : base(httpClient, useTestnet, apiKey, apiSecret)
+        public BybitTradeService(HttpClient httpClient, string apiKey, string apiSecret, string? url = null, string recvWindow = BybitConstants.DEFAULT_REC_WINDOW, bool debugMode = false)
+            : base(httpClient: httpClient, apiKey: apiKey, apiSecret: apiSecret, url : url, recvWindow: recvWindow, debugMode: debugMode)
         {
         }
 
@@ -101,6 +101,7 @@ namespace bybit.net.api.ApiServiceImp
             var result = await this.SendSignedAsync<string>(PLACE_ORDER, HttpMethod.Post, query: query);
             return result;
         }
+
         private const string BATCH_PLACE_ORDER = "/v5/order/create-batch";
         /// <summary>
         /// Covers: Option (UTA, UTA Pro) / USDT Perpetual, UDSC Perpetual, USDC Futures (UTA Pro)

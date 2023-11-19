@@ -11,24 +11,29 @@ namespace bybit.net.api
     public abstract class BybitService
     {
         private static readonly string UserAgent = "bybit.net.api/" + VersionInfo.GetVersion;
-        private static readonly string CurrentTimeStamp = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
+        private static readonly string CurrentTimeStamp = BybitParametersUtils.GetCurrentTimeStamp();
         private readonly string? apiKey;
         private readonly string? apiSecret;
-        private readonly bool? useTestnet;
+        private readonly string? url;
         private readonly HttpClient httpClient;
+        private readonly bool debugMode;
+        private readonly string recvWindow;
 
-        public BybitService(HttpClient httpClient, string? apiKey = null, string? apiSecret = null, bool? useTestnet = null)
+        public BybitService(HttpClient httpClient, string? apiKey = null, string? apiSecret = null, string? url = BybitConstants.HTTP_MAINNET_URL, bool debugMode = false, string recvWindow = BybitConstants.DEFAULT_REC_WINDOW)
         {
             this.httpClient = httpClient;
             this.apiKey = apiKey;
             this.apiSecret = apiSecret;
-            this.useTestnet = useTestnet ?? false;
+            this.url = url;
+            this.debugMode = debugMode;
+            this.recvWindow = recvWindow;
         }
 
-        public BybitService(HttpClient httpClient, bool? useTestnet = null)
+        public BybitService(HttpClient httpClient, string? url = BybitConstants.HTTP_MAINNET_URL, string recvWindow = BybitConstants.DEFAULT_REC_WINDOW)
         {
             this.httpClient = httpClient;
-            this.useTestnet = useTestnet ?? false;
+            this.url = url;
+            this.recvWindow = recvWindow;
         }
 
         #region public exposed methods
@@ -76,7 +81,7 @@ namespace bybit.net.api
             }
 
             string? signature = null, content = null;
-            IBybitSignatureService bybitSignatureService = new BybitHmacSignatureGenerator(apiKey, apiSecret, CurrentTimeStamp, BybitConstants.DEFAULT_REC_WINDOW);
+            IBybitSignatureService bybitSignatureService = new BybitHmacSignatureGenerator(apiKey, apiSecret, CurrentTimeStamp, recvWindow);
             if (httpMethod == HttpMethod.Get)
             {
                 requestUri = queryStringBuilder.Length > 0 ? requestUri + "?" + queryStringBuilder.ToString() : requestUri;
@@ -142,7 +147,11 @@ namespace bybit.net.api
         {
             using HttpRequestMessage request = BuildHttpRequest(requestUri, httpMethod, signature, content);
 
+            LogHttpRequestHeader(request);
+
             HttpResponseMessage response = await this.httpClient.SendAsync(request);
+
+            LogHttpResponseHeader(response);
 
             using HttpContent responseContent = response.Content;
             string contentString = await responseContent.ReadAsStringAsync();
@@ -202,6 +211,38 @@ namespace bybit.net.api
         }
 
         /// <summary>
+        /// Log http response header in console when debug mode active
+        /// </summary>
+        /// <param name="response"></param>
+        private void LogHttpResponseHeader(HttpResponseMessage response)
+        {
+            if (debugMode)
+            {
+                Console.WriteLine("--------------------HTTP Response Headers:-----------------------");
+                foreach (var header in response.Headers)
+                {
+                    Console.WriteLine($"{header.Key}: {string.Join(", ", header.Value)}");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Log http request header in console when debug mode active
+        /// </summary>
+        /// <param name="request"></param>
+        private void LogHttpRequestHeader(HttpRequestMessage request)
+        {
+            if (debugMode)
+            {
+                Console.WriteLine("--------------------HTTP Request Headers:------------------------");
+                foreach (var header in request.Headers)
+                {
+                    Console.WriteLine($"{header.Key}: {string.Join(", ", header.Value)}");
+                }
+            }
+        }
+
+        /// <summary>
         /// Build http request add attributes to header
         /// </summary>
         /// <param name="requestUri">The URI of the endpoint to request.</param>
@@ -211,7 +252,7 @@ namespace bybit.net.api
         /// <returns>Http Request message</returns>
         private HttpRequestMessage BuildHttpRequest(string requestUri, HttpMethod httpMethod, string? signature, string? content)
         {
-            var baseUrl = (this.useTestnet ?? false) ? BybitConstants.HTTP_TESTNET_URL : BybitConstants.HTTP_MAINNET_URL;
+            var baseUrl = this.url;
             var request = new HttpRequestMessage(httpMethod, baseUrl + requestUri);
             if (signature != null && signature.Length > 0)
             {
@@ -220,7 +261,7 @@ namespace bybit.net.api
             request.Headers.Add("User-Agent", UserAgent);
             request.Headers.Add("X-BAPI-SIGN-TYPE", BybitConstants.DEFAULT_SIGN_TYPE);
             request.Headers.Add("X-BAPI-TIMESTAMP", CurrentTimeStamp);
-            request.Headers.Add("X-BAPI-RECV-WINDOW", BybitConstants.DEFAULT_REC_WINDOW);
+            request.Headers.Add("X-BAPI-RECV-WINDOW", recvWindow);
             if (this.apiKey is not null)
             {
                 request.Headers.Add("X-BAPI-API-KEY", this.apiKey);

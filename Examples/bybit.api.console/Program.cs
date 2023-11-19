@@ -1,4 +1,5 @@
-﻿using bybit.net.api.ApiServiceImp;
+﻿using bybit.net.api;
+using bybit.net.api.ApiServiceImp;
 using bybit.net.api.Models;
 using bybit.net.api.Models.Account;
 using bybit.net.api.Models.Market;
@@ -6,8 +7,8 @@ using bybit.net.api.Models.Trade;
 using bybit.net.api.WebSocketStream;
 
 
-BybitMarketDataService market = new(true);
-var klineInfo = await market.GetMarketKline(Category.SPOT, "BTCUSDT", MarketInterval.OneMinute);
+BybitMarketDataService market = new(url: BybitConstants.HTTP_TESTNET_URL, debugMode: true);
+var klineInfo = await market.GetMarketKline(Category.SPOT, "BTCUSDT", MarketInterval.OneMinute, limit: 3);
 Console.WriteLine(klineInfo);
 var klinePriceInfo = await market.GetMarKPricetKline(Category.LINEAR, "BTCUSDT", MarketInterval.OneMinute);
 Console.WriteLine(klinePriceInfo);
@@ -50,7 +51,7 @@ BybitAccountService accountService = new(apiKey: "xxxxxxxxxxxxxx", apiSecret: "x
 var accountInfo = await accountService.GetAccountBalance(accountType: AccountType.Unified);
 Console.WriteLine(accountInfo);
 
-BybitPositionService positionService = new(apiKey: "xxxxxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxxxxxxx", true);
+BybitPositionService positionService = new(apiKey: "xxxxxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxxxxxxx", BybitConstants.HTTP_TESTNET_URL);
 var positionInfo = await positionService.GetPositionInfo(category: Category.LINEAR, symbol: "BLZUSDT");
 Console.WriteLine(positionInfo);
 Console.ReadLine();

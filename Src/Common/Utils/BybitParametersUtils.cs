@@ -1,4 +1,6 @@
-﻿namespace bybit.net.api
+﻿using System.Diagnostics;
+
+namespace bybit.net.api
 {
     public class BybitParametersUtils
     {
@@ -29,6 +31,23 @@
             {
                 throw new ArgumentException("The provided arguments contain duplicate values.");
             }
+        }
+        /// <summary>
+        /// Generate a UUID
+        /// </summary>
+        /// <returns>uuid in string</returns>
+        public static string GenerateTransferId()
+        {
+            return Guid.NewGuid().ToString();
+        }
+
+        /// <summary>
+        /// Get current time stamp
+        /// </summary>
+        /// <returns>timestamp in mille seconds</returns>
+        public static string GetCurrentTimeStamp()
+        {
+            return DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
         }
 
     }

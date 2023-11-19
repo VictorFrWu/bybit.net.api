@@ -1,7 +1,10 @@
 ﻿using Newtonsoft.Json;
+using System;
+using System.IO;
 using System.Net.WebSockets;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace bybit.net.api.Websockets
 {
@@ -11,18 +14,24 @@ namespace bybit.net.api.Websockets
         private readonly List<Func<string, Task>> onMessageReceivedFunctions;
         private readonly List<CancellationTokenRegistration> onMessageReceivedCancellationTokenRegistrations;
         private CancellationTokenSource? loopCancellationTokenSource;
-        private readonly Uri url;
+        private readonly string url;
+        private readonly int pingInterval;
         private readonly int receiveBufferSize;
         private readonly string? apiKey;
         private readonly string? apiSecret;
+        private readonly string? maxAliveTime; // Valid only for private channel
+        private bool? debugMode;
 
-        public BybitWebSocket(IBybitWebSocketHandler handler, string url, int receiveBufferSize = 8192, string? apiKey = null, string? apiSecret = null)
+        public BybitWebSocket(IBybitWebSocketHandler handler, string url, int pingInterval = 20, int receiveBufferSize = 8192, string? apiKey = null, string? apiSecret = null, string? maxAliveTime = null, bool? debugMode = false)
         {
             this.handler = handler;
-            this.url = new Uri(url);
+            this.url = url;
             this.receiveBufferSize = receiveBufferSize;
             this.apiKey = apiKey;
             this.apiSecret = apiSecret;
+            this.pingInterval = pingInterval;
+            this.maxAliveTime = maxAliveTime;
+            this.debugMode = debugMode;
             this.onMessageReceivedFunctions = new List<Func<string, Task>>();
             this.onMessageReceivedCancellationTokenRegistrations = new List<CancellationTokenRegistration>();
         }
@@ -40,13 +49,14 @@ namespace bybit.net.api.Websockets
             if (this.handler.State != WebSocketState.Open)
             {
                 this.loopCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-                if (string.IsNullOrEmpty(url.AbsolutePath))
+                if (string.IsNullOrEmpty(url))
                     throw new BybitClientException("Please set up a websocket url", -1);
-                await this.handler.ConnectAsync(this.url, cancellationToken);
+                string wssUrl = !string.IsNullOrEmpty(maxAliveTime) && RequiresAuthentication(url) ? GetWssUrl(maxAliveTime) : url;
+                await handler.ConnectAsync(new Uri(wssUrl), cancellationToken);
 
                 _ = Task.Run(() => Ping(this.loopCancellationTokenSource.Token), cancellationToken);
 
-                if (RequiresAuthentication(url.AbsoluteUri))
+                if (RequiresAuthentication(url))
                 {
                     if (string.IsNullOrEmpty(apiKey) || string.IsNullOrEmpty(apiSecret))
                         throw new BybitClientException("Please set up your api key and api secret for private websocket channel", -1);
@@ -124,6 +134,47 @@ namespace bybit.net.api.Websockets
 
         #region Private Methods
         /// <summary>
+        /// CUSTOMISE PRIVATE CONNECTION ALIVE TIME. For private channel, you can customise alive duration by adding a param max_alive_time, the lowest value is 30s (30 seconds),
+        /// the highest value is 600s (10 minutes). You can also pass 1m, 2m etc when you try to configure by minute level. e.g., 
+        /// wss://stream-testnet.bybit.com/v5/private?max_alive_time=1m.
+        /// </summary>
+        /// <returns>websocket url</returns>
+        private string GetWssUrl(string expression)
+        {
+            Regex pattern = new("(\\d+)([sm])");
+            Match match = pattern.Match(expression);
+            string wssUrl;
+
+            if (match.Success)
+            {
+                int timeValue = int.Parse(match.Groups[1].Value);
+                string timeUnit = match.Groups[2].Value;
+                bool isTimeValid = IsTimeValid(timeUnit, timeValue);
+                wssUrl = isTimeValid
+                         ? $"{this.url}?max_alive_time={maxAliveTime}"
+                         : $"{this.url}";
+            }
+            else
+            {
+                wssUrl = $"{this.url}";
+            }
+            Console.WriteLine(wssUrl);
+            return wssUrl;
+        }
+
+        /// <summary>
+        /// check max alive time expression is valid or not
+        /// </summary>
+        /// <param name="timeUnit">time unit</param>
+        /// <param name="timeValue">time value</param>
+        /// <returns>boolean</returns>
+        private bool IsTimeValid(string timeUnit, int timeValue)
+        {
+            return ("s".Equals(timeUnit) && timeValue >= 30 && timeValue <= 600)
+                    || ("m".Equals(timeUnit) && timeValue >= 1 && timeValue <= 10);
+        }
+
+        /// <summary>
         /// Determines if the provided path requires authentication.
         /// </summary>
         /// <param name="path">The API path to be checked.</param>
@@ -178,10 +229,10 @@ namespace bybit.net.api.Websockets
         {
             while (!token.IsCancellationRequested)
             {
-                await Task.Delay(TimeSpan.FromSeconds(10), token);
+                await Task.Delay(TimeSpan.FromSeconds(this.pingInterval), token);
                 if (this.handler.State == WebSocketState.Open)
                 {
-                    await SendAsync("ping", CancellationToken.None);
+                    await SendAsync("{\"op\":\"ping\"}", CancellationToken.None);
                     await Console.Out.WriteLineAsync("ping sent");
                 }
             }

@@ -8,13 +8,13 @@ namespace bybit.net.api.ApiServiceImp
 {
     public class BybitAssetService : BybitApiService
     {
-        public BybitAssetService(string apiKey, string apiSecret, bool useTestnet = false)
-        : this(new HttpClient(), apiKey, apiSecret, useTestnet)
+        public BybitAssetService(string apiKey, string apiSecret, string? url = null, string recvWindow = BybitConstants.DEFAULT_REC_WINDOW, bool debugMode = false)
+        : this(httpClient: new HttpClient(), apiKey: apiKey, apiSecret: apiSecret, url: url, recvWindow: recvWindow, debugMode: debugMode)
         {
         }
 
-        public BybitAssetService(HttpClient httpClient, string apiKey, string apiSecret, bool useTestnet = false)
-            : base(httpClient, useTestnet, apiKey, apiSecret)
+        public BybitAssetService(HttpClient httpClient, string apiKey, string apiSecret, string? url = null, string recvWindow = BybitConstants.DEFAULT_REC_WINDOW, bool debugMode = false)
+            : base(httpClient: httpClient, apiKey: apiKey, apiSecret: apiSecret, url: url, recvWindow: recvWindow, debugMode: debugMode)
         {
         }
 
@@ -190,9 +190,11 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="coin"></param>
         /// <param name="amount"></param>
         /// <returns>transferId</returns>
-        public async Task<string?> CreateInternalTransfer(AccountType accountType, AccountType toAccountType, string transferId, string coin, string amount)
+        public async Task<string?> CreateInternalTransfer(AccountType accountType, AccountType toAccountType, string coin, string amount, string? transferId = null)
         {
-            var query = new Dictionary<string, object> { { "accountType", accountType.Value }, { "toAccountType", toAccountType.Value }, { "transferId", transferId }, { "coin", coin }, { "amount", amount } };
+            var query = new Dictionary<string, object> { { "accountType", accountType.Value }, { "toAccountType", toAccountType.Value }, { "coin", coin }, { "amount", amount } };
+            if (string.IsNullOrEmpty(transferId)) transferId = BybitParametersUtils.GenerateTransferId();
+            query.Add("transferId", transferId);
             var result = await this.SendSignedAsync<string>(INTERNAL_TRANSFER, HttpMethod.Post, query: query);
             return result;
         }
@@ -213,9 +215,11 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="coin"></param>
         /// <param name="amount"></param>
         /// <returns>transferId</returns>
-        public async Task<string?> CreateUniversalTransfer(AccountType accountType, AccountType toAccountType, string fromMemberId, string toMemberId, string coin, string amount)
+        public async Task<string?> CreateUniversalTransfer(AccountType accountType, AccountType toAccountType, string fromMemberId, string toMemberId, string coin, string amount, string? transferId = null)
         {
             var query = new Dictionary<string, object> { { "accountType", accountType.Value }, { "toAccountType", toAccountType.Value }, { "fromMemberId", fromMemberId }, { "toMemberId", toMemberId }, { "coin", coin }, { "amount", amount } };
+            if (string.IsNullOrEmpty(transferId)) transferId = BybitParametersUtils.GenerateTransferId();
+            query.Add("transferId", transferId);
             var result = await this.SendSignedAsync<string>(UNIVERSAL_TRANSFER, HttpMethod.Post, query: query);
             return result;
         }
@@ -554,7 +558,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <returns>status</returns>
         public async Task<string?> CancelAssetWithdrawal(string id)
         {
-            var query = new Dictionary<string, object> { { "id", id }};
+            var query = new Dictionary<string, object> { { "id", id } };
             var result = await this.SendSignedAsync<string>(CANCEL_WITHDRAW, HttpMethod.Post, query: query);
             return result;
         }

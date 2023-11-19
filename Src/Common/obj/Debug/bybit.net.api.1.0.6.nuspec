@@ -25,7 +25,7 @@ Dive into a plethora of functionalities:
     <releaseNotes>- Add more test
       - Change start and end time parameter to long type</releaseNotes>
     <tags>Bybit Future Spot Trading Option Inverse Linear Api Crypto Rest Http Https Webscoket WSS OpenApi</tags>
-    <repository type="git" url="https://github.com/wuhewuhe/bybit.net.api" commit="e1e433f2257d778eded143134542dd0a7bf8bad9" />
+    <repository type="git" url="https://github.com/wuhewuhe/bybit.net.api" commit="e704c8600ab9323cb6099a0fa6df87a02c723065" />
     <dependencies>
       <group targetFramework="net6.0">
         <dependency id="Microsoft.Extensions.Logging" version="7.0.0" exclude="Build,Analyzers" />

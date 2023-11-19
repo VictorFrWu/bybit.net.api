@@ -12,7 +12,7 @@ namespace bybit.net.api.Websockets
 
         public BybitWebSocketHandler(ClientWebSocket clientWebSocket)
         {
-            this.webSocket = clientWebSocket;
+            this.webSocket = clientWebSocket ?? throw new ArgumentNullException(nameof(clientWebSocket));
             this.webSocket.Options.SetRequestHeader("User-Agent", UserAgent);
         }
 

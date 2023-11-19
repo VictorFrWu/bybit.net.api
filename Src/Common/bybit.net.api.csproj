@@ -65,8 +65,4 @@ Dive into a plethora of functionalities:
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Mapping\" />
-  </ItemGroup>
-
 </Project>

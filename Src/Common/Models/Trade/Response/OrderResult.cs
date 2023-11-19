@@ -1,4 +1,4 @@
-﻿namespace bybit.net.api.Models.Trade
+﻿namespace bybit.net.api.Models.Trade.Response
 {
     public class OrderResult
     {
