@@ -48,7 +48,7 @@ Dive into a plethora of functionalities:
     </dependencies>
   </metadata>
   <files>
-    <file src="C:\Net\GithubProjects\bybit.net.api\Src\Common\bin\Debug\net6.0\bybit.net.api.dll" target="lib\net6.0\bybit.net.api.dll" />
+    <file src="C:\Net\GithubProjects\bybit.net.api\Src\Common\bin\Release\net6.0\bybit.net.api.dll" target="lib\net6.0\bybit.net.api.dll" />
     <file src="C:\Net\GithubProjects\bybit.net.api\images\logo.png" target="\logo.png" />
     <file src="C:\Net\GithubProjects\bybit.net.api\LICENSE" target="\LICENSE" />
     <file src="C:\Net\GithubProjects\bybit.net.api\README.md" target="\README.md" />
