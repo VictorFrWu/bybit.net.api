@@ -11,7 +11,7 @@ namespace bybit.net.api
     public abstract class BybitService
     {
         private static readonly string UserAgent = "bybit.net.api/" + VersionInfo.GetVersion;
-        private static readonly string CurrentTimeStamp = BybitParametersUtils.GetCurrentTimeStamp();
+        private static string CurrentTimeStamp => BybitParametersUtils.GetCurrentTimeStamp();
         private readonly string? apiKey;
         private readonly string? apiSecret;
         private readonly string? url;
