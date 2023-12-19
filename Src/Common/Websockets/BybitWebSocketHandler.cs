@@ -46,7 +46,7 @@ namespace bybit.net.api.Websockets
             var receiveResult =  await this.webSocket.ReceiveAsync(buffer, cancellationToken);
             if (debugEnabled)
             {
-                string receivedMessage = Encoding.UTF8.GetString(bytes: buffer.Array, buffer.Offset, receiveResult.Count);
+                string receivedMessage = Encoding.UTF8.GetString(bytes: buffer.Array!, buffer.Offset, receiveResult.Count);
                 Console.WriteLine($"[WebSocket Response] Received message: {receivedMessage}");
                 Console.WriteLine($"[WebSocket Response] Message Type: {receiveResult.MessageType}");
             }
@@ -57,7 +57,7 @@ namespace bybit.net.api.Websockets
         {
             if (debugEnabled)
             {
-                string messageToSend = Encoding.UTF8.GetString(buffer.Array, buffer.Offset, buffer.Count);
+                string messageToSend = Encoding.UTF8.GetString(buffer.Array!, buffer.Offset, buffer.Count);
                 Console.WriteLine($"[WebSocket Request] Sending message: {messageToSend}");
                 Console.WriteLine($"[WebSocket Request] Message Type: {messageType}");
                 Console.WriteLine($"[WebSocket Request] End Of Message: {endOfMessage}");
