@@ -15,5 +15,6 @@ namespace bybit.net.api.Websockets
         Task<WebSocketReceiveResult> ReceiveAsync(ArraySegment<byte> buffer, CancellationToken cancellationToken);
 
         Task SendAsync(ArraySegment<byte> buffer, WebSocketMessageType messageType, bool endOfMessage, CancellationToken cancellationToken);
+        void EnableDebugMode();
     }
 }

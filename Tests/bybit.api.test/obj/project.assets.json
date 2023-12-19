@@ -1889,7 +1889,7 @@
           "build/net6.0/xunit.runner.visualstudio.props": {}
         }
       },
-      "bybit.net.api/1.0.7": {
+      "bybit.net.api/1.0.8": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
@@ -5956,7 +5956,7 @@
         "xunit.runner.visualstudio.nuspec"
       ]
     },
-    "bybit.net.api/1.0.7": {
+    "bybit.net.api/1.0.8": {
       "type": "project",
       "path": "../../Src/Common/bybit.net.api.csproj",
       "msbuildProject": "../../Src/Common/bybit.net.api.csproj"
@@ -5966,7 +5966,7 @@
     "net6.0": [
       "Microsoft.NET.Test.Sdk >= 17.7.2",
       "Moq >= 4.20.69",
-      "bybit.net.api >= 1.0.7",
+      "bybit.net.api >= 1.0.8",
       "xunit >= 2.5.3",
       "xunit.runner.visualstudio >= 2.5.3"
     ]
@@ -6013,6 +6013,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -6054,7 +6059,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100-rc.2.23502.2\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

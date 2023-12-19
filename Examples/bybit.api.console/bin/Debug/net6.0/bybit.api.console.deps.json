@@ -8,7 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "bybit.api.console/1.0.0": {
         "dependencies": {
-          "bybit.net.api": "1.0.6"
+          "bybit.net.api": "1.0.8"
         },
         "runtime": {
           "bybit.api.console.dll": {}
@@ -87,7 +87,7 @@
         }
       },
       "System.Runtime.CompilerServices.Unsafe/6.0.0": {},
-      "bybit.net.api/1.0.6": {
+      "bybit.net.api/1.0.8": {
         "dependencies": {
           "Microsoft.Extensions.Logging": "7.0.0",
           "Newtonsoft.Json": "13.0.3"
@@ -160,7 +160,7 @@
       "path": "system.runtime.compilerservices.unsafe/6.0.0",
       "hashPath": "system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
     },
-    "bybit.net.api/1.0.6": {
+    "bybit.net.api/1.0.8": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

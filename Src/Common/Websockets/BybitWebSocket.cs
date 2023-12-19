@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net.WebSockets;
 using System.Security.Cryptography;
@@ -20,14 +21,16 @@ namespace bybit.net.api.Websockets
         private readonly string? apiKey;
         private readonly string? apiSecret;
         private readonly string? maxAliveTime; // Valid only for private channel
+        private readonly bool debugMode;
 
-        public BybitWebSocket(IBybitWebSocketHandler handler, string url, int pingInterval = 20, int receiveBufferSize = 8192, string? apiKey = null, string? apiSecret = null, string? maxAliveTime = null)
+        public BybitWebSocket(IBybitWebSocketHandler handler, string url, int pingInterval = 20, int receiveBufferSize = 8192, string? apiKey = null, string? apiSecret = null, bool debugMode = false, string? maxAliveTime = null)
         {
             this.handler = handler;
             this.url = url;
             this.receiveBufferSize = receiveBufferSize;
             this.apiKey = apiKey;
             this.apiSecret = apiSecret;
+            this.debugMode = debugMode;
             this.pingInterval = pingInterval;
             this.maxAliveTime = maxAliveTime;
             this.onMessageReceivedFunctions = new List<Func<string, Task>>();
@@ -46,6 +49,10 @@ namespace bybit.net.api.Websockets
         {
             if (this.handler.State != WebSocketState.Open)
             {
+                if (debugMode)
+                {
+                    handler.EnableDebugMode();
+                }
                 this.loopCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
                 if (string.IsNullOrEmpty(url))
                     throw new BybitClientException("Please set up a websocket url", -1);

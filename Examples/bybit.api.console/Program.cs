@@ -34,7 +34,7 @@ linearWebsocket.OnMessageReceived(
     }, CancellationToken.None);
 await linearWebsocket.ConnectAsync(new string[] { "publicTrade.BTCUSDT" }, CancellationToken.None);
 
-var privateWebsocket = new BybitPrivateWebsocket(apiKey: "xxxxxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxxxxxxx");
+var privateWebsocket = new BybitPrivateWebsocket(apiKey: "xxxxxxxxx", apiSecret: "xxxxxxxxxx", useTestNet: true, debugMode: true);
 privateWebsocket.OnMessageReceived(
     (data) =>
     {
@@ -54,4 +54,6 @@ Console.WriteLine(accountInfo);
 BybitPositionService positionService = new(apiKey: "xxxxxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxxxxxxx", BybitConstants.HTTP_TESTNET_URL);
 var positionInfo = await positionService.GetPositionInfo(category: Category.LINEAR, symbol: "BLZUSDT");
 Console.WriteLine(positionInfo);
+
+
 Console.ReadLine();

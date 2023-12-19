@@ -25,27 +25,23 @@ Dive into a plethora of functionalities:
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/wuhewuhe/bybit.net.api</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <VersionPrefix>1.0.7</VersionPrefix>
+    <VersionPrefix>1.0.8</VersionPrefix>
     <AssemblyVersion>1.1.0</AssemblyVersion>
     <NeutralLanguage>en</NeutralLanguage>
     <PackageTags>Bybit Future Spot Trading Option Inverse Linear Api Crypto Rest Http Https Webscoket WSS OpenApi</PackageTags>
     <PackageReleaseNotes>
       ## Release-Notes
       ### HTTP Request
-      - Receive Window Parameter: Added by default (5 seconds).
-      - Debug Mode Parameter: Added by default (false) to print request and response headers.
-      - Base URL Setting: Allows setting to testnet or mainnet. by default [HTTP_MAINNET_URL](https://api.bybit.com)
-      - Trade API: For create/amend/cancel single and batch orders, now supports dedicated class, dictionary.
-      - Asset API: Deposit and withdrawal operations will automatically generate a transfer ID.
-      - Account API : Add new function Set Spot Hedging
-      - Position API : Add new function Confirm New Risk Limit
+      - Account Service new endpoint enable spot hedging
+      - Institutional Lending Service new endpoint bind or unbind UId to loan product
+      - Broker Service new endpoint to get broker account info
+      - Add More unit test to market endpoints
 
       ### WebSocket
-      - Ping Pong Interval Parameter: Added by default (20 seconds).
-      - Max Alive Time Parameter: Only supports private channel, ranging from 30s to 600s (also supports minutes).
+      - Debug mode Parameter: by default is false, print request and response header when active
 
-      ### Change Log
-      - Deprecated useTestnet from http rest api: replace by target url
+      ### Change log
+      - Get Exchange Broker Earning change url to /v5/broker/earnings-info
     </PackageReleaseNotes>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
