@@ -1,5 +1,6 @@
 ﻿using bybit.net.api.Models.Lending;
 using bybit.net.api.Services;
+using System.Collections.Specialized;
 
 namespace bybit.net.api.ApiServiceImp
 {
@@ -109,6 +110,18 @@ namespace bybit.net.api.ApiServiceImp
         {
             var query = new Dictionary<string, object> { };
             var result = await this.SendSignedAsync<string>(INS_LOAN_TO_VALUE, HttpMethod.Get, query: query);
+            return result;
+        }
+
+        private const string UPDATE_UID_TO_INS_LOAN = "/v5/ins-loan/association-uid";
+        /// <summary>
+        /// For the institutional loan product, you can bind new UIDs to the risk unit or unbind UID from the risk unit.
+        /// </summary>
+        /// <returns> Bind Or Unbind UID </returns>
+        public async Task<string?> UpdateInsLoanUID(string uid, OperateType operate)
+        {
+            var query = new Dictionary<string, object> { {"uid", uid}, {"operate", operate.Value} };
+            var result = await this.SendSignedAsync<string>(UPDATE_UID_TO_INS_LOAN, HttpMethod.Post, query: query);
             return result;
         }
         #endregion

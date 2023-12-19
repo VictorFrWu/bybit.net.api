@@ -39,7 +39,7 @@ Dive into a plethora of functionalities:
       ### Change Log
       - Deprecated useTestnet from http rest api: replace by target url</releaseNotes>
     <tags>Bybit Future Spot Trading Option Inverse Linear Api Crypto Rest Http Https Webscoket WSS OpenApi</tags>
-    <repository type="git" url="https://github.com/wuhewuhe/bybit.net.api" commit="25d51800a93243fee2f8ec74ea0ae5cfea84650c" />
+    <repository type="git" url="https://github.com/wuhewuhe/bybit.net.api" commit="2974c293298b40b53e5871fb97905fbb51f1dfff" />
     <dependencies>
       <group targetFramework="net6.0">
         <dependency id="Microsoft.Extensions.Logging" version="7.0.0" exclude="Build,Analyzers" />

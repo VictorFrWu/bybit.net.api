@@ -28,6 +28,24 @@ namespace bybit.api.test
         }
         #endregion
 
+        #region Market Tickers
+        [Fact]
+        public async Task CheckMarketTcikers_ResponseAsync()
+        {
+            var tickersInfoString = await marketDataService.GetMarketTickers(category: Category.SPOT);
+            if (!string.IsNullOrEmpty(tickersInfoString))
+            {
+                Console.WriteLine(tickersInfoString);
+                var generalResponse = JsonConvert.DeserializeObject<GeneralResponse<MarketTickerResult>>(tickersInfoString);
+                var tickersInfo = generalResponse?.Result;
+
+                Assert.Equal(0, generalResponse?.RetCode);
+                Assert.Equal("OK", generalResponse?.RetMsg);
+                Assert.NotNull(tickersInfo?.MarketTickerInfoEntries);
+            }
+        }
+        #endregion
+
         #region Funding Rate
         [Fact]
         public async Task CheckFundingRate_ResponseAsync()
