@@ -2,6 +2,12 @@
 using Xunit;
 using bybit.net.api.ApiServiceImp;
 using bybit.net.api;
+using bybit.net.api.Models.Account.Response;
+using bybit.net.api.Models.Account;
+using bybit.net.api.Models.Lending;
+using Newtonsoft.Json;
+using bybit.net.api.Models.Position;
+using System.Collections.Generic;
 
 namespace bybit.api.test
 {
@@ -22,6 +28,43 @@ namespace bybit.api.test
         {
             var positionInfoString = await PositionService.ConfirmPositionRiskLimit(category: Category.LINEAR, symbol:"BTCUSDT");
             await Console.Out.WriteLineAsync(positionInfoString);
+        }
+        #endregion
+
+        #region Get Move Position History
+        [Fact]
+        public async Task Check_MovePositionInfoHistory()
+        {
+            var positionInfoString = await PositionService.GetMovePositionHistory();
+            await Console.Out.WriteLineAsync(positionInfoString);
+            Assert.NotNull(positionInfoString);
+        }
+        #endregion
+
+        #region Move Position
+        [Fact]
+        public async Task Check_MovePositionByDict()
+        {
+            Dictionary<string, object> dict1 = new() { { "category", "spot" }, { "symbol", "BTCUSDT" }, { "price", "100" }, { "side", "Sell" }, { "qty", "0.01" } };
+            List<Dictionary<string, object>> request = new() { dict1};
+            var positionInfoString = await PositionService.MovePosition(fromUid: "123456", toUid: "456789", list: request);
+            if (!string.IsNullOrEmpty(positionInfoString))
+            {
+                await Console.Out.WriteLineAsync(positionInfoString);    
+                Assert.NotNull(positionInfoString);
+            }
+        }
+
+        [Fact]
+        public async Task Check_MovePositionByClass()
+        {
+            var request = new MovePositionRequest{ category= "spot", symbol="BTCUSDT", price="100",side="Sell",qty="0.01" };
+            var positionInfoString = await PositionService.MovePosition(fromUid: "123456", toUid: "456789", list: new List<MovePositionRequest> { request });
+            if (!string.IsNullOrEmpty(positionInfoString))
+            {
+                await Console.Out.WriteLineAsync(positionInfoString);
+                Assert.NotNull(positionInfoString);
+            }
         }
         #endregion
     }

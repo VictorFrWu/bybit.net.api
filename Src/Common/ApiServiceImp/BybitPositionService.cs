@@ -3,6 +3,10 @@ using bybit.net.api.Models.Account;
 using bybit.net.api.Models.Position;
 using bybit.net.api.Models.Trade;
 using bybit.net.api.Services;
+using System.Diagnostics;
+using System.Net.WebSockets;
+using System.Numerics;
+using System;
 
 namespace bybit.net.api.ApiServiceImp
 {
@@ -111,6 +115,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="symbol"></param>
         /// <param name="tpslMode"></param>
         /// <returns>tpSlMode </returns>
+        [Obsolete]
         public async Task<string?> SetTPSLMode(Category category, string symbol, TpslMode tpslMode)
         {
             var query = new Dictionary<string, object> { { "category", category.Value } };
@@ -162,6 +167,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="riskId"></param>
         /// <param name="positionIdx"></param>
         /// <returns>Risk Limit Info</returns>
+        [Obsolete]
         public async Task<string?> SetPositionRiskLimit(Category category, string symbol, int riskId, PositionIndex? positionIdx = null)
         {
             var query = new Dictionary<string, object> { { "category", category.Value } };
@@ -264,46 +270,6 @@ namespace bybit.net.api.ApiServiceImp
             return result;
         }
 
-        private const string EXECUTION_LIST = "/v5/execution/list";
-        /// <summary>
-        /// Get Execution
-        /// Query users' execution records, sorted by execTime in descending order. However, for Classic spot, they are sorted by execId in descending order.
-        /// Unified account covers: Spot / USDT perpetual / USDC contract / Inverse contract / Options
-        /// Classic account covers: Spot / USDT perpetual / Inverse contract
-        /// Response items will have sorting issues When 'execTime' is the same.This issue is currently being optimized and will be released at the end of October. If you want to receive real-time execution information, Use the websocket stream (recommended).
-        /// You may have multiple executions in a single order.
-        /// You can query by symbol, baseCoin, orderId and orderLinkId, and if you pass multiple params, the system will process them according to this priority: orderId > orderLinkId > symbol > baseCoin.
-        /// </summary>
-        /// <param name="category"></param>
-        /// <param name="symbol"></param>
-        /// <param name="orderId"></param>
-        /// <param name="orderLinkId"></param>
-        /// <param name="baseCoin"></param>
-        /// <param name="startTime"></param>
-        /// <param name="endTime"></param>
-        /// <param name="execType"></param>
-        /// <param name="limit"></param>
-        /// <param name="cursor"></param>
-        /// <returns> Execution List </returns>
-        public async Task<string?> GetExecutionList(Category category, string? symbol = null, string? orderId = null, string? orderLinkId = null, string? baseCoin = null, long? startTime = null, long? endTime = null, ExecType? execType = null, int? limit = null, string? cursor = null)
-        {
-            var query = new Dictionary<string, object> { { "category", category.Value } };
-
-            BybitParametersUtils.AddOptionalParameters(query,
-                ("symbol", symbol),
-                ("orderId", orderId),
-                ("orderLinkId", orderLinkId),
-                ("baseCoin", baseCoin),
-                ("startTime", startTime),
-                 ("endTime", endTime),
-                 ("execType", execType?.Value),
-                ("limit", limit),
-                ("cursor", cursor)
-            );
-            var result = await this.SendSignedAsync<string>(EXECUTION_LIST, HttpMethod.Get, query: query);
-            return result;
-        }
-
         private const string CLOSE_PNL = "/v5/position/closed-pnl";
         /// <summary>
         /// Get Closed PnL
@@ -348,6 +314,79 @@ namespace bybit.net.api.ApiServiceImp
         {
             var query = new Dictionary<string, object> { { "category", category.Value }, { "symbol", symbol } };
             var result = await this.SendSignedAsync<string>(CONFIRM_NEW_RISK_LIMIT, HttpMethod.Post, query: query);
+            return result;
+        }
+
+        private const string MOVE_POSITION = "/v5/position/move-positions";
+        /// <summary>
+        /// You can move positions between sub-master, master-sub, or sub-sub UIDs when necessary
+        /// Unified account covers: USDT perpetual / USDC contract / Spot / Option
+        /// The endpoint can only be called by master UID api key
+        /// UIDs must be the same master-sub account relationship
+        /// The trades generated from move-position endpoint will not be displayed in the Recent Trade(Rest API & Websocket)
+        /// There is no trading fee
+        /// fromUid and toUid both should be Unified trading accounts, and they need to be one-way mode when moving the positions
+        /// Please note that once executed, you will get execType = MovePosition entry from Get Trade History, Get Closed Pnl, and stream from Execution.
+        /// </summary>
+        /// <param name="fromUid"></param>
+        /// <param name="toUid"></param>
+        /// <returns>Move Position</returns>
+        public async Task<string?> MovePosition(string fromUid, string toUid, List<Dictionary<string, object>> list)
+        {
+            var query = new Dictionary<string, object> { { "fromUid", fromUid }, { "toUid", toUid }, { "list", list } };
+            var result = await this.SendSignedAsync<string>(MOVE_POSITION, HttpMethod.Post, query: query);
+            return result;
+        }
+
+        /// <summary>
+        /// You can move positions between sub-master, master-sub, or sub-sub UIDs when necessary
+        /// Unified account covers: USDT perpetual / USDC contract / Spot / Option
+        /// The endpoint can only be called by master UID api key
+        /// UIDs must be the same master-sub account relationship
+        /// The trades generated from move-position endpoint will not be displayed in the Recent Trade(Rest API & Websocket)
+        /// There is no trading fee
+        /// fromUid and toUid both should be Unified trading accounts, and they need to be one-way mode when moving the positions
+        /// Please note that once executed, you will get execType = MovePosition entry from Get Trade History, Get Closed Pnl, and stream from Execution.
+        /// </summary>
+        /// <param name="fromUid"></param>
+        /// <param name="toUid"></param>
+        /// <returns>Move Position</returns>
+        public async Task<string?> MovePosition(string fromUid, string toUid, List<MovePositionRequest> list)
+        {
+            var query = new Dictionary<string, object> { { "fromUid", fromUid }, { "toUid", toUid }, { "list", list } };
+            var result = await this.SendSignedAsync<string>(MOVE_POSITION, HttpMethod.Post, query: query);
+            return result;
+        }
+
+        private const string MOVE_POSITION_HISTORY = "/v5/position/move-history";
+        /// <summary>
+        /// You can query moved position data by master UID api key
+        /// Unified account covers: USDT perpetual / USDC contract / Spot / Option
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="symbol"></param>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="status"></param>
+        /// <param name="blockTradeId"></param>
+        /// <param name="limit"></param>
+        /// <param name="cursor"></param>
+        /// <returns>Move Position History</returns>
+        public async Task<string?> GetMovePositionHistory(Category? category = null, string? symbol = null, int? startTime = null, int? endTime = null, string? status = null, string? blockTradeId = null, int? limit = null, string? cursor = null)
+        {
+            var query = new Dictionary<string, object> { };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("category", category?.Value),
+                ("symbol", symbol),
+                ("startTime", startTime),
+                ("endTime", endTime),
+                ("status", status),
+                ("blockTradeId", blockTradeId),
+                ("limit", limit),
+                ("cursor", cursor)
+            );
+            var result = await this.SendSignedAsync<string>(MOVE_POSITION_HISTORY, HttpMethod.Get, query: query);
             return result;
         }
     }

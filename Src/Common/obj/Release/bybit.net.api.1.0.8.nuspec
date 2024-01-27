@@ -35,7 +35,7 @@ Dive into a plethora of functionalities:
       ### Change log
       - Get Exchange Broker Earning change url to /v5/broker/earnings-info</releaseNotes>
     <tags>Bybit Future Spot Trading Option Inverse Linear Api Crypto Rest Http Https Webscoket WSS OpenApi</tags>
-    <repository type="git" url="https://github.com/wuhewuhe/bybit.net.api" commit="e9724c1d7fbd7f84bdf235cc90d06ce496abe8d2" />
+    <repository type="git" url="https://github.com/wuhewuhe/bybit.net.api" commit="f6a2a8b60bd6566206833fdfb9eb1030156da89a" />
     <dependencies>
       <group targetFramework="net6.0">
         <dependency id="Microsoft.Extensions.Logging" version="7.0.0" exclude="Build,Analyzers" />

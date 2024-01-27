@@ -10,7 +10,7 @@
         "dependencies": {
           "Microsoft.NET.Test.Sdk": "17.7.2",
           "Moq": "4.20.69",
-          "bybit.net.api": "1.0.8",
+          "bybit.net.api": "1.0.9",
           "xunit": "2.5.3",
           "xunit.runner.visualstudio": "2.5.3"
         },
@@ -1129,7 +1129,7 @@
         }
       },
       "xunit.runner.visualstudio/2.5.3": {},
-      "bybit.net.api/1.0.8": {
+      "bybit.net.api/1.0.9": {
         "dependencies": {
           "Microsoft.Extensions.Logging": "7.0.0",
           "Newtonsoft.Json": "13.0.3"
@@ -1832,7 +1832,7 @@
       "path": "xunit.runner.visualstudio/2.5.3",
       "hashPath": "xunit.runner.visualstudio.2.5.3.nupkg.sha512"
     },
-    "bybit.net.api/1.0.8": {
+    "bybit.net.api/1.0.9": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

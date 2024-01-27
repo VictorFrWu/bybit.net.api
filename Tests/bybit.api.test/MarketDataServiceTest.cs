@@ -7,7 +7,7 @@ using bybit.net.api;
 
 namespace bybit.api.test
 {
-    public class MarketDataService
+    public class MarketDataServiceTest
     {
         readonly BybitMarketDataService marketDataService = new(url: BybitConstants.HTTP_TESTNET_URL);
         #region Market Kline
