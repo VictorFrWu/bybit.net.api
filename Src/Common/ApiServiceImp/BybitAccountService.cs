@@ -1,6 +1,7 @@
 ﻿using bybit.net.api.Models;
 using bybit.net.api.Models.Account;
 using bybit.net.api.Models.Lending;
+using bybit.net.api.Models.Trade;
 using bybit.net.api.Services;
 
 namespace bybit.net.api.ApiServiceImp
@@ -58,7 +59,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="endTime"></param>
         /// <param name="limit"></param>
         /// <param name="cursor"></param>
-        /// <returns> Borrow History</returns>
+        /// <returns>Borrow History</returns>
         public async Task<string?> GetAccountBorrowHistory(string? currency = null, long? startTime = null, long? endTime = null, int? limit = null, string? cursor = null)
         {
             var query = new Dictionary<string, object> { };
@@ -71,6 +72,23 @@ namespace bybit.net.api.ApiServiceImp
                 ("cursor", cursor)
             );
             var result = await this.SendSignedAsync<string>(ACCOUNT_BROWSE_HISTORY, HttpMethod.Get, query: query);
+            return result;
+        }
+
+        private const string ACCOUNT_COLLATERAL_INFO = "/v5/account/collateral-info";
+        /// <summary>
+        /// Get the collateral information of the current unified margin account, including loan interest rate, loanable amount, collateral conversion rate, whether it can be mortgaged as margin, etc.
+        /// </summary>
+        /// <param name="currency"></param>
+        /// <returns>Collateral Info</returns>
+        public async Task<string?> GetAccountCollateralInfo(string? currency = null)
+        {
+            var query = new Dictionary<string, object> { };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("currency", currency)
+            );
+            var result = await this.SendSignedAsync<string>(ACCOUNT_COLLATERAL_INFO, HttpMethod.Get, query: query);
             return result;
         }
 
@@ -90,18 +108,54 @@ namespace bybit.net.api.ApiServiceImp
             return result;
         }
 
-        private const string GET_COLLATERAL_COIN = "/v5/account/set-collateral-switch";
+        private const string BATCH_SET_COLLATERAL_COIN = "/v5/account/set-collateral-switch-batch";
         /// <summary>
-        /// Get the collateral information of the current unified margin account, including loan interest rate, loanable amount, collateral conversion rate, whether it can be mortgaged as margin, etc.
+        /// Batch Set Collateral Coin
         /// </summary>
-        /// <returns>Collateral Info</returns>
-        public async Task<string?> GetAccountCollateralCoin(string? currency = null)
+        /// <param name="request"></param>
+        /// /// <param name="coin">Coin name</param>
+        /// /// <param name="collateralSwitch">ON: switch on collateral, OFF: switch off collateral</param>
+        /// <returns>Batch Set Collateral Coin</returns>
+        public async Task<string?> BatchSetAccountCollateralCoin(List<Dictionary<string, object>> request)
+        {
+            var query = new Dictionary<string, object>
+            {
+                { "request", request }
+            };
+            var result = await this.SendSignedAsync<string>(BATCH_SET_COLLATERAL_COIN, HttpMethod.Post, query: query);
+            return result;
+        }
+
+        /// <summary>
+        /// Batch Set Collateral Coin
+        /// </summary>
+        /// <param name="request"></param>
+        /// /// <param name="coin">Coin name</param>
+        /// /// <param name="collateralSwitch">ON: switch on collateral, OFF: switch off collateral</param>
+        /// <returns>Batch Set Collateral Coin</returns>
+        public async Task<string?> BatchSetAccountCollateralCoin(List<SetCollateralCoinRequest> request)
+        {
+            var query = new Dictionary<string, object>
+                        {
+                            { "request", request }
+                        };
+            var result = await this.SendSignedAsync<string>(BATCH_SET_COLLATERAL_COIN, HttpMethod.Post, query: query);
+            return result;
+        }
+
+        private const string ACCOUNT_REPAY_LIABILITY = "/v5/account/quick-repayment";
+        /// <summary>
+        /// You can manually repay the liabilities of Unified account
+        /// Applicable: Unified Account Permission: USDC Contracts
+        /// </summary>
+        /// <returns>Repay Liability</returns>
+        public async Task<string?> RepayAccountLiability(string? coin = null)
         {
             var query = new Dictionary<string, object> { };
             BybitParametersUtils.AddOptionalParameters(query,
-               ("currency", currency)
+               ("coin", coin)
            );
-            var result = await this.SendSignedAsync<string>(GET_COLLATERAL_COIN, HttpMethod.Get, query: query);
+            var result = await this.SendSignedAsync<string>(ACCOUNT_REPAY_LIABILITY, HttpMethod.Post, query: query);
             return result;
         }
 

@@ -4,7 +4,6 @@ using bybit.net.api.Models;
 using bybit.net.api.Models.Trade;
 using bybit.net.api.Models.Trade.Response;
 using Newtonsoft.Json;
-using System.Security.Cryptography;
 using Xunit;
 
 namespace bybit.api.test
@@ -12,6 +11,15 @@ namespace bybit.api.test
     public class TradeServiceTest
     {
         readonly BybitTradeService TradeService = new(apiKey: "8wYkmpLsMg10eNQyPm", apiSecret: "Ouxc34myDnXvei54XsBZgoQzfGxO4bkr2Zsj", url: BybitConstants.HTTP_TESTNET_URL, debugMode: true);
+        #region Trade History
+        [Fact]
+        public async Task Check_GetTradeHistory()
+        {
+            var tradeInfoString = await TradeService.GetTradeHistory(category: Category.LINEAR, symbol: "GASUSDT");
+            await Console.Out.WriteLineAsync(tradeInfoString);
+        }
+        #endregion
+
         #region inverse oder
         [Fact]
         public async Task Check_PlaceInverseOrderByDict()

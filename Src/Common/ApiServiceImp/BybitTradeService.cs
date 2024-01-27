@@ -1,4 +1,5 @@
 ﻿using bybit.net.api.Models;
+using bybit.net.api.Models.Position;
 using bybit.net.api.Models.Trade;
 using bybit.net.api.Services;
 
@@ -487,6 +488,46 @@ namespace bybit.net.api.ApiServiceImp
             };
 
             var result = await this.SendSignedAsync<string>(DISCONNECT_CANCELL_ALL, HttpMethod.Post, query: query);
+            return result;
+        }
+
+        private const string EXECUTION_LIST = "/v5/execution/list";
+        /// <summary>
+        /// Get Execution
+        /// Query users' execution records, sorted by execTime in descending order. However, for Classic spot, they are sorted by execId in descending order.
+        /// Unified account covers: Spot / USDT perpetual / USDC contract / Inverse contract / Options
+        /// Classic account covers: Spot / USDT perpetual / Inverse contract
+        /// Response items will have sorting issues When 'execTime' is the same.This issue is currently being optimized and will be released at the end of October. If you want to receive real-time execution information, Use the websocket stream (recommended).
+        /// You may have multiple executions in a single order.
+        /// You can query by symbol, baseCoin, orderId and orderLinkId, and if you pass multiple params, the system will process them according to this priority: orderId > orderLinkId > symbol > baseCoin.
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="symbol"></param>
+        /// <param name="orderId"></param>
+        /// <param name="orderLinkId"></param>
+        /// <param name="baseCoin"></param>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="execType"></param>
+        /// <param name="limit"></param>
+        /// <param name="cursor"></param>
+        /// <returns> Execution List </returns>
+        public async Task<string?> GetTradeHistory(Category category, string? symbol = null, string? orderId = null, string? orderLinkId = null, string? baseCoin = null, long? startTime = null, long? endTime = null, ExecType? execType = null, int? limit = null, string? cursor = null)
+        {
+            var query = new Dictionary<string, object> { { "category", category.Value } };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("symbol", symbol),
+                ("orderId", orderId),
+                ("orderLinkId", orderLinkId),
+                ("baseCoin", baseCoin),
+                ("startTime", startTime),
+                 ("endTime", endTime),
+                 ("execType", execType?.Value),
+                ("limit", limit),
+                ("cursor", cursor)
+            );
+            var result = await this.SendSignedAsync<string>(EXECUTION_LIST, HttpMethod.Get, query: query);
             return result;
         }
     }
