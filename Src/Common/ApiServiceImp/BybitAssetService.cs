@@ -536,7 +536,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="accountType"></param>
         /// <param name="feeType"></param>
         /// <returns>id</returns>
-        public async Task<string?> PlaceAssetWithdraw(string coin, string chain, string address, string amount, int timestamp, string? tag = null, int? forceChain = null, AccountType? accountType = null, FeeType? feeType = null)
+        public async Task<string?> PlaceAssetWithdraw(string coin, string chain, string address, string amount, long timestamp, string? tag = null, int? forceChain = null, AccountType? accountType = null, FeeType? feeType = null)
         {
             var query = new Dictionary<string, object> { { "coin", coin }, { "chain", chain }, { "address", address }, { "amount", amount }, { "timestamp", timestamp } };
             BybitParametersUtils.AddOptionalParameters(query,
