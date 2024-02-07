@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using bybit.net.api;
 using bybit.net.api.ApiServiceImp;
 using bybit.net.api.Models;
@@ -24,7 +25,20 @@ namespace bybit.api.test
         [Fact]
         public async Task Check_PlaceInverseOrderByDict()
         {
-            var orderInfoString = await TradeService.PlaceOrder(category: Category.LINEAR, symbol: "GASUSDT", side: Side.BUY, orderType: OrderType.LIMIT, qty: "10", price: "10", timeInForce: TimeInForce.GTC, positionIdx: 1);
+
+            var testingOrder = await TradeService.PlaceOrder(timeInForce: TimeInForce.GTC, category: Category.LINEAR, symbol: "XRPUSDT", orderType: OrderType.LIMIT, side: Side.BUY, qty: "10", price: "0.49");
+
+            dynamic jsonObject = null;
+
+            // Check if testingOrder is not null before deserializing
+            if (!string.IsNullOrEmpty(testingOrder))
+                // Deserialize the JSON string into a dynamic object
+                jsonObject = JsonConvert.DeserializeObject(testingOrder);
+
+            // Retrieve the value of orderId
+            string orderId = jsonObject != null ? jsonObject.result.orderId : "xxxxxxxxxxxxxxxxxx";
+
+            var orderInfoString = await TradeService.PlaceOrder(category: Category.LINEAR, symbol: "XRPUSDT", side: Side.BUY, orderType: OrderType.LIMIT, qty: "10", price: "0.59", timeInForce: TimeInForce.GTC);
             if (!string.IsNullOrEmpty(orderInfoString))
             {
                 Console.WriteLine(orderInfoString);
@@ -90,7 +104,15 @@ namespace bybit.api.test
         [Fact]
         public async Task Check_AmendOrder()
         {
-            var orderInfoString = await TradeService.AmendOrder(orderId: "xxxxxxxxxxxxxx", category: Category.LINEAR, symbol: "XRPUSDT", price: "0.5", qty: "15");
+    
+            var testingOrder = await TradeService.PlaceOrder(timeInForce:TimeInForce.POSTONLY, category : Category.LINEAR, symbol: "XRPUSDT", orderType : OrderType.LIMIT, side : Side.BUY, qty : "10", price : "0.29");
+            // Deserialize the JSON string into a dynamic object
+            dynamic jsonObject = JsonConvert.DeserializeObject(testingOrder);
+
+            // Retrieve the value of orderId
+            string orderId = jsonObject.result.orderId;
+
+            var orderInfoString = await TradeService.AmendOrder(orderId: orderId, category: Category.LINEAR, symbol: "XRPUSDT", price: "0.45", qty: "15");
             if (!string.IsNullOrEmpty(orderInfoString))
             {
                 Console.WriteLine(orderInfoString);
@@ -118,14 +140,27 @@ namespace bybit.api.test
         [Fact]
         public async Task Check_CancelOrder()
         {
-            var orderInfoString = await TradeService.CancelOrder(orderId: "xxxxxxxxxxxxxxxxxx", category: Category.SPOT, symbol: "XRPUSDT");
-            if (!string.IsNullOrEmpty(orderInfoString))
-            {
-                Console.WriteLine(orderInfoString);
-                OrderResult? orderInfo = JsonConvert.DeserializeObject<OrderResult>(orderInfoString);
-                Assert.Equal(0, orderInfo?.RetCode);
-                Assert.Equal("OK", orderInfo?.RetMsg);
-            }
+            var testingOrder = await TradeService.PlaceOrder(timeInForce: TimeInForce.POSTONLY, category: Category.SPOT, symbol: "XRPUSDT", orderType: OrderType.LIMIT, side: Side.BUY, qty: "10", price: "0.29");
+
+            dynamic jsonObject = null;
+
+            // Check if testingOrder is not null before deserializing
+            if (!string.IsNullOrEmpty(testingOrder))
+                // Deserialize the JSON string into a dynamic object
+                jsonObject = JsonConvert.DeserializeObject(testingOrder);
+
+                // Retrieve the value of orderId
+                string orderId = jsonObject!=null? jsonObject.result.orderId: "xxxxxxxxxxxxxxxxxx";
+
+                var orderInfoString = await TradeService.CancelOrder(orderId: orderId, category: Category.SPOT, symbol: "XRPUSDT");
+                if (!string.IsNullOrEmpty(orderInfoString))
+                {
+                    Console.WriteLine(orderInfoString);
+                    OrderResult? orderInfo = JsonConvert.DeserializeObject<OrderResult>(orderInfoString);
+                    Assert.Equal(0, orderInfo?.RetCode);
+                    Assert.Equal("OK", orderInfo?.RetMsg);
+                }
+            
         }
 
         [Fact]
@@ -146,7 +181,11 @@ namespace bybit.api.test
         [Fact]
         public async Task Check_CancelAllOrder()
         {
-            var orderInfoString = await TradeService.CancelAllOrder(category: Category.LINEAR, baseCoin: "USDT", symbol: "BTCUSDT");
+            var order1 = new OrderRequest { Symbol = "BTCUSDT", OrderLinkId = "9b381bb1-401" };
+            var order2 = new OrderRequest { Symbol = "BTCUSDT", OrderLinkId = "82ee86dd-001" };
+            var testingOrders = await TradeService.CancelBatchOrder(category: Category.LINEAR, request: new List<OrderRequest> { order1, order2 });
+
+            var orderInfoString = await TradeService.CancelAllOrder(category: Category.LINEAR, symbol: "BTCUSDT");
             if (!string.IsNullOrEmpty(orderInfoString))
             {
                 Console.WriteLine(orderInfoString);
