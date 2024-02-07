@@ -11,7 +11,7 @@ namespace bybit.net.api
     public abstract class BybitService
     {
         private static readonly string UserAgent = "bybit.net.api/" + VersionInfo.GetVersion;
-        private static string CurrentTimeStamp => BybitParametersUtils.GetCurrentTimeStamp();
+        private readonly string CurrentTimeStamp;
         private readonly string? apiKey;
         private readonly string? apiSecret;
         private readonly string? url;
@@ -19,7 +19,7 @@ namespace bybit.net.api
         private readonly bool debugMode;
         private readonly string recvWindow;
 
-        public BybitService(HttpClient httpClient, string? apiKey = null, string? apiSecret = null, string? url = BybitConstants.HTTP_MAINNET_URL, bool debugMode = false, string recvWindow = BybitConstants.DEFAULT_REC_WINDOW)
+        public BybitService(HttpClient httpClient, string? apiKey = null, string? apiSecret = null, string? url = null, bool debugMode = false, string recvWindow = BybitConstants.DEFAULT_REC_WINDOW)
         {
             this.httpClient = httpClient;
             this.apiKey = apiKey;
@@ -27,13 +27,15 @@ namespace bybit.net.api
             this.url = url;
             this.debugMode = debugMode;
             this.recvWindow = recvWindow;
+            CurrentTimeStamp = BybitParametersUtils.GetCurrentTimeStamp();
         }
 
-        public BybitService(HttpClient httpClient, string? url = BybitConstants.HTTP_MAINNET_URL, string recvWindow = BybitConstants.DEFAULT_REC_WINDOW)
+        public BybitService(HttpClient httpClient, string? url = null , string recvWindow = BybitConstants.DEFAULT_REC_WINDOW)
         {
             this.httpClient = httpClient;
             this.url = url;
             this.recvWindow = recvWindow;
+            CurrentTimeStamp = BybitParametersUtils.GetCurrentTimeStamp();
         }
 
         #region public exposed methods
