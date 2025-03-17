@@ -195,7 +195,7 @@ namespace bybit.net.api.Websockets
         /// <returns>A task that represents the asynchronous authentication operation.</returns>
         private async Task SendAuth(string key, string secret)
         {
-            long expires = DateTimeOffset.Now.ToUnixTimeMilliseconds() + 10000;
+            long expires = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() + 10000;
             string _val = $"GET/realtime{expires}";
 
             var hmacsha256 = new HMACSHA256(Encoding.UTF8.GetBytes(secret));

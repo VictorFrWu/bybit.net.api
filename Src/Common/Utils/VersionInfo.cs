@@ -2,7 +2,7 @@
 {
     public static class VersionInfo
     {
-        private static readonly string version = "1.0.9";
+        private static readonly string version = "1.1.3";
 
         public static string GetVersion
         {

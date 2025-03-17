@@ -47,7 +47,7 @@ namespace bybit.net.api
         /// <returns>timestamp in mille seconds</returns>
         public static string GetCurrentTimeStamp()
         {
-            return DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
+            return DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString();
         }
 
     }

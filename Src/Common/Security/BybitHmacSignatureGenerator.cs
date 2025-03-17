@@ -28,7 +28,7 @@ namespace bybit.net.api
         public string GeneratePostSignature(IDictionary<string, object> parameters)
         {
             string paramJson = JsonConvert.SerializeObject(parameters);
-            string rawData = currentTimeStamp + apikey + recWindow + paramJson;
+            string rawData = $"{currentTimeStamp}{apikey}{recWindow}{paramJson}";
             return Sign(rawData);
         }
 
@@ -40,7 +40,7 @@ namespace bybit.net.api
         public string GenerateGetSignature(IDictionary<string, object> parameters)
         {
             string queryString = GenerateQueryString(parameters);
-            string rawData = currentTimeStamp + apikey + recWindow + queryString;
+            string rawData = $"{currentTimeStamp}{apikey}{recWindow}{queryString}";
             return Sign(rawData);
         }
 
@@ -62,7 +62,9 @@ namespace bybit.net.api
 
         private string GenerateQueryString(IDictionary<string, object> parameters)
         {
-            return string.Join("&", parameters.Select(p => $"{p.Key}={p.Value}"));
+            return string.Join("&", parameters
+                        .OrderBy(p => p.Key) // Ensure parameters are sorted alphabetically
+                        .Select(p => $"{p.Key}={Uri.EscapeDataString(p.Value.ToString()!)}"));
         }
     }
 }

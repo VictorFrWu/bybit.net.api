@@ -10,7 +10,7 @@ namespace bybit.api.test
 {
     public class TradeServiceTest
     {
-        readonly BybitTradeService TradeService = new(apiKey: "8wYkmpLsMg10eNQyPm", apiSecret: "Ouxc34myDnXvei54XsBZgoQzfGxO4bkr2Zsj", url: BybitConstants.HTTP_TESTNET_URL, debugMode: true);
+        readonly BybitTradeService TradeService = new(apiKey: "X6wmWloIPvaLXAKqv2", apiSecret: "rY1CWGYLHy0AUjdNZqqspvd3Krhp79fHp1sP", url: BybitConstants.HTTP_TESTNET_URL, debugMode: true);
         #region Trade History
         [Fact]
         public async Task Check_GetTradeHistory()

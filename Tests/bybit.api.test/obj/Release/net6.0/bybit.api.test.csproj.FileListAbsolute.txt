@@ -219,7 +219,7 @@ C:\Net\GithubProjects\bybit.net.api\Tests\bybit.api.test\bin\Release\net6.0\runt
 C:\Net\GithubProjects\bybit.net.api\Tests\bybit.api.test\bin\Release\net6.0\runtimes\win\lib\net6.0\System.Diagnostics.EventLog.dll
 C:\Net\GithubProjects\bybit.net.api\Tests\bybit.api.test\bin\Release\net6.0\bybit.net.api.dll
 C:\Net\GithubProjects\bybit.net.api\Tests\bybit.api.test\bin\Release\net6.0\bybit.net.api.pdb
-C:\Net\GithubProjects\bybit.net.api\Tests\bybit.api.test\obj\Release\net6.0\bybit.api.test.csproj.CopyComplete
 C:\Net\GithubProjects\bybit.net.api\Tests\bybit.api.test\obj\Release\net6.0\bybit.api.test.genruntimeconfig.cache
 C:\Net\GithubProjects\bybit.net.api\Tests\bybit.api.test\obj\Release\net6.0\ref\bybit.api.test.dll
 C:\Net\GithubProjects\bybit.net.api\Tests\bybit.api.test\obj\Release\net6.0\bybit.api.test.sourcelink.json
+C:\Net\GithubProjects\bybit.net.api\Tests\bybit.api.test\obj\Release\net6.0\bybit.ap.8244C4E4.Up2Date

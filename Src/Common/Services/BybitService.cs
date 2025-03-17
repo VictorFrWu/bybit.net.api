@@ -128,7 +128,7 @@ namespace bybit.net.api
                 builder
                     .Append(queryParameter.Key)
                     .Append('=')
-                    .Append(HttpUtility.UrlEncode(queryParameterValue));
+                    .Append(Uri.EscapeDataString(queryParameterValue));
             }
 
             return builder;

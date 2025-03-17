@@ -32,11 +32,13 @@ Dive into a plethora of functionalities:
       - Set TP/SL Mode was deprecated because now tpsl is based on order level
       - Set Risk Limit was deprecated because it will adapt automaticaaly by your hold position</releaseNotes>
     <tags>Bybit Future Spot Trading Option Inverse Linear Api Crypto Rest Http Https Webscoket WSS OpenApi</tags>
-    <repository type="git" url="https://github.com/wuhewuhe/bybit.net.api" commit="f6a2a8b60bd6566206833fdfb9eb1030156da89a" />
+    <repository type="git" url="https://github.com/wuhewuhe/bybit.net.api" commit="09bf2e4095e32f653ff35afaf27a2aebbb0ec995" />
     <dependencies>
       <group targetFramework="net6.0">
         <dependency id="Microsoft.Extensions.Logging" version="7.0.0" exclude="Build,Analyzers" />
         <dependency id="Newtonsoft.Json" version="13.0.3" exclude="Build,Analyzers" />
+        <dependency id="System.Net.Http" version="4.3.4" exclude="Build,Analyzers" />
+        <dependency id="System.Text.RegularExpressions" version="4.3.1" exclude="Build,Analyzers" />
       </group>
     </dependencies>
   </metadata>

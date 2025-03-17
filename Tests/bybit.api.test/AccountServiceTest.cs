@@ -11,7 +11,7 @@ namespace bybit.api.test
 {
     public class AccountServiceTest
     {
-        readonly BybitAccountService AccountService = new(apiKey: "8wYkmpLsMg10eNQyPm", apiSecret: "Ouxc34myDnXvei54XsBZgoQzfGxO4bkr2Zsj", url: BybitConstants.HTTP_TESTNET_URL, debugMode: true);
+        readonly BybitAccountService AccountService = new(apiKey: "X6wmWloIPvaLXAKqv2", apiSecret: "rY1CWGYLHy0AUjdNZqqspvd3Krhp79fHp1sP", url: BybitConstants.HTTP_TESTNET_URL, debugMode: true);
         #region Get Collateral Info
         [Fact]
         public async Task Check_GetCollateralInfo()
