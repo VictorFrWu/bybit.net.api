@@ -51,8 +51,8 @@ using bybit.net.api.WebSocketStream;
 //var positionInfo = await positionService.GetPositionInfo(category: Category.LINEAR, symbol: "BLZUSDT");
 //Console.WriteLine(positionInfo);
 
-BybitAccountService accountService = new(apiKey: "xxxxxxxxxxxxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxxxxxxx", url: BybitConstants.HTTP_TESTNET_URL);
-var accountInfo = await accountService.GetAccountBalance(accountType: AccountType.Unified, coin: "USDT");
-Console.WriteLine(accountInfo);
+//BybitAccountService accountService = new(apiKey: "xxxxxxxxxxxxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxxxxxxxx", url: BybitConstants.HTTP_TESTNET_URL);
+//var accountInfo = await accountService.GetAccountBalance(accountType: AccountType.Unified, coin: "USDT");
+//Console.WriteLine(accountInfo);
 
-Console.ReadLine();
+//Console.ReadLine();
