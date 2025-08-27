@@ -532,7 +532,40 @@ namespace bybit.net.api.ApiServiceImp
         }
 
         private const string PRE_CHECK_ORDER = "/v5/execution/list";
-        
+
+        /// <summary>
+        /// Pre Check Order
+        /// This endpoint is used to calculate the changes in IMR and MMR of UTA account before and after placing an order.
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="symbol"></param>
+        /// <param name="side"></param>
+        /// <param name="orderType"></param>
+        /// <param name="qty"></param>
+        /// <param name="price"></param>
+        /// <param name="timeInForce"></param>
+        /// <param name="isLeverage"></param>
+        /// <param name="triggerDirection"></param>
+        /// <param name="orderFilter"></param>
+        /// <param name="triggerPrice"></param>
+        /// <param name="triggerBy"></param>
+        /// <param name="orderIv"></param>
+        /// <param name="positionIdx"></param>
+        /// <param name="orderLinkId"></param>
+        /// <param name="takeProfit"></param>
+        /// <param name="stopLoss"></param>
+        /// <param name="tpTriggerBy"></param>
+        /// <param name="slTriggerBy"></param>
+        /// <param name="reduceOnly"></param>
+        /// <param name="closeOnTrigger"></param>
+        /// <param name="smpType"></param>
+        /// <param name="mmp"></param>
+        /// <param name="tpslMode"></param>
+        /// <param name="tpLimitPrice"></param>
+        /// <param name="slLimitPrice"></param>
+        /// <param name="tpOrderType"></param>
+        /// <param name="slOrderType"></param>
+        /// <returns></returns>
         public async Task<string?> PreCheckOrder(Category category, string symbol, Side side, OrderType orderType, string qty, string? price = null, TimeInForce? timeInForce = null, int? isLeverage = null, int? triggerDirection = null,
                                                 string? orderFilter = null, string? triggerPrice = null, TriggerBy? triggerBy = null, string? orderIv = null, int? positionIdx = null, string? orderLinkId = null, string? takeProfit = null,
                                                 string? stopLoss = null, TriggerBy? tpTriggerBy = null, TriggerBy? slTriggerBy = null, bool? reduceOnly = null, bool? closeOnTrigger = null, SmpType? smpType = null, bool? mmp = null, TpslMode? tpslMode = null,

@@ -389,5 +389,33 @@ namespace bybit.net.api.ApiServiceImp
             var result = await this.SendSignedAsync<string>(MOVE_POSITION_HISTORY, HttpMethod.Get, query: query);
             return result;
         }
+
+        private const string GET_CLOSED_OPTIONS_POSITIONS = "/v5/position/get-closed-positions";
+
+        /// <summary>
+        /// Get Closed Options Positions
+        /// Query user's closed options positions, sorted by closeTime in descending order.
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="symbol"></param>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="limit"></param>
+        /// <param name="cursor"></param>
+        /// <returns></returns>
+        public async Task<string?> GetClosedOptionsPositions(Category category, string? symbol = null, int? startTime = null, int? endTime = null, int? limit = null, string? cursor = null)
+        {
+            var query = new Dictionary<string, object> { { "category", category.Value } };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("symbol", symbol),
+                ("startTime", startTime),
+                ("endTime", endTime),
+                ("limit", limit),
+                ("cursor", cursor)
+            );
+            var result = await this.SendSignedAsync<string>(GET_CLOSED_OPTIONS_POSITIONS, HttpMethod.Get, query: query);
+            return result;
+        }
     }
 }
