@@ -5935,23 +5935,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\hwu\\.nuget\\packages\\": {},
+    "C:\\Users\\kolya5544\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Net\\GithubProjects\\bybit.net.api\\Tests\\bybit.api.test\\bybit.api.test.csproj",
+      "projectUniqueName": "C:\\Users\\kolya5544\\source\\repos\\bybit.net.api\\Tests\\bybit.api.test\\bybit.api.test.csproj",
       "projectName": "bybit.api.test",
-      "projectPath": "C:\\Net\\GithubProjects\\bybit.net.api\\Tests\\bybit.api.test\\bybit.api.test.csproj",
-      "packagesPath": "C:\\Users\\hwu\\.nuget\\packages\\",
-      "outputPath": "C:\\Net\\GithubProjects\\bybit.net.api\\Tests\\bybit.api.test\\obj\\",
+      "projectPath": "C:\\Users\\kolya5544\\source\\repos\\bybit.net.api\\Tests\\bybit.api.test\\bybit.api.test.csproj",
+      "packagesPath": "C:\\Users\\kolya5544\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\kolya5544\\source\\repos\\bybit.net.api\\Tests\\bybit.api.test\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\hwu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\kolya5544\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -5960,14 +5960,16 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
+        "C:\\Users\\kolya5544\\source\\repos\\DotNetApp\\packages": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Net\\GithubProjects\\bybit.net.api\\Src\\Common\\bybit.net.api.csproj": {
-              "projectPath": "C:\\Net\\GithubProjects\\bybit.net.api\\Src\\Common\\bybit.net.api.csproj"
+            "C:\\Users\\kolya5544\\source\\repos\\bybit.net.api\\Src\\Common\\bybit.net.api.csproj": {
+              "projectPath": "C:\\Users\\kolya5544\\source\\repos\\bybit.net.api\\Src\\Common\\bybit.net.api.csproj"
             }
           }
         }
@@ -5980,9 +5982,9 @@
       "restoreAuditProperties": {
         "enableAudit": "true",
         "auditLevel": "low",
-        "auditMode": "all"
+        "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.100"
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net6.0": {
@@ -6035,7 +6037,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100-preview.7.24407.12\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }
