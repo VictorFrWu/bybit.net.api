@@ -37,7 +37,7 @@ namespace bybit.net.api.ApiServiceImp
             return result;
         }
 
-        private const string UPGRADE_UTA = "/v5/account/wallet-balance";
+        private const string UPGRADE_UTA = "/v5/account/upgrade-to-uta";
         /// <summary>
         /// Upgrade to Unified Account
         /// </summary>
@@ -173,7 +173,7 @@ namespace bybit.net.api.ApiServiceImp
             return result;
         }
 
-        private const string FREE_RATE = "/v5/account/fee-rate";
+        private const string FEE_RATE = "/v5/account/fee-rate";
         /// <summary>
         /// Get the trading fee rate.
         /// Covers: Spot / USDT perpetual / USDC perpetual / USDC futures / Inverse perpetual / Inverse futures / Options
@@ -182,7 +182,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="symbol"></param>
         /// <param name="baseCoin"></param>
         /// <returns>Free Rates</returns>
-        public async Task<string?> GetAccountFreeRate(Category category, string? symbol = null, string? baseCoin = null)
+        public async Task<string?> GetAccountFeeRate(Category category, string? symbol = null, string? baseCoin = null)
         {
             var query = new Dictionary<string, object> { { "category", category.Value } };
 
@@ -190,7 +190,7 @@ namespace bybit.net.api.ApiServiceImp
                 ("symbol", symbol),
                 ("baseCoin", baseCoin)
             );
-            var result = await this.SendSignedAsync<string>(FREE_RATE, HttpMethod.Get, query: query);
+            var result = await this.SendSignedAsync<string>(FEE_RATE, HttpMethod.Get, query: query);
             return result;
         }
 
@@ -207,6 +207,72 @@ namespace bybit.net.api.ApiServiceImp
             var result = await this.SendSignedAsync<string>(ACCOUNT_INFO, HttpMethod.Get, query: query);
             return result;
         }
+
+        private const string GET_DCP_INFO = "/v5/account/query-dcp-info";
+
+        /// <summary>
+        /// Get DCP Info
+        /// Query the account's DCP configuration. Requires UTA DCP to be configured.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string?> GetDcpInfo()
+        {
+            var result = await this.SendSignedAsync<string>(GET_DCP_INFO, HttpMethod.Get);
+            return result;
+        }
+
+        private const string GET_CONTRACT_TRANSACTION_LOG_CLASSIC = "/v5/account/contract-transaction-log";
+
+        /// <summary>
+        /// CLASSIC: Get Transaction Log
+        /// Query transaction logs in derivatives wallet (classic) and inverse derivatives wallet (UTA1.0).
+        /// </summary>
+        /// <param name="currency">uppercase</param>
+        /// <param name="baseCoin">uppercase</param>
+        /// <param name="type">log type</param>
+        /// <param name="startTime">ms</param>
+        /// <param name="endTime">ms</param>
+        /// <param name="limit">[1,50], default 20</param>
+        /// <param name="cursor">pagination</param>
+        /// <returns></returns>
+        public async Task<string?> GetContractTransactionLogClassic(
+            string? currency = null,
+            string? baseCoin = null,
+            string? type = null,
+            long? startTime = null,
+            long? endTime = null,
+            int? limit = null,
+            string? cursor = null)
+        {
+            var query = new Dictionary<string, object>();
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("currency", currency),
+                ("baseCoin", baseCoin),
+                ("type", type),
+                ("startTime", startTime),
+                ("endTime", endTime),
+                ("limit", limit),
+                ("cursor", cursor)
+            );
+
+            var result = await this.SendSignedAsync<string>(GET_CONTRACT_TRANSACTION_LOG_CLASSIC, HttpMethod.Get, query: query);
+            return result;
+        }
+
+        private const string GET_SMP_GROUP = "/v5/account/smp-group";
+
+        /// <summary>
+        /// Get SMP Group ID
+        /// Query the SMP group ID of self match prevention. Returns 0 if no group.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string?> GetSmpGroupId()
+        {
+            var result = await this.SendSignedAsync<string>(GET_SMP_GROUP, HttpMethod.Get);
+            return result;
+        }
+
 
         private const string TRANSACTION_LOG = "/v5/account/transaction-log";
         /// <summary>
@@ -318,6 +384,41 @@ namespace bybit.net.api.ApiServiceImp
             var result = await this.SendSignedAsync<string>(SET_SPOT_HEDGE, HttpMethod.Post, query: query);
             return result;
         }
+
+        private const string SET_LIMIT_PRICE_BEHAVIOUR = "/v5/account/set-limit-px-action";
+
+        /// <summary>
+        /// Set Limit Price Behaviour
+        /// Configure how the system handles limit prices beyond allowed boundaries.
+        /// </summary>
+        /// <param name="category">linear, inverse, spot</param>
+        /// <param name="modifyEnable">true: auto-adjust; false: reject</param>
+        /// <returns></returns>
+        public async Task<string?> SetLimitPriceBehaviour(string category, bool modifyEnable)
+        {
+            var body = new Dictionary<string, object>
+            {
+                { "category", category },
+                { "modifyEnable", modifyEnable }
+            };
+
+            var result = await this.SendSignedAsync<string>(SET_LIMIT_PRICE_BEHAVIOUR, HttpMethod.Post, query: body);
+            return result;
+        }
+
+        private const string GET_USER_SETTING_CONFIG = "/v5/account/user-setting-config";
+
+        /// <summary>
+        /// Get Limit Price Behaviour
+        /// Query how limit prices beyond boundaries are handled for Spot and Perps.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string?> GetLimitPriceBehaviourConfig()
+        {
+            var result = await this.SendSignedAsync<string>(GET_USER_SETTING_CONFIG, HttpMethod.Get);
+            return result;
+        }
+
 
         private const string MMP_STATE = "/v5/account/mmp-state";
         /// <summary>
