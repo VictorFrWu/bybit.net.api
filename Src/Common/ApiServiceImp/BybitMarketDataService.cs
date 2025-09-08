@@ -78,7 +78,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="end"></param>
         /// <param name="limit"></param>
         /// <returns>Market kline</returns>
-        public async Task<string?> GetMarKPricetKline(Category category, string symbol, MarketInterval interval, long? start = null, long? end = null, int? limit = null)
+        public async Task<string?> GetMarkPriceKline(Category category, string symbol, MarketInterval interval, long? start = null, long? end = null, int? limit = null)
         {
             var query = new Dictionary<string, object>
                         {
@@ -99,7 +99,7 @@ namespace bybit.net.api.ApiServiceImp
             return result;
         }
 
-        private const string INDEX_PRICE_KLINE = "/v5/market/mark-price-kline";
+        private const string INDEX_PRICE_KLINE = "/v5/market/index-price-kline";
         /// <summary>
         /// Query for historical index price klines. Charts are returned in groups based on the requested interval.
         /// Covers: USDT perpetual / USDC contract / Inverse contract
@@ -111,7 +111,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="end"></param>
         /// <param name="limit"></param>
         /// <returns>Market kline</returns>
-        public async Task<string?> GetIndexPricetKline(Category category, string symbol, MarketInterval interval, long? start = null, long? end = null, int? limit = null)
+        public async Task<string?> GetIndexPriceKline(Category category, string symbol, MarketInterval interval, long? start = null, long? end = null, int? limit = null)
         {
             var query = new Dictionary<string, object>
                         {
@@ -144,7 +144,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="end"></param>
         /// <param name="limit"></param>
         /// <returns>Market kline</returns>
-        public async Task<string?> GetPremiumIndexPricetKline(Category category, string symbol, MarketInterval interval, long? start = null, long? end = null, int? limit = null)
+        public async Task<string?> GetPremiumIndexPriceKline(Category category, string symbol, MarketInterval interval, long? start = null, long? end = null, int? limit = null)
         {
             var query = new Dictionary<string, object>
                         {
@@ -452,7 +452,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="limit"></param>
         /// <param name="cursor"></param>
         /// <returns>Market Delivery Price</returns>
-        public async Task<string?> GetMarketDeliveryPrice(Category category, string? symbol = null, string? baseCoin = null, int? limit =null, string? cursor = null)
+        public async Task<string?> GetMarketDeliveryPrice(Category category, string? symbol = null, string? baseCoin = null, string? settleCoin = null, int? limit =null, string? cursor = null)
         {
             var query = new Dictionary<string, object> { { "category", category } };
 
@@ -460,7 +460,8 @@ namespace bybit.net.api.ApiServiceImp
                  ("symbol", symbol),
                  ("baseCoin", baseCoin),
                  ("limit", limit),
-                 ("cursor", cursor)
+                 ("cursor", cursor),
+                 ("settleCoin", settleCoin)
             );
 
             var result = await SendPublicAsync<string>(
@@ -472,30 +473,73 @@ namespace bybit.net.api.ApiServiceImp
             return result;
         }
 
-        private const string MARKET_LONG_SHORT_RATIO = "/v5/market/account-ratio";
+        private const string GET_NEW_DELIVERY_PRICE = "/v5/market/new-delivery-price";
+
         /// <summary>
-        /// Get Long Short Ratio
+        /// Get New Delivery Price
+        /// Get historical option delivery prices. Data may be delayed by ~1 minute after settlement.
         /// </summary>
-        /// <param name="category"></param>
-        /// <param name="symbol"></param>
-        /// <param name="limit"></param>
-        /// <param name="period"></param>
-        /// <returns>Market Delivery Price</returns>
-        public async Task<string?> GetMarketDeliveryPrice(Category category, string symbol, string period, int? limit = null)
+        /// <param name="category">Product type. Valid: "option"</param>
+        /// <param name="baseCoin">Base coin, e.g., BTC</param>
+        /// <param name="settleCoin">Settle coin. Default: USDT</param>
+        /// <returns></returns>
+        public async Task<string?> GetNewDeliveryPrice(string category, string baseCoin, string? settleCoin = null)
         {
-            var query = new Dictionary<string, object> { { "category", category }, { "symbol", symbol }, { "period", period } };
+            var query = new Dictionary<string, object>
+            {
+                { "category", category },
+                { "baseCoin", baseCoin }
+            };
 
             BybitParametersUtils.AddOptionalParameters(query,
-                 ("limit", limit)
+                ("settleCoin", settleCoin)
             );
 
-            var result = await SendPublicAsync<string>(
-                MARKET_LONG_SHORT_RATIO,
-                HttpMethod.Get,
-                query: query
-                );
-
+            var result = await this.SendPublicAsync<string>(GET_NEW_DELIVERY_PRICE, HttpMethod.Get, query: query);
             return result;
         }
+
+
+        private const string GET_LONG_SHORT_RATIO = "/v5/market/account-ratio";
+
+        /// <summary>
+        /// Get Long Short Ratio
+        /// Returns account long/short ratio over the requested period.
+        /// </summary>
+        /// <param name="category">linear or inverse</param>
+        /// <param name="symbol">e.g., BTCUSDT</param>
+        /// <param name="period">5min, 15min, 30min, 1h, 4h, 1d</param>
+        /// <param name="startTime">Timestamp (ms)</param>
+        /// <param name="endTime">Timestamp (ms)</param>
+        /// <param name="limit">[1,500], default 50</param>
+        /// <param name="cursor">pagination cursor</param>
+        /// <returns></returns>
+        public async Task<string?> GetLongShortRatio(
+            string category,
+            string symbol,
+            string period,
+            string? startTime = null,
+            string? endTime = null,
+            int? limit = null,
+            string? cursor = null)
+        {
+            var query = new Dictionary<string, object>
+            {
+                { "category", category },
+                { "symbol", symbol },
+                { "period", period }
+            };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("startTime", startTime),
+                ("endTime", endTime),
+                ("limit", limit),
+                ("cursor", cursor)
+            );
+
+            var result = await this.SendPublicAsync<string>(GET_LONG_SHORT_RATIO, HttpMethod.Get, query: query);
+            return result;
+        }
+
     }
 }
