@@ -541,5 +541,29 @@ namespace bybit.net.api.ApiServiceImp
             return result;
         }
 
+        private const string GET_ORDER_PRICE_LIMIT = "/v5/market/price-limit";
+
+        /// <summary>
+        /// Get Order Price Limit
+        /// Returns current highest bid and lowest ask price limits.
+        /// </summary>
+        /// <param name="symbol">Symbol name, e.g., BTCUSDT</param>
+        /// <param name="category">spot, linear, inverse. Default: linear if omitted</param>
+        /// <returns></returns>
+        public async Task<string?> GetOrderPriceLimit(string symbol, string? category = null)
+        {
+            var query = new Dictionary<string, object>
+            {
+                { "symbol", symbol }
+            };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("category", category)
+            );
+
+            var result = await this.SendPublicAsync<string>(GET_ORDER_PRICE_LIMIT, HttpMethod.Get, query: query);
+            return result;
+        }
+
     }
 }
