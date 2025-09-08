@@ -18,6 +18,45 @@ namespace bybit.net.api.ApiServiceImp
         {
         }
 
+        private const string GET_DELIVERY_RECORD = "/v5/asset/delivery-record";
+
+        /// <summary>
+        /// Get Delivery Record
+        /// Query delivery records for Futures and Options. Sorted by deliveryTime desc.
+        /// </summary>
+        /// <param name="category">UTA2.0: inverse, linear, option. UTA1.0: linear, option</param>
+        /// <param name="symbol">optional</param>
+        /// <param name="startTime">ms</param>
+        /// <param name="endTime">ms</param>
+        /// <param name="expDate">e.g., 25MAR22</param>
+        /// <param name="limit">[1,50], default 20</param>
+        /// <param name="cursor">pagination cursor</param>
+        /// <returns></returns>
+        public async Task<string?> GetDeliveryRecord(
+            string category,
+            string? symbol = null,
+            long? startTime = null,
+            long? endTime = null,
+            string? expDate = null,
+            int? limit = null,
+            string? cursor = null)
+        {
+            var query = new Dictionary<string, object> { { "category", category } };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("symbol", symbol),
+                ("startTime", startTime),
+                ("endTime", endTime),
+                ("expDate", expDate),
+                ("limit", limit),
+                ("cursor", cursor)
+            );
+
+            var result = await this.SendSignedAsync<string>(GET_DELIVERY_RECORD, HttpMethod.Get, query: query);
+            return result;
+        }
+
+
         private const string COIN_EXCHANGE_RECORDS = "/v5/asset/exchange/order-record";
         /// <summary>
         ///  Query the coin exchange records.
@@ -172,7 +211,7 @@ namespace bybit.net.api.ApiServiceImp
         /// <param name="accountType"></param>
         /// <param name="toAccountType"></param>
         /// <returns>List of coin</returns>
-        public async Task<string?> GetAllAssetBalance(AccountType accountType, AccountType toAccountType)
+        public async Task<string?> GetTransferableCoin(AccountType accountType, AccountType toAccountType)
         {
             var query = new Dictionary<string, object> { { "accountType", accountType.Value }, { "toAccountType", toAccountType.Value } };
             var result = await this.SendSignedAsync<string>(TRANSABLE_COIN, HttpMethod.Get, query: query);
@@ -340,7 +379,7 @@ namespace bybit.net.api.ApiServiceImp
             return result;
         }
 
-        private const string DEPOSIT_RECORDS = "/v5/asset/deposit/deposit-to-account";
+        private const string DEPOSIT_RECORDS = "/v5/asset/deposit/query-record";
         /// <summary>
         /// endTime - startTime should be less than 30 days. Query last 30 days records by default.
         /// Can use main or sub UID api key to query deposit records respectively.
@@ -392,7 +431,7 @@ namespace bybit.net.api.ApiServiceImp
             return result;
         }
 
-        private const string INTERNAL_DEPOSIT_RECORDS = "/v5/asset/deposit/query-sub-member-record";
+        private const string INTERNAL_DEPOSIT_RECORDS = "/v5/asset/deposit/query-internal-record";
         /// <summary>
         /// The maximum difference between the start time and the end time is 30 days.
         /// Support to get deposit records by Master or Sub Member Api Key
@@ -468,6 +507,19 @@ namespace bybit.net.api.ApiServiceImp
             return result;
         }
 
+        private const string GET_EXCHANGE_ENTITY_LIST = "/v5/asset/withdraw/vasp/list";
+
+        /// <summary>
+        /// Get Exchange Entity List
+        /// Returns exchange entity info for withdrawals (e.g., for KOR KYC users).
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string?> GetExchangeEntityList()
+        {
+            var result = await this.SendSignedAsync<string>(GET_EXCHANGE_ENTITY_LIST, HttpMethod.Get);
+            return result;
+        }
+
         private const string WITHDRAW_RECORDS = "/v5/asset/withdraw/query-record";
         /// <summary>
         /// endTime - startTime should be less than 30 days. Query last 30 days records by default.
@@ -512,42 +564,205 @@ namespace bybit.net.api.ApiServiceImp
             return result;
         }
 
-        private const string ASSET_WITHDRAW = "/v5/asset/withdraw/create";
+        private const string CREATE_WITHDRAW = "/v5/asset/withdraw/create";
+
         /// <summary>
-        /// Withdraw assets from your Bybit account. You can make an off-chain transfer if the target wallet address is from Bybit. This means that no blockchain fee will be charged.
-        /// UTA does not have SPOT account
-        /// How do I know if my account is a UTA account? Call this endpoint, and if uta=1, then it is a UTA account.
-        /// Make sure you have whitelisted your wallet address here
-        /// Can query by the master UID's api key only
-        /// feeType = 0:
-        /// withdrawPercentageFee != 0: handlingFee = inputAmount / (1 - withdrawPercentageFee) * withdrawPercentageFee + withdrawFee
-        /// withdrawPercentageFee = 0: handlingFee = withdrawFee
-        /// feeType = 1:
-        /// withdrawPercentageFee != 0: handlingFee = withdrawFee + (inputAmount - withdrawFee) * withdrawPercentageFee
-        /// withdrawPercentageFee = 0: handlingFee = withdrawFee
+        /// Withdraw
+        /// Create a withdrawal. If the target is a Bybit internal address, the system may perform an off-chain transfer.
+        /// chain is required when forceChain=0 or 1. For forceChain=2, address must be a Bybit main UID.
         /// </summary>
-        /// <param name="coin"></param>
-        /// <param name="chain"></param>
-        /// <param name="address"></param>
-        /// <param name="amount"></param>
-        /// <param name="timestamp"></param>
-        /// <param name="tag"></param>
-        /// <param name="forceChain"></param>
-        /// <param name="accountType"></param>
-        /// <param name="feeType"></param>
-        /// <returns>id</returns>
-        public async Task<string?> PlaceAssetWithdraw(string coin, string chain, string address, string amount, long timestamp, string? tag = null, int? forceChain = null, AccountType? accountType = null, FeeType? feeType = null)
+        /// <param name="coin">uppercase</param>
+        /// <param name="address">wallet address or UID when forceChain=2</param>
+        /// <param name="amount">withdraw amount</param>
+        /// <param name="timestamp">current ms timestamp for replay protection</param>
+        /// <param name="accountType">FUND, UTA, FUND,UTA, or SPOT</param>
+        /// <param name="chain">required if forceChain=0 or 1</param>
+        /// <param name="tag">required if address uses tag/memo</param>
+        /// <param name="forceChain">0 default internal if possible, 1 force on-chain, 2 use UID</param>
+        /// <param name="feeType">0 input is net received, 1 auto-deduct fee</param>
+        /// <param name="requestId">idempotency key</param>
+        /// <param name="beneficiary">travel rule info</param>
+        /// <returns></returns>
+        public async Task<string?> PlaceAssetWithdraw(
+            string coin,
+            string address,
+            string amount,
+            long timestamp,
+            string accountType,
+            string? chain = null,
+            string? tag = null,
+            int? forceChain = null,
+            int? feeType = null,
+            string? requestId = null,
+            Beneficiary? beneficiary = null)
         {
-            var query = new Dictionary<string, object> { { "coin", coin }, { "chain", chain }, { "address", address }, { "amount", amount }, { "timestamp", timestamp } };
-            BybitParametersUtils.AddOptionalParameters(query,
+            var body = new Dictionary<string, object>
+            {
+                { "coin", coin },
+                { "address", address },
+                { "amount", amount },
+                { "timestamp", timestamp },
+                { "accountType", accountType }
+            };
+
+            BybitParametersUtils.AddOptionalParameters(body,
+                ("chain", chain),
                 ("tag", tag),
                 ("forceChain", forceChain),
-                ("accountType", accountType?.Value),
-                ("feeType", feeType?.Value)
+                ("feeType", feeType),
+                ("requestId", requestId)
             );
-            var result = await this.SendSignedAsync<string>(ASSET_WITHDRAW, HttpMethod.Post, query: query);
+
+            if (beneficiary != null)
+                body["beneficiary"] = beneficiary;
+
+            var result = await this.SendSignedAsync<string>(CREATE_WITHDRAW, HttpMethod.Post, query: body);
             return result;
         }
+
+        private const string REQUEST_QUOTE = "/v5/asset/exchange/quote-apply";
+
+        /// <summary>
+        /// Request a Quote
+        /// Apply for a convert quote. Expires in ~15 seconds.
+        /// </summary>
+        /// <param name="accountType"></param>
+        /// <param name="fromCoin"></param>
+        /// <param name="toCoin"></param>
+        /// <param name="requestCoin">Same as fromCoin</param>
+        /// <param name="requestAmount">Amount to sell</param>
+        /// <param name="fromCoinType">crypto</param>
+        /// <param name="toCoinType">crypto</param>
+        /// <param name="paramType">opFrom for broker</param>
+        /// <param name="paramValue">Broker ID</param>
+        /// <param name="requestId">Custom ID, max 36</param>
+        /// <returns></returns>
+        public async Task<string?> RequestQuote(
+            string accountType,
+            string fromCoin,
+            string toCoin,
+            string requestCoin,
+            string requestAmount,
+            string? fromCoinType = null,
+            string? toCoinType = null,
+            string? paramType = null,
+            string? paramValue = null,
+            string? requestId = null)
+        {
+            var body = new Dictionary<string, object>
+            {
+                { "accountType", accountType },
+                { "fromCoin", fromCoin },
+                { "toCoin", toCoin },
+                { "requestCoin", requestCoin },
+                { "requestAmount", requestAmount }
+            };
+
+            BybitParametersUtils.AddOptionalParameters(body,
+                ("fromCoinType", fromCoinType),
+                ("toCoinType", toCoinType),
+                ("paramType", paramType),
+                ("paramValue", paramValue),
+                ("requestId", requestId)
+            );
+
+            var result = await this.SendSignedAsync<string>(REQUEST_QUOTE, HttpMethod.Post, query: body);
+            return result;
+        }
+
+        private const string CONFIRM_QUOTE = "/v5/asset/exchange/convert-execute";
+
+        /// <summary>
+        /// Confirm a Quote
+        /// Confirm the convert quote before it expires. Exchange is async; check final status via the query API.
+        /// </summary>
+        /// <param name="quoteTxId">Quote transaction ID from Request a Quote</param>
+        /// <returns></returns>
+        public async Task<string?> ConfirmQuote(string quoteTxId)
+        {
+            var body = new Dictionary<string, object>
+            {
+                { "quoteTxId", quoteTxId }
+            };
+
+            var result = await this.SendSignedAsync<string>(CONFIRM_QUOTE, HttpMethod.Post, query: body);
+            return result;
+        }
+
+        private const string GET_CONVERT_HISTORY = "/v5/asset/exchange/query-convert-history";
+
+        /// <summary>
+        /// Get Convert History
+        /// Returns confirmed convert quotes created via API.
+        /// </summary>
+        /// <param name="accountType">Comma-separated wallet types or null for all</param>
+        /// <param name="index">Page number, starts from 1</param>
+        /// <param name="limit">Page size, up to 100</param>
+        /// <returns></returns>
+        public async Task<string?> GetConvertHistory(string? accountType = null, int? index = null, int? limit = null)
+        {
+            var query = new Dictionary<string, object>();
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("accountType", accountType),
+                ("index", index),
+                ("limit", limit)
+            );
+
+            var result = await this.SendSignedAsync<string>(GET_CONVERT_HISTORY, HttpMethod.Get, query: query);
+            return result;
+        }
+
+
+        private const string GET_CONVERT_STATUS = "/v5/asset/exchange/convert-result-query";
+
+        /// <summary>
+        /// Get Convert Status
+        /// Query the exchange result by quoteTxId.
+        /// </summary>
+        /// <param name="quoteTxId">Quote tx ID</param>
+        /// <param name="accountType">Wallet type</param>
+        /// <returns></returns>
+        public async Task<string?> GetConvertStatus(string quoteTxId, string accountType)
+        {
+            var query = new Dictionary<string, object>
+            {
+                { "quoteTxId", quoteTxId },
+                { "accountType", accountType }
+            };
+
+            var result = await this.SendSignedAsync<string>(GET_CONVERT_STATUS, HttpMethod.Get, query: query);
+            return result;
+        }
+
+        private const string GET_CONVERT_COIN_LIST = "/v5/asset/exchange/query-coin-list";
+
+        /// <summary>
+        /// Get Convert Coin List
+        /// Query the list of coins available to convert to/from.
+        /// </summary>
+        /// <param name="accountType">
+        /// eb_convert_funding | eb_convert_uta | eb_convert_spot | eb_convert_contract | eb_convert_inverse
+        /// </param>
+        /// <param name="coin">
+        /// From-coin when side=1 filters toCoin list; ignored when side=0
+        /// </param>
+        /// <param name="side">0: fromCoin list, 1: toCoin list</param>
+        /// <returns></returns>
+        public async Task<string?> GetConvertCoinList(string accountType, string? coin = null, int? side = null)
+        {
+            var query = new Dictionary<string, object> { { "accountType", accountType } };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("coin", coin),
+                ("side", side)
+            );
+
+            var result = await this.SendSignedAsync<string>(GET_CONVERT_COIN_LIST, HttpMethod.Get, query: query);
+            return result;
+        }
+
+
 
         private const string CANCEL_WITHDRAW = "/v5/asset/withdraw/cancel";
         /// <summary>
