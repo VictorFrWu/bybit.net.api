@@ -103,31 +103,6 @@ namespace bybit.net.api.ApiServiceImp
             return result;
         }
 
-        private const string SET_TPSL_MODE = "/v5/position/set-tpsl-mode";
-        /// <summary>
-        /// To some extent, this endpoint is depreciated because now tpsl is based on order level. This API was used for position level change before.
-        /// However, you still can use it to set an implicit tpsl mode for a certain symbol because when you don't pass "tpslMode" in the place order or trading stop request, system will get the tpslMode by the default setting.
-        /// Set TP/SL mode to Full or Partial
-        /// Unified account covers: USDT perpetual / Inverse contract
-        /// Classic account covers: USDT perpetual / Inverse contract
-        /// </summary>
-        /// <param name="category"></param>
-        /// <param name="symbol"></param>
-        /// <param name="tpslMode"></param>
-        /// <returns>tpSlMode </returns>
-        [Obsolete]
-        public async Task<string?> SetTPSLMode(Category category, string symbol, TpslMode tpslMode)
-        {
-            var query = new Dictionary<string, object> { { "category", category.Value } };
-
-            BybitParametersUtils.AddOptionalParameters(query,
-                ("symbol", symbol),
-                ("tpslMode", tpslMode.Value)
-            );
-            var result = await this.SendSignedAsync<string>(SET_TPSL_MODE, HttpMethod.Post, query: query);
-            return result;
-        }
-
         private const string SWITCH_POSITION_MODE = "/v5/position/switch-mode";
         /// <summary>
         /// It supports to switch the position mode for USDT perpetual and Inverse futures. If you are in one-way Mode, you can only open one position on Buy or Sell side. If you are in hedge mode, you can open both Buy and Sell side positions simultaneously.
@@ -152,32 +127,6 @@ namespace bybit.net.api.ApiServiceImp
                 ("positionMode", positionMode?.Value)
             );
             var result = await this.SendSignedAsync<string>(SWITCH_POSITION_MODE, HttpMethod.Post, query: query);
-            return result;
-        }
-
-        private const string SET_RISK_LIMIT = "/v5/position/set-risk-limit";
-        /// <summary>
-        /// The risk limit will limit the maximum position value you can hold under different margin requirements. If you want to hold a bigger position size, you need more margin. This interface can set the risk limit of a single position. If the order exceeds the current risk limit when placing an order, it will be rejected. Click here to learn more about risk limit.
-        /// Unified account covers: USDT perpetual / USDC contract / Inverse contract
-        /// Classic account covers: USDT perpetual / Inverse contract
-        /// Set the risk limit of the position.You can get risk limit information for each symbol here.
-        /// </summary>
-        /// <param name="category"></param>
-        /// <param name="symbol"></param>
-        /// <param name="riskId"></param>
-        /// <param name="positionIdx"></param>
-        /// <returns>Risk Limit Info</returns>
-        [Obsolete]
-        public async Task<string?> SetPositionRiskLimit(Category category, string symbol, int riskId, PositionIndex? positionIdx = null)
-        {
-            var query = new Dictionary<string, object> { { "category", category.Value } };
-
-            BybitParametersUtils.AddOptionalParameters(query,
-                ("symbol", symbol),
-                 ("coin", riskId),
-                ("positionIdx", positionIdx?.Value)
-            );
-            var result = await this.SendSignedAsync<string>(SET_RISK_LIMIT, HttpMethod.Post, query: query);
             return result;
         }
 
