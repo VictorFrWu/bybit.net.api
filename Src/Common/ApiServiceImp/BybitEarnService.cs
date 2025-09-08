@@ -134,6 +134,5 @@ namespace bybit.net.api.ApiServiceImp
             var result = await this.SendSignedAsync<string>(GET_STAKED_POSITION, HttpMethod.Get, query: query);
             return result;
         }
-
     }
 }
