@@ -531,7 +531,7 @@ namespace bybit.net.api.ApiServiceImp
             return result;
         }
 
-        private const string PRE_CHECK_ORDER = "/v5/execution/list";
+        private const string PRE_CHECK_ORDER = "/v5/order/pre-check";
 
         /// <summary>
         /// Pre Check Order
