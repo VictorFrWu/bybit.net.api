@@ -530,5 +530,83 @@ namespace bybit.net.api.ApiServiceImp
             var result = await this.SendSignedAsync<string>(EXECUTION_LIST, HttpMethod.Get, query: query);
             return result;
         }
+
+        private const string PRE_CHECK_ORDER = "/v5/order/pre-check";
+
+        /// <summary>
+        /// Pre Check Order
+        /// This endpoint is used to calculate the changes in IMR and MMR of UTA account before and after placing an order.
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="symbol"></param>
+        /// <param name="side"></param>
+        /// <param name="orderType"></param>
+        /// <param name="qty"></param>
+        /// <param name="price"></param>
+        /// <param name="timeInForce"></param>
+        /// <param name="isLeverage"></param>
+        /// <param name="triggerDirection"></param>
+        /// <param name="orderFilter"></param>
+        /// <param name="triggerPrice"></param>
+        /// <param name="triggerBy"></param>
+        /// <param name="orderIv"></param>
+        /// <param name="positionIdx"></param>
+        /// <param name="orderLinkId"></param>
+        /// <param name="takeProfit"></param>
+        /// <param name="stopLoss"></param>
+        /// <param name="tpTriggerBy"></param>
+        /// <param name="slTriggerBy"></param>
+        /// <param name="reduceOnly"></param>
+        /// <param name="closeOnTrigger"></param>
+        /// <param name="smpType"></param>
+        /// <param name="mmp"></param>
+        /// <param name="tpslMode"></param>
+        /// <param name="tpLimitPrice"></param>
+        /// <param name="slLimitPrice"></param>
+        /// <param name="tpOrderType"></param>
+        /// <param name="slOrderType"></param>
+        /// <returns></returns>
+        public async Task<string?> PreCheckOrder(Category category, string symbol, Side side, OrderType orderType, string qty, string? price = null, TimeInForce? timeInForce = null, int? isLeverage = null, int? triggerDirection = null,
+                                                string? orderFilter = null, string? triggerPrice = null, TriggerBy? triggerBy = null, string? orderIv = null, int? positionIdx = null, string? orderLinkId = null, string? takeProfit = null,
+                                                string? stopLoss = null, TriggerBy? tpTriggerBy = null, TriggerBy? slTriggerBy = null, bool? reduceOnly = null, bool? closeOnTrigger = null, SmpType? smpType = null, bool? mmp = null, TpslMode? tpslMode = null,
+                                                string? tpLimitPrice = null, string? slLimitPrice = null, OrderType? tpOrderType = null, OrderType? slOrderType = null)
+        {
+            var query = new Dictionary<string, object>
+                        {
+                            { "category", category.Value },
+                            { "symbol", symbol },
+                            { "side", side.Value },
+                            { "orderType", orderType.Value },
+                            { "qty", qty }
+                        };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("price", price),
+                ("timeInForce", timeInForce?.Value),
+                ("isLeverage", isLeverage),
+                ("triggerDirection", triggerDirection),
+                ("orderFilter", orderFilter),
+                ("triggerPrice", triggerPrice),
+                ("triggerBy", triggerBy?.Value),
+                ("orderIv", orderIv),
+                ("positionIdx", positionIdx),
+                ("orderLinkId", orderLinkId),
+                ("takeProfit", takeProfit),
+                ("stopLoss", stopLoss),
+                ("tpTriggerBy", tpTriggerBy?.Value),
+                ("slTriggerBy", slTriggerBy?.Value),
+                ("reduceOnly", reduceOnly),
+                ("closeOnTrigger", closeOnTrigger),
+                ("smpType", smpType?.Value),
+                ("mmp", mmp),
+                ("tpslMode", tpslMode?.Value),
+                ("tpLimitPrice", tpLimitPrice),
+                ("slLimitPrice", slLimitPrice),
+                ("tpOrderType", tpOrderType?.Value),
+                ("slOrderType", slOrderType?.Value)
+            );
+            var result = await this.SendSignedAsync<string>(PRE_CHECK_ORDER, HttpMethod.Post, query: query);
+            return result;
+        }
     }
 }

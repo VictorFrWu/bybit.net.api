@@ -238,6 +238,54 @@ namespace bybit.net.api.ApiServiceImp
             var result = await this.SendSignedAsync<string>(SPOT_MARGIN_STATE, HttpMethod.Post, query: query);
             return result;
         }
+
+        private const string GET_TIERED_COLLATERAL_RATIO = "/v5/spot-margin-trade/collateral";
+
+        /// <summary>
+        /// Get Tiered Collateral Ratio
+        /// UTA loan tiered collateral ratios. Public endpoint.
+        /// </summary>
+        /// <param name="currency">Optional coin, uppercase</param>
+        /// <returns></returns>
+        public async Task<string?> GetTieredCollateralRatio(string? currency = null)
+        {
+            var query = new Dictionary<string, object>();
+            BybitParametersUtils.AddOptionalParameters(query, ("currency", currency));
+
+            var result = await this.SendPublicAsync<string>(GET_TIERED_COLLATERAL_RATIO, HttpMethod.Get, query: query);
+            return result;
+        }
+
+        private const string GET_HISTORICAL_INTEREST_RATE = "/v5/spot-margin-trade/interest-rate-history";
+
+        /// <summary>
+        /// Get Historical Interest Rate
+        /// Auth required. Unified account only. Up to 6 months history.
+        /// If time range omitted, returns last 7 days. If provided, endTime - startTime <= 30 days.
+        /// </summary>
+        /// <param name="currency">Coin, uppercase</param>
+        /// <param name="vipLevel">VIP level (encode spaces, e.g., "No%20VIP")</param>
+        /// <param name="startTime">ms</param>
+        /// <param name="endTime">ms</param>
+        /// <returns></returns>
+        public async Task<string?> GetHistoricalInterestRate(
+            string currency,
+            string? vipLevel = null,
+            long? startTime = null,
+            long? endTime = null)
+        {
+            var query = new Dictionary<string, object> { { "currency", currency } };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("vipLevel", vipLevel),
+                ("startTime", startTime),
+                ("endTime", endTime)
+            );
+
+            var result = await this.SendSignedAsync<string>(GET_HISTORICAL_INTEREST_RATE, HttpMethod.Get, query: query);
+            return result;
+        }
+
         #endregion
 
         #region Spot Leverage Token

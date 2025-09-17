@@ -294,6 +294,62 @@ namespace bybit.net.api.ApiServiceImp
             return result;
         }
 
+        private const string GET_SUB_UID_LIST_LIMITED = "/v5/user/query-sub-members";
+
+        /// <summary>
+        /// Get Sub UID List (Limited)
+        /// Returns up to 10k sub UIDs for the master account. Master API key required.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string?> GetSubUidListLimited()
+        {
+            var result = await this.SendSignedAsync<string>(GET_SUB_UID_LIST_LIMITED, HttpMethod.Get);
+            return result;
+        }
+
+        private const string GET_SUB_UID_LIST_UNLIMITED = "/v5/user/submembers";
+
+        /// <summary>
+        /// Get Sub UID List (Unlimited)
+        /// Returns sub UIDs with pagination for master accounts.
+        /// </summary>
+        /// <param name="pageSize">up to 100</param>
+        /// <param name="nextCursor">cursor from previous response</param>
+        /// <returns></returns>
+        public async Task<string?> GetSubUidListUnlimited(string? pageSize = null, string? nextCursor = null)
+        {
+            var query = new Dictionary<string, object>();
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("pageSize", pageSize),
+                ("nextCursor", nextCursor)
+            );
+
+            var result = await this.SendSignedAsync<string>(GET_SUB_UID_LIST_UNLIMITED, HttpMethod.Get, query: query);
+            return result;
+        }
+
+        private const string GET_FUND_CUSTODIAL_SUB_ACCT = "/v5/user/escrow_sub_members";
+
+        /// <summary>
+        /// Get Fund Custodial Sub Acct
+        /// Query fund custodial sub accounts. Master API key required.
+        /// </summary>
+        /// <param name="pageSize">up to 100</param>
+        /// <param name="nextCursor">pagination cursor</param>
+        /// <returns></returns>
+        public async Task<string?> GetFundCustodialSubAcct(string? pageSize = null, string? nextCursor = null)
+        {
+            var query = new Dictionary<string, object>();
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("pageSize", pageSize),
+                ("nextCursor", nextCursor)
+            );
+
+            var result = await this.SendSignedAsync<string>(GET_FUND_CUSTODIAL_SUB_ACCT, HttpMethod.Get, query: query);
+            return result;
+        }
+
+
         /// <summary>
         /// Modify the settings of master api key. Use the api key pending to be modified to call the endpoint. Use master user's api key only.
         /// The API key must have one of the below permissions in order to call this endpoint..
@@ -316,6 +372,25 @@ namespace bybit.net.api.ApiServiceImp
                 ("note", note)
             );
             var result = await this.SendSignedAsync<string>(UPDATE_MASTER_API_KEY, HttpMethod.Post, query: query);
+            return result;
+        }
+
+        private const string DELETE_SUB_UID = "/v5/user/del-submember";
+
+        /// <summary>
+        /// Delete Sub UID
+        /// Delete a sub UID. Ensure no assets remain. Master API key required.
+        /// </summary>
+        /// <param name="subMemberId">Sub UID</param>
+        /// <returns></returns>
+        public async Task<string?> DeleteSubUid(string subMemberId)
+        {
+            var body = new Dictionary<string, object>
+            {
+                { "subMemberId", subMemberId }
+            };
+
+            var result = await this.SendSignedAsync<string>(DELETE_SUB_UID, HttpMethod.Post, query: body);
             return result;
         }
 
@@ -433,6 +508,33 @@ namespace bybit.net.api.ApiServiceImp
             return result;
         }
 
+        private const string GET_SUB_ACCOUNT_ALL_API_KEYS = "/v5/user/sub-apikeys";
+
+        /// <summary>
+        /// Get Sub Account All API Keys
+        /// Query all API keys for a given sub UID. Master account only.
+        /// </summary>
+        /// <param name="subMemberId">Sub UID</param>
+        /// <param name="limit">[1,20], default 20</param>
+        /// <param name="cursor">pagination cursor</param>
+        /// <returns></returns>
+        public async Task<string?> GetSubAccountAllApiKeys(string subMemberId, int? limit = null, string? cursor = null)
+        {
+            var query = new Dictionary<string, object>
+            {
+                { "subMemberId", subMemberId }
+            };
+
+            BybitParametersUtils.AddOptionalParameters(query,
+                ("limit", limit),
+                ("cursor", cursor)
+            );
+
+            var result = await this.SendSignedAsync<string>(GET_SUB_ACCOUNT_ALL_API_KEYS, HttpMethod.Get, query: query);
+            return result;
+        }
+
+
         private const string API_kEY_INFO = "/v5/user/query-api";
         /// <summary>
         /// Get the information of the api key. Use the api key pending to be checked to call the endpoint. Both master and sub user's api key are applicable.
@@ -446,7 +548,7 @@ namespace bybit.net.api.ApiServiceImp
             return result;
         }
 
-        private const string UID_WALLET_TYPE = "/v5/user/query-api";
+        private const string UID_WALLET_TYPE = "/v5/user/get-member-type";
         /// <summary>
         /// Get available wallet types for the master account or sub account
         /// Master api key: you can get master account and appointed sub account available wallet types, and support up to 200 sub UID in one request.
