@@ -59,8 +59,8 @@ Furthermore methods to install pakcage, please check [Nuget Repository](https://
 - Base URL Setting: Allows setting to testnet or mainnet. by default [HTTP_MAINNET_URL](https://api.bybit.com)
 - Trade API: For create/amend/cancel single & batch orders, now supports dedicated class, dictionary.
 - Asset API: Deposit and withdrawal operations will automatically generate a transfer ID.
-- Account API : Add new function Set Spot Hedging
-- Position API : Add new function Confirm New Risk Limit
+- Account API: Add new function Set Spot Hedging
+- Position API: Add new function Confirm New Risk Limit
 
 ### WebSocket
 - Ping Pong Interval Parameter: Added by default (20 seconds).
@@ -89,7 +89,7 @@ var orderInfo = await tradeService.PlaceOrder(category: Category.LINEAR, symbol:
 Console.WriteLine(orderInfo);
 ```
 
-- Place Bacth Order by Dictionary
+- Place Batch Order by Dictionary
 ```DotNet
 Dictionary<string, object> dict1 = new() { { "symbol", "XRPUSDT" }, { "orderType", "Limit" }, { "side", "Buy" }, { "qty", "10" }, { "price", "0.6080" }, { "timeInForce", "GTC" } };
 Dictionary<string, object> dict2 = new() { { "symbol", "BLZUSDT" }, { "orderType", "Limit" }, { "side", "Buy" }, { "qty", "10" }, { "price", "0.6080" }, { "timeInForce", "GTC" } };
@@ -98,7 +98,7 @@ var orderInfoString = await TradeService.PlaceBatchOrder(category: Category.LINE
 Console.WriteLine(orderInfoString);
 ```
 
-- Place Bacth Order by dedicated OrderRequest Class
+- Place Batch Order by dedicated OrderRequest Class
 ```DotNet
 var order1 = new OrderRequest { Symbol = "XRPUSDT", OrderType = OrderType.LIMIT.Value, Side = Side.BUY.Value, Qty = "10", Price = "0.6080", TimeInForce = TimeInForce.GTC.Value };
 var order2 = new OrderRequest { Symbol = "BLZUSDT", OrderType = OrderType.LIMIT.Value, Side = Side.BUY.Value, Qty = "10", Price = "0.6080", TimeInForce = TimeInForce.GTC.Value };
@@ -120,7 +120,7 @@ var positionInfo = await positionService.GetPositionInfo(category: Category.LINE
 Console.WriteLine(positionInfo);
 ```
 
-### Websocket public channel
+### WebSocket public channel
 - Trade Subscribe
 ```DotNet
 var linearWebsocket = new BybitLinearWebSocket(useTestNet: true, pingIntevral: 5);
@@ -133,10 +133,10 @@ linearWebsocket.OnMessageReceived(
 await linearWebsocket.ConnectAsync(new string[] { "publicTrade.BTCUSDT" }, CancellationToken.None);
 ```
 
-### Websocket private channel
+### WebSocket private channel
 - Order Subscribe
 ```DotNet
-var privateWebsocket = new(apiKey: "xxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxx", useTestNet: true, pingIntevral: 5, maxAliveTime:"120s");
+var privateWebsocket = new BybitPrivateWebsocket(apiKey: "xxxxxxxxxxx", apiSecret: "xxxxxxxxxxxxxxx", useTestNet: true, pingIntevral: 5, maxAliveTime:"120s");
 privateWebsocket.OnMessageReceived(
     (data) =>
     {
@@ -154,7 +154,7 @@ List of other contributors
 <table>
   <tr>
     <td align="center">
-        <a href="https://github.com/wuhewuhe">
+        <a href="https://github.com/VictorFrWu">
             <img src="https://avatars.githubusercontent.com/u/32245754?v=4" width="100px;" alt=""/>
             <br />
             <sub>   
@@ -162,8 +162,20 @@ List of other contributors
             </sub>
         </a>
         <br />
-        <a href="https://github.com/wuhewuhe/bybit.net.api/commits?author=wuhewuhe" title="Code">💻</a>
-        <a href="https://github.com/wuhewuhe/bybit.net.api/commits?author=wuhewuhe" title="Documentation">📖</a>
+        <a href="https://github.com/VictorFrWu/bybit.net.api/commits?author=VictorFrWu" title="Code">💻</a>
+        <a href="https://github.com/VictorFrWu/bybit.net.api/commits?author=VictorFrWu" title="Documentation">📖</a>
+    </td>
+    <td align="center">
+        <a href="https://github.com/kolya5544">
+            <img src="https://avatars.githubusercontent.com/u/20096248?v=4" width="100px;" alt=""/>
+            <br />
+            <sub>   
+                <b>Kolya</b>
+            </sub>
+        </a>
+        <br />
+        <a href="https://github.com/VictorFrWu/bybit.net.api/commits?author=kolya5544" title="Code">💻</a>
+        <a href="https://github.com/VictorFrWu/bybit.net.api/commits?author=kolya5544" title="Documentation">📖</a>
     </td>
   </tr>
 </table>
