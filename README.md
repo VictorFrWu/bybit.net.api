@@ -11,7 +11,6 @@
 - [Usage](#usage)
 - [Contact](#contact)
 - [Contributors](#contributors)
-- [Donations](#donations)
 
 ## About
 **Bybit.Net.Api** offers an official, powerful, and efficient .NET connector to the  [Bybit public Trading API](https://bybit-exchange.github.io/docs/v5/intro)
@@ -179,7 +178,3 @@ List of other contributors
     </td>
   </tr>
 </table>
-
-## Donations
-Your donations keep our development active and our community growing. Donate USDT to our [ERC20 Wallet Address](0x238bbb45af1254e2fd76564c9b56042c452f3d6e).
-
