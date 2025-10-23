@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace bybit.net.api.ApiServiceImp
 {
-    internal class BybitRFQService : BybitApiService
+    public class BybitRFQService : BybitApiService
     {
         public BybitRFQService(string apiKey, string apiSecret, string? url = null, string recvWindow = BybitConstants.DEFAULT_REC_WINDOW, bool debugMode = false)
         : this(httpClient: new HttpClient(), apiKey: apiKey, apiSecret: apiSecret, url: url, recvWindow: recvWindow, debugMode: debugMode)

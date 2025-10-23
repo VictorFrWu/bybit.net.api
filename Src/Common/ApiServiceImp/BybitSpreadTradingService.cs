@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace bybit.net.api.ApiServiceImp
 {
-    internal class BybitSpreadTradingService : BybitApiService
+    public class BybitSpreadTradingService : BybitApiService
     {
         public BybitSpreadTradingService(string apiKey, string apiSecret, string? url = null, string recvWindow = BybitConstants.DEFAULT_REC_WINDOW, bool debugMode = false)
         : this(httpClient: new HttpClient(), apiKey: apiKey, apiSecret: apiSecret, url: url, recvWindow: recvWindow, debugMode: debugMode)
