@@ -435,5 +435,47 @@ namespace bybit.net.api.ApiServiceImp
             var result = await this.SendSignedAsync<string>(MMP_STATE, HttpMethod.Get, query: query);
             return result;
         }
+
+        private const string ACCOUNT_MANUAL_BORROW = "/v5/account/borrow";
+
+        /// <summary>
+        /// Manual Borrow — POST /v5/account/borrow
+        /// </summary>
+        public async Task<string?> ManualBorrow(string coin, string amount)
+        {
+            var body = new Dictionary<string, object>
+            {
+                { "coin", coin },
+                { "amount", amount }
+            };
+
+            var result = await this.SendSignedAsync<string>(
+                ACCOUNT_MANUAL_BORROW,
+                HttpMethod.Post,
+                query: body);
+
+            return result;
+        }
+
+        private const string ACCOUNT_MANUAL_REPAY = "/v5/account/repay";
+
+        /// <summary>
+        /// Manual Repay — POST /v5/account/repay
+        /// </summary>
+        public async Task<string?> ManualRepay(string? coin = null, string? amount = null)
+        {
+            var body = new Dictionary<string, object>();
+            BybitParametersUtils.AddOptionalParameters(body,
+                ("coin", coin),
+                ("amount", amount)
+            );
+
+            var result = await this.SendSignedAsync<string>(
+                ACCOUNT_MANUAL_REPAY,
+                HttpMethod.Post,
+                query: body);
+
+            return result;
+        }
     }
 }

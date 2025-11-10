@@ -22,6 +22,11 @@
         // WebSocket private channel
         public const string WEBSOCKET_PRIVATE_MAINNET = "wss://stream.bybit.com/v5/private";
         public const string WEBSOCKET_PRIVATE_TESTNET = "wss://stream-testnet.bybit.com/v5/private";
+
+        // WebSocket Spread Trading Public
+        public const string WEBSOCKET_SPREAD_PUBLIC_MAINNET = "wss://stream.bybit.com/v5/public/spread";
+        public const string WEBSOCKET_SPREAD_PUBLIC_TESTNET = "wss://stream-testnet.bybit.com/v5/public/spread";
+
         #region V3
         public const string V3_CONTRACT_PRIVATE = "wss://stream.bybit.com/contract/private/v3";
         public const string V3_UNIFIED_PRIVATE = "wss://stream.bybit.com/unified/private/v3";
